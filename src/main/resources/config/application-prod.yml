@@ -33,7 +33,7 @@ spring:
       enabled: false
   data:
     mongodb:
-      uri: mongodb://LibrariusAdmin:BerzingueLibrariusAdmin-1337@ds155845.mlab.com:55845/heroku_2pfsng6l
+      uri: mongodb://LibrariusAdmin:BerzingueLibrariusAdmin-1337@ds155845.mlab.com:55845/heroku_2pfsng6l?retryWrites=false
       database: heroku_2pfsng6l
     jest:
       uri: http://localhost:9200
