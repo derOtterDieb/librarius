@@ -1,0 +1,26 @@
+{
+  "librariusApp": {
+    "armyList": {
+      "home": {
+        "title": "ArmyLists",
+        "createLabel": "Créer un nouveau Army List",
+        "createOrEditLabel": "Créer ou éditer un Army List",
+        "search": "Recherche pour Army List",
+        "notFound": "Aucun Army List trouvé"
+      },
+      "created": "Un nouveau Army List a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Army List avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Army List avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Army List {{ id }} ?"
+      },
+      "detail": {
+        "title": "Army List"
+      },
+      "listName": "List Name",
+      "totalPoint": "Total Point",
+      "armyList": "Army List",
+      "armyLists": "Army Lists"
+    }
+  }
+}

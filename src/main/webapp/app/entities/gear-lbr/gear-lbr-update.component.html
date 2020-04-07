@@ -1,0 +1,114 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-gear-lbr-heading" jhiTranslate="librariusApp.gear.home.createOrEditLabel">Create or edit a Gear</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id" jhiTranslate="global.field.id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="librariusApp.gear.gearName" for="field_gearName">Gear Name</label>
+                    <input type="text" class="form-control" name="gearName" id="field_gearName"
+                           formControlName="gearName"/>
+                    <div *ngIf="editForm.get('gearName')!.invalid && (editForm.get('gearName')!.dirty || editForm.get('gearName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('gearName')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="librariusApp.gear.pointValue" for="field_pointValue">Point Value</label>
+                    <input type="number" class="form-control" name="pointValue" id="field_pointValue"
+                           formControlName="pointValue"/>
+                    <div *ngIf="editForm.get('pointValue')!.invalid && (editForm.get('pointValue')!.dirty || editForm.get('pointValue')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('pointValue')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('pointValue')?.errors?.number" jhiTranslate="entity.validation.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="librariusApp.gear.type" for="field_type">Type</label>
+                    <input type="text" class="form-control" name="type" id="field_type"
+                           formControlName="type"/>
+                    <div *ngIf="editForm.get('type')!.invalid && (editForm.get('type')!.dirty || editForm.get('type')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('type')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="librariusApp.gear.f" for="field_f">F</label>
+                    <input type="text" class="form-control" name="f" id="field_f"
+                           formControlName="f"/>
+                    <div *ngIf="editForm.get('f')!.invalid && (editForm.get('f')!.dirty || editForm.get('f')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('f')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="librariusApp.gear.range" for="field_range">Range</label>
+                    <input type="text" class="form-control" name="range" id="field_range"
+                           formControlName="range"/>
+                    <div *ngIf="editForm.get('range')!.invalid && (editForm.get('range')!.dirty || editForm.get('range')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('range')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="librariusApp.gear.pa" for="field_pa">Pa</label>
+                    <input type="text" class="form-control" name="pa" id="field_pa"
+                           formControlName="pa"/>
+                    <div *ngIf="editForm.get('pa')!.invalid && (editForm.get('pa')!.dirty || editForm.get('pa')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('pa')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" jhiTranslate="librariusApp.gear.d" for="field_d">D</label>
+                    <input type="text" class="form-control" name="d" id="field_d"
+                           formControlName="d"/>
+                    <div *ngIf="editForm.get('d')!.invalid && (editForm.get('d')!.dirty || editForm.get('d')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('d')?.errors?.required" jhiTranslate="entity.validation.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
