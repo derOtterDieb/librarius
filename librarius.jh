@@ -1,0 +1,54 @@
+entity Gear {
+  gearName String required
+  pointValue Integer required
+  type String required
+  f String required
+  range String required
+  pa String required
+  d String required
+}
+
+entity Unit {
+  unitName String required
+  basePoint Integer required
+  totalPoint Integer
+  m String required
+  cc String required
+  ct String required
+  f String required
+  e String required
+  pv String required
+  a String required
+  cd String required
+  sv String required
+}
+
+entity ArmyList {
+  listName String required
+  totalPoint Integer
+}
+
+entity ExtendedUser {
+  pseudo String required
+}
+
+relationship OneToMany {
+	ExtendedUser{user} to ArmyList{armyLists}
+}
+
+relationship ManyToMany {
+  Unit{unit} to Gear{gear}
+  ArmyList{armyList} to Unit{unit}
+}
+
+// Set pagination options
+paginate ExtendedUser, ArmyList, Unit, Gear with pagination
+
+// Use Data Transfert Objects (DTO)
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl
+
+// Set an angular suffix
+angularSuffix * with lbr
