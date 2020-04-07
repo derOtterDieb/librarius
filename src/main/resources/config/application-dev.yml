@@ -42,8 +42,8 @@ spring:
       indent-output: true
   data:
     mongodb:
-      uri: mongodb://localhost:27017
-      database: librarius
+      uri: mongodb://LibrariusAdmin:BerzingueLibrariusAdmin-1337@ds155845.mlab.com:55845/heroku_2pfsng6l
+      database: heroku_2pfsng6l
     elasticsearch:
       properties:
         path:
