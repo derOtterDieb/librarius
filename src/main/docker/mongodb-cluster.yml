@@ -1,0 +1,16 @@
+version: '2'
+services:
+  librarius-mongodb:
+    image: mongo:4.2.3
+    ports:
+      - '27017:27017'
+    command: mongos --configdb librarius-mongodb-config
+  librarius-mongodb-node:
+    build:
+      context: .
+      dockerfile: mongodb/MongoDB.Dockerfile
+    command: mongod --replSet rs1 --noprealloc --smallfiles
+  librarius-mongodb-config:
+    image: mongo:4.2.3
+    container_name: librarius-mongodb-config
+    command: mongod --noprealloc --smallfiles --configsvr --dbpath /data/db
