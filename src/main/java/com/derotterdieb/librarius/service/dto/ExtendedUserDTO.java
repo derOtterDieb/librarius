@@ -1,19 +1,28 @@
 package com.derotterdieb.librarius.service.dto;
 
 import javax.validation.constraints.*;
+
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * A DTO for the {@link com.derotterdieb.librarius.domain.ExtendedUser} entity.
  */
 public class ExtendedUserDTO implements Serializable {
     
-    private String id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 2757273087795684881L;
+
+	private String id;
 
     @NotNull
     private String pseudo;
-
+    
+    private Set<String> armyListIds = new HashSet<>();
     
     public String getId() {
         return id;
@@ -31,7 +40,15 @@ public class ExtendedUserDTO implements Serializable {
         this.pseudo = pseudo;
     }
 
-    @Override
+    public Set<String> getArmyListIds() {
+		return armyListIds;
+	}
+
+	public void setArmyListIds(Set<String> armyListIds) {
+		this.armyListIds = armyListIds;
+	}
+
+	@Override
     public boolean equals(Object o) {
         if (this == o) {
             return true;

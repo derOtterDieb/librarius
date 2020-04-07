@@ -152,13 +152,6 @@
                         </small>
                     </div>
                 </div>
-
-                <div class="form-group">
-                    <label jhiTranslate="librariusApp.unit.unit" for="field_units">Unit</label>
-                    <select class="form-control" id="field_units" multiple name="units" formControlName="units">
-                        <option [ngValue]="getSelected(editForm.get('units')!.value, gearOption)" *ngFor="let gearOption of gears; trackBy: trackById">{{ gearOption.id }}</option>
-                    </select>
-                </div>
             </div>
 
             <div>

@@ -53,11 +53,6 @@ public class Gear implements Serializable {
     @Field("d")
     private String d;
 
-    @DBRef
-    @Field("gears")
-    @JsonIgnore
-    private Set<Unit> gears = new HashSet<>();
-
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
@@ -158,30 +153,6 @@ public class Gear implements Serializable {
         this.d = d;
     }
 
-    public Set<Unit> getGears() {
-        return gears;
-    }
-
-    public Gear gears(Set<Unit> units) {
-        this.gears = units;
-        return this;
-    }
-
-    public Gear addGear(Unit unit) {
-        this.gears.add(unit);
-        unit.getUnits().add(this);
-        return this;
-    }
-
-    public Gear removeGear(Unit unit) {
-        this.gears.remove(unit);
-        unit.getUnits().remove(this);
-        return this;
-    }
-
-    public void setGears(Set<Unit> units) {
-        this.gears = units;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override

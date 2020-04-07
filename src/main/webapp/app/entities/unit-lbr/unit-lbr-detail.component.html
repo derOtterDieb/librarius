@@ -56,12 +56,6 @@
                 <dd>
                     <span>{{ unit.sv }}</span>
                 </dd>
-                <dt><span jhiTranslate="librariusApp.unit.unit">Unit</span></dt>
-                <dd>
-                    <span *ngFor="let unit of unit.units; let last = last">
-                        <a [routerLink]="['/gear-lbr', unit?.id, 'view']">{{ unit.id }}</a>{{ last ? '' : ', ' }}
-                    </span>
-                </dd>
             </dl>
 
             <button type="submit"

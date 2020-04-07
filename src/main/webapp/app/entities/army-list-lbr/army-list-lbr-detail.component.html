@@ -16,18 +16,6 @@
                 <dd>
                     <span>{{ armyList.totalPoint }}</span>
                 </dd>
-                <dt><span jhiTranslate="librariusApp.armyList.armyList">Army List</span></dt>
-                <dd>
-                    <span *ngFor="let armyList of armyList.armyLists; let last = last">
-                        <a [routerLink]="['/unit-lbr', armyList?.id, 'view']">{{ armyList.id }}</a>{{ last ? '' : ', ' }}
-                    </span>
-                </dd>
-                <dt><span jhiTranslate="librariusApp.armyList.armyLists">Army Lists</span></dt>
-                <dd>
-                    <div *ngIf="armyList.armyListsId">
-                        <a [routerLink]="['/extended-user-lbr', armyList.armyListsId, 'view']">{{ armyList.armyListsId }}</a>
-                    </div>
-                </dd>
             </dl>
 
             <button type="submit"

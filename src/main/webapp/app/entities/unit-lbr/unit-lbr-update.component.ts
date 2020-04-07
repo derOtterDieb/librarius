@@ -31,8 +31,7 @@ export class UnitLbrUpdateComponent implements OnInit {
     pv: [null, [Validators.required]],
     a: [null, [Validators.required]],
     cd: [null, [Validators.required]],
-    sv: [null, [Validators.required]],
-    units: []
+    sv: [null, [Validators.required]]
   });
 
   constructor(
@@ -64,8 +63,7 @@ export class UnitLbrUpdateComponent implements OnInit {
       pv: unit.pv,
       a: unit.a,
       cd: unit.cd,
-      sv: unit.sv,
-      units: unit.units
+      sv: unit.sv
     });
   }
 
@@ -98,8 +96,7 @@ export class UnitLbrUpdateComponent implements OnInit {
       pv: this.editForm.get(['pv'])!.value,
       a: this.editForm.get(['a'])!.value,
       cd: this.editForm.get(['cd'])!.value,
-      sv: this.editForm.get(['sv'])!.value,
-      units: this.editForm.get(['units'])!.value
+      sv: this.editForm.get(['sv'])!.value
     };
   }
 

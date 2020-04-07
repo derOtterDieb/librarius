@@ -15,8 +15,7 @@ export interface IUnitLbr {
   a?: string;
   cd?: string;
   sv?: string;
-  units?: IGearLbr[];
-  units?: IArmyListLbr[];
+  gears?: string[];
 }
 
 export class UnitLbr implements IUnitLbr {
@@ -34,7 +33,6 @@ export class UnitLbr implements IUnitLbr {
     public a?: string,
     public cd?: string,
     public sv?: string,
-    public units?: IGearLbr[],
-    public units?: IArmyListLbr[]
+    public gears?: string[]
   ) {}
 }

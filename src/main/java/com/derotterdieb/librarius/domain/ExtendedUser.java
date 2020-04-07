@@ -30,7 +30,7 @@ public class ExtendedUser implements Serializable {
 
     @DBRef
     @Field("user")
-    private Set<ArmyList> users = new HashSet<>();
+    private Set<ArmyList> armyLists = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -54,29 +54,27 @@ public class ExtendedUser implements Serializable {
         this.pseudo = pseudo;
     }
 
-    public Set<ArmyList> getUsers() {
-        return users;
+    public Set<ArmyList> getArmyLists() {
+        return armyLists;
     }
 
-    public ExtendedUser users(Set<ArmyList> armyLists) {
-        this.users = armyLists;
+    public ExtendedUser armyLists(Set<ArmyList> armyLists) {
+        this.armyLists = armyLists;
         return this;
     }
 
-    public ExtendedUser addUser(ArmyList armyList) {
-        this.users.add(armyList);
-        armyList.setArmyLists(this);
+    public ExtendedUser addArmyList(ArmyList armyList) {
+        this.armyLists.add(armyList);
         return this;
     }
 
-    public ExtendedUser removeUser(ArmyList armyList) {
-        this.users.remove(armyList);
-        armyList.setArmyLists(null);
+    public ExtendedUser removeArmyList(ArmyList armyList) {
+        this.armyLists.remove(armyList);
         return this;
     }
 
-    public void setUsers(Set<ArmyList> armyLists) {
-        this.users = armyLists;
+    public void setArmyLists(Set<ArmyList> armyLists) {
+        this.armyLists = armyLists;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

@@ -1,15 +1,12 @@
 package com.derotterdieb.librarius.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
-import java.util.Objects;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -33,13 +30,8 @@ public class ArmyList implements Serializable {
     private Integer totalPoint;
 
     @DBRef
-    @Field("armyLists")
-    private Set<Unit> armyLists = new HashSet<>();
-
-    @DBRef
-    @Field("armyLists")
-    @JsonIgnoreProperties("users")
-    private ExtendedUser armyLists;
+    @Field("units")
+    private Set<Unit> units = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -76,43 +68,29 @@ public class ArmyList implements Serializable {
         this.totalPoint = totalPoint;
     }
 
-    public Set<Unit> getArmyLists() {
-        return armyLists;
+    public Set<Unit> getUnits() {
+        return units;
     }
 
-    public ArmyList armyLists(Set<Unit> units) {
-        this.armyLists = units;
+    public ArmyList units(Set<Unit> units) {
+        this.units = units;
         return this;
     }
 
-    public ArmyList addArmyList(Unit unit) {
-        this.armyLists.add(unit);
-        unit.getUnits().add(this);
+    public ArmyList addUnit(Unit unit) {
+        this.units.add(unit);
         return this;
     }
 
-    public ArmyList removeArmyList(Unit unit) {
-        this.armyLists.remove(unit);
-        unit.getUnits().remove(this);
+    public ArmyList removeUnit(Unit unit) {
+        this.units.remove(unit);
         return this;
     }
 
-    public void setArmyLists(Set<Unit> units) {
-        this.armyLists = units;
+    public void setUnits(Set<Unit> units) {
+        this.units = units;
     }
 
-    public ExtendedUser getArmyLists() {
-        return armyLists;
-    }
-
-    public ArmyList armyLists(ExtendedUser extendedUser) {
-        this.armyLists = extendedUser;
-        return this;
-    }
-
-    public void setArmyLists(ExtendedUser extendedUser) {
-        this.armyLists = extendedUser;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override

@@ -12,9 +12,8 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {})
 public interface GearMapper extends EntityMapper<GearDTO, Gear> {
 
+	GearDTO toDto(Gear gear);
 
-    @Mapping(target = "gears", ignore = true)
-    @Mapping(target = "removeGear", ignore = true)
     Gear toEntity(GearDTO gearDTO);
 
     default Gear fromId(String id) {
@@ -24,5 +23,12 @@ public interface GearMapper extends EntityMapper<GearDTO, Gear> {
         Gear gear = new Gear();
         gear.setId(id);
         return gear;
+    }
+    
+    default String toId(Gear gear) {
+    	if (gear == null || gear.getId() == null) {
+    		return null;
+    	}
+    	return gear.getId();
     }
 }

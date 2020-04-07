@@ -1,6 +1,7 @@
 package com.derotterdieb.librarius.service.dto;
 
 import javax.validation.constraints.*;
+
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -11,7 +12,12 @@ import java.util.Objects;
  */
 public class UnitDTO implements Serializable {
     
-    private String id;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -8294792833210006484L;
+
+	private String id;
 
     @NotNull
     private String unitName;
@@ -48,13 +54,21 @@ public class UnitDTO implements Serializable {
     @NotNull
     private String sv;
 
-    private Set<GearDTO> units = new HashSet<>();
+    private Set<String> gearIds = new HashSet<>();
     
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public Set<String> getGearIds() {
+		return gearIds;
+	}
+
+	public void setGearIds(Set<String> gearIds) {
+		this.gearIds = gearIds;
+	}
+
+	public void setId(String id) {
         this.id = id;
     }
 
@@ -154,14 +168,6 @@ public class UnitDTO implements Serializable {
         this.sv = sv;
     }
 
-    public Set<GearDTO> getUnits() {
-        return units;
-    }
-
-    public void setUnits(Set<GearDTO> gears) {
-        this.units = gears;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -199,7 +205,6 @@ public class UnitDTO implements Serializable {
             ", a='" + getA() + "'" +
             ", cd='" + getCd() + "'" +
             ", sv='" + getSv() + "'" +
-            ", units='" + getUnits() + "'" +
             "}";
     }
 }

@@ -9,7 +9,6 @@ export interface IGearLbr {
   range?: string;
   pa?: string;
   d?: string;
-  gears?: IUnitLbr[];
 }
 
 export class GearLbr implements IGearLbr {
@@ -21,7 +20,6 @@ export class GearLbr implements IGearLbr {
     public f?: string,
     public range?: string,
     public pa?: string,
-    public d?: string,
-    public gears?: IUnitLbr[]
+    public d?: string
   ) {}
 }

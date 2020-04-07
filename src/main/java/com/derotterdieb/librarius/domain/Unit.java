@@ -73,15 +73,33 @@ public class Unit implements Serializable {
     private String sv;
 
     @DBRef
-    @Field("units")
-    private Set<Gear> units = new HashSet<>();
+    @Field("gears")
+    private Set<Gear> gears = new HashSet<>();
 
-    @DBRef
-    @Field("units")
-    @JsonIgnore
-    private Set<ArmyList> units = new HashSet<>();
+    public Set<Gear> getGears() {
+		return gears;
+	}
 
-    // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
+	public void setGears(Set<Gear> gear) {
+		this.gears = gear;
+	}
+	
+	public Unit addGear(Gear gear) {
+		this.gears.add(gear);
+		return this;
+	}
+	
+	public Unit removeGear(Gear gear) {
+		this.gears.remove(gear);
+		return this;
+	}
+	
+	public Unit gears(Set<Gear> gear) {
+		this.gears = gear;
+		return this;
+	}
+
+	// jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
     }
@@ -246,55 +264,6 @@ public class Unit implements Serializable {
         this.sv = sv;
     }
 
-    public Set<Gear> getUnits() {
-        return units;
-    }
-
-    public Unit units(Set<Gear> gears) {
-        this.units = gears;
-        return this;
-    }
-
-    public Unit addUnit(Gear gear) {
-        this.units.add(gear);
-        gear.getGears().add(this);
-        return this;
-    }
-
-    public Unit removeUnit(Gear gear) {
-        this.units.remove(gear);
-        gear.getGears().remove(this);
-        return this;
-    }
-
-    public void setUnits(Set<Gear> gears) {
-        this.units = gears;
-    }
-
-    public Set<ArmyList> getUnits() {
-        return units;
-    }
-
-    public Unit units(Set<ArmyList> armyLists) {
-        this.units = armyLists;
-        return this;
-    }
-
-    public Unit addUnit(ArmyList armyList) {
-        this.units.add(armyList);
-        armyList.getArmyLists().add(this);
-        return this;
-    }
-
-    public Unit removeUnit(ArmyList armyList) {
-        this.units.remove(armyList);
-        armyList.getArmyLists().remove(this);
-        return this;
-    }
-
-    public void setUnits(Set<ArmyList> armyLists) {
-        this.units = armyLists;
-    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
     @Override

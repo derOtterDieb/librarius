@@ -20,15 +20,11 @@ type SelectableEntity = IUnitLbr | IExtendedUserLbr;
 })
 export class ArmyListLbrUpdateComponent implements OnInit {
   isSaving = false;
-  units: IUnitLbr[] = [];
-  extendedusers: IExtendedUserLbr[] = [];
 
   editForm = this.fb.group({
     id: [],
     listName: [null, [Validators.required]],
-    totalPoint: [],
-    armyLists: [],
-    armyListsId: []
+    totalPoint: []
   });
 
   constructor(
@@ -42,20 +38,13 @@ export class ArmyListLbrUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ armyList }) => {
       this.updateForm(armyList);
-
-      this.unitService.query().subscribe((res: HttpResponse<IUnitLbr[]>) => (this.units = res.body || []));
-
-      this.extendedUserService.query().subscribe((res: HttpResponse<IExtendedUserLbr[]>) => (this.extendedusers = res.body || []));
     });
   }
 
   updateForm(armyList: IArmyListLbr): void {
     this.editForm.patchValue({
-      id: armyList.id,
       listName: armyList.listName,
-      totalPoint: armyList.totalPoint,
-      armyLists: armyList.armyLists,
-      armyListsId: armyList.armyListsId
+      totalPoint: armyList.totalPoint
     });
   }
 
@@ -78,9 +67,7 @@ export class ArmyListLbrUpdateComponent implements OnInit {
       ...new ArmyListLbr(),
       id: this.editForm.get(['id'])!.value,
       listName: this.editForm.get(['listName'])!.value,
-      totalPoint: this.editForm.get(['totalPoint'])!.value,
-      armyLists: this.editForm.get(['armyLists'])!.value,
-      armyListsId: this.editForm.get(['armyListsId'])!.value
+      totalPoint: this.editForm.get(['totalPoint'])!.value
     };
   }
 
