@@ -1,0 +1,30 @@
+{
+  "librariusApp": {
+    "gear": {
+      "home": {
+        "title": "Gears",
+        "createLabel": "Créer un nouveau Gear",
+        "createOrEditLabel": "Créer ou éditer un Gear",
+        "search": "Recherche pour Gear",
+        "notFound": "Aucun Gear trouvé"
+      },
+      "created": "Un nouveau Gear a été créé avec l'identifiant {{ param }}",
+      "updated": "Le Gear avec l'identifiant {{ param }} a été mis à jour",
+      "deleted": "Le Gear avec l'identifiant {{ param }} a été supprimé",
+      "delete": {
+        "question": "Etes-vous certain de vouloir supprimer le Gear {{ id }} ?"
+      },
+      "detail": {
+        "title": "Gear"
+      },
+      "gearName": "Gear Name",
+      "pointValue": "Point Value",
+      "type": "Type",
+      "f": "F",
+      "range": "Range",
+      "pa": "Pa",
+      "d": "D",
+      "gear": "Gear"
+    }
+  }
+}

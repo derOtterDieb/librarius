@@ -1,0 +1,26 @@
+{
+  "librariusApp": {
+    "armyList": {
+      "home": {
+        "title": "Army Lists",
+        "createLabel": "Create a new Army List",
+        "createOrEditLabel": "Create or edit a Army List",
+        "search": "Search for Army List",
+        "notFound": "No Army Lists found"
+      },
+      "created": "A new Army List is created with identifier {{ param }}",
+      "updated": "A Army List is updated with identifier {{ param }}",
+      "deleted": "A Army List is deleted with identifier {{ param }}",
+      "delete": {
+        "question": "Are you sure you want to delete Army List {{ id }}?"
+      },
+      "detail": {
+        "title": "Army List"
+      },
+      "listName": "List Name",
+      "totalPoint": "Total Point",
+      "armyList": "Army List",
+      "armyLists": "Army Lists"
+    }
+  }
+}

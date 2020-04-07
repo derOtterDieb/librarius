@@ -1,0 +1,45 @@
+{
+    "name": "ArmyList",
+    "fields": [
+        {
+            "fieldName": "listName",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "totalPoint",
+            "fieldType": "Integer"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "many-to-many",
+            "otherEntityName": "unit",
+            "otherEntityRelationshipName": "unit",
+            "relationshipName": "armyList",
+            "otherEntityField": "id",
+            "ownerSide": true
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "extendedUser",
+            "otherEntityRelationshipName": "user",
+            "relationshipName": "armyLists",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20200407083600",
+    "entityTableName": "army_list",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "lbr"
+}

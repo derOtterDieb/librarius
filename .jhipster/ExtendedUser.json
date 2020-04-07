@@ -1,0 +1,32 @@
+{
+    "name": "ExtendedUser",
+    "fields": [
+        {
+            "fieldName": "pseudo",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "armyList",
+            "otherEntityRelationshipName": "armyLists",
+            "relationshipName": "user"
+        }
+    ],
+    "changelogDate": "20200407083700",
+    "entityTableName": "extended_user",
+    "dto": "mapstruct",
+    "pagination": "pagination",
+    "service": "serviceImpl",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "embedded": false,
+    "clientRootFolder": "",
+    "applications": "*",
+    "angularJSSuffix": "lbr"
+}
