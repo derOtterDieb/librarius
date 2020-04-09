@@ -87,7 +87,7 @@ jhipster:
       # security key (this key should be unique for your application, and kept secret)
       key: 02b19e2e759df2409b0ee583f0cb9c4dc356560b35362bbe1456f87b96c0e242a1d51d3feb82914703e3decfe3082628dc02
   mail: # specific JHipster mail property, for standard properties see MailProperties
-    base-url: http://127.0.0.1:8080
+    base-url: librarius-40k.herokuapp.comS
   metrics:
     logs: # Reports metrics in the logs
       enabled: false

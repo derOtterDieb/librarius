@@ -23,6 +23,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.StreamSupport;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
@@ -147,5 +148,13 @@ public class ArmyListResource {
         Page<ArmyListDTO> page = armyListService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+    
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<ArmyListDTO>> getFromUserId(@PathVariable String id) {
+    	log.debug("REST request to search for armyLists of a user ", id);
+    	List<ArmyListDTO> result = this.armyListService.findAllByUser(id);
+    	HttpHeaders headers = HttpHeaders.EMPTY;
+    	return ResponseEntity.ok().headers(headers).body(result);
     }
 }

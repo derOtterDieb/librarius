@@ -41,4 +41,8 @@ export class ArmyListLbrService {
     const options = createRequestOption(req);
     return this.http.get<IArmyListLbr[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
   }
+
+  getFromUserId(id: string): Observable<IArmyListLbr[]> {
+    return this.http.get<IArmyListLbr[]>(this.resourceUrl + '/user/' + id);
+  }
 }

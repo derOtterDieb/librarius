@@ -2,7 +2,9 @@ package com.derotterdieb.librarius.service.impl;
 
 import com.derotterdieb.librarius.service.ArmyListService;
 import com.derotterdieb.librarius.domain.ArmyList;
+import com.derotterdieb.librarius.domain.User;
 import com.derotterdieb.librarius.repository.ArmyListRepository;
+import com.derotterdieb.librarius.repository.UserRepository;
 import com.derotterdieb.librarius.repository.search.ArmyListSearchRepository;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
 import com.derotterdieb.librarius.service.mapper.ArmyListMapper;
@@ -13,7 +15,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -26,15 +30,19 @@ public class ArmyListServiceImpl implements ArmyListService {
     private final Logger log = LoggerFactory.getLogger(ArmyListServiceImpl.class);
 
     private final ArmyListRepository armyListRepository;
+    
+    private final UserRepository userRepository;
 
     private final ArmyListMapper armyListMapper;
 
     private final ArmyListSearchRepository armyListSearchRepository;
 
-    public ArmyListServiceImpl(ArmyListRepository armyListRepository, ArmyListMapper armyListMapper, ArmyListSearchRepository armyListSearchRepository) {
+    public ArmyListServiceImpl(ArmyListRepository armyListRepository, ArmyListMapper armyListMapper,
+    		ArmyListSearchRepository armyListSearchRepository, UserRepository userRepository) {
         this.armyListRepository = armyListRepository;
         this.armyListMapper = armyListMapper;
         this.armyListSearchRepository = armyListSearchRepository;
+        this.userRepository = userRepository;
     }
 
     /**
@@ -113,4 +121,13 @@ public class ArmyListServiceImpl implements ArmyListService {
         return armyListSearchRepository.search(queryStringQuery(query), pageable)
             .map(armyListMapper::toDto);
     }
+
+	@Override
+	public List<ArmyListDTO> findAllByUser(String id) {
+		Optional<User> optionalUser = this.userRepository.findById(id);
+		if (optionalUser.get() != null) {
+			return optionalUser.get().getArmyLists().stream().map(o -> armyListMapper.toDto(o)).collect(Collectors.toList());
+		}
+		return null;
+	}
 }
