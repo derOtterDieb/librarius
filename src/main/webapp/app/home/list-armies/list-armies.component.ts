@@ -25,11 +25,11 @@ export class ListArmiesComponent implements OnInit {
     this.getArmyList();
   }
 
-  private getUser() {
+  private getUser(): void {
     this.userService.find(this.account.login).subscribe(res => (this.user = res));
   }
 
-  private getArmyList() {
+  private getArmyList(): void {
     this.armyListService.getFromUserId(this.account.id).subscribe(res => (this.armyList = res));
   }
 }

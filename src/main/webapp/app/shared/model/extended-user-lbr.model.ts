@@ -1,5 +1,3 @@
-import { IArmyListLbr } from 'app/shared/model/army-list-lbr.model';
-
 export interface IExtendedUserLbr {
   id?: string;
   pseudo?: string;

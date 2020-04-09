@@ -1,6 +1,3 @@
-import { IGearLbr } from 'app/shared/model/gear-lbr.model';
-import { IArmyListLbr } from 'app/shared/model/army-list-lbr.model';
-
 export interface IUnitLbr {
   id?: string;
   unitName?: string;

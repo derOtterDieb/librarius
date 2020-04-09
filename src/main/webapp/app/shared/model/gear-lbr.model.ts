@@ -1,5 +1,3 @@
-import { IUnitLbr } from 'app/shared/model/unit-lbr.model';
-
 export interface IGearLbr {
   id?: string;
   gearName?: string;
