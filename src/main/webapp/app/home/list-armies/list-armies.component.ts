@@ -13,14 +13,21 @@ export class ListArmiesComponent implements OnInit {
   @Input() account: any;
   public user: User;
   public armyList: IArmyListLbr[];
+  public newArmyList: IArmyListLbr;
+  public showForm = false;
 
   constructor(private userService: UserService, private armyListService: ArmyListLbrService) {
     this.account = {};
     this.user = new User();
     this.armyList = new Array<ArmyListLbr>();
+    this.newArmyList = new ArmyListLbr();
   }
 
   ngOnInit(): void {
+    this.getContent();
+  }
+
+  private getContent(): void {
     this.getUser();
     this.getArmyList();
   }
@@ -30,6 +37,39 @@ export class ListArmiesComponent implements OnInit {
   }
 
   private getArmyList(): void {
-    this.armyListService.getFromUserId(this.account.id).subscribe(res => (this.armyList = res));
+    this.armyListService.getFromUserId(this.account.id).subscribe(res => {
+      if (res.body != null) {
+        this.armyList = res.body;
+      }
+    });
+  }
+
+  public createArmyList(): void {
+    this.armyListService.create(this.newArmyList).subscribe(res => {
+      if (res.body != null) {
+        this.newArmyList = res.body;
+        if (this.user.armyListIds == null || this.user.armyListIds === undefined) {
+          this.user.armyListIds = new Array<string>();
+        }
+        if (res.body.id != null) {
+          this.user.armyListIds.push(res.body.id);
+          this.userService.update(this.user).subscribe(() => this.getContent());
+        }
+      }
+    });
+    this.showForm = false;
+  }
+
+  public startCreatingNewList(): void {
+    this.showForm = true;
+    this.newArmyList = new ArmyListLbr();
+  }
+
+  public deleteListAndUpdateUser(listId: string): void {
+    if (this.user.armyListIds != null) {
+      this.user.armyListIds.splice(this.user.armyListIds.indexOf(listId), 1);
+      this.userService.update(this.user).subscribe(() => this.getContent());
+    }
+    this.armyListService.delete(listId).subscribe();
   }
 }

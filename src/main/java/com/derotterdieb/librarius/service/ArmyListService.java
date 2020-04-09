@@ -61,5 +61,5 @@ public interface ArmyListService {
      */
     Page<ArmyListDTO> search(String query, Pageable pageable);
 
-	List<ArmyListDTO> findAllByUser(String id);
+	Optional<List<ArmyListDTO>> findAllByUser(String id);
 }

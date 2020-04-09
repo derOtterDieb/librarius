@@ -10,6 +10,7 @@ import com.derotterdieb.librarius.repository.search.UserSearchRepository;
 import com.derotterdieb.librarius.security.AuthoritiesConstants;
 import com.derotterdieb.librarius.security.SecurityUtils;
 import com.derotterdieb.librarius.service.dto.UserDTO;
+import com.derotterdieb.librarius.service.mapper.ArmyListMapper;
 import io.github.jhipster.security.RandomUtil;
 import java.time.Instant;
 import java.time.LocalDate;
@@ -40,19 +41,23 @@ public class UserService {
     private final PersistentTokenRepository persistentTokenRepository;
 
     private final AuthorityRepository authorityRepository;
+    
+    private final ArmyListMapper armyListMapper;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
         UserSearchRepository userSearchRepository,
         PersistentTokenRepository persistentTokenRepository,
-        AuthorityRepository authorityRepository
+        AuthorityRepository authorityRepository,
+        ArmyListMapper armyListMapper
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.userSearchRepository = userSearchRepository;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
+        this.armyListMapper = armyListMapper;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -244,6 +249,9 @@ public class UserService {
                     user.setLangKey(userDTO.getLangKey());
                     Set<Authority> managedAuthorities = user.getAuthorities();
                     managedAuthorities.clear();
+                    for (String id : userDTO.getArmyListIds()) {
+                    	user.addArmyList(armyListMapper.fromId(id));
+                    }
                     userDTO
                         .getAuthorities()
                         .stream()

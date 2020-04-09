@@ -42,7 +42,7 @@ export class ArmyListLbrService {
     return this.http.get<IArmyListLbr[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
   }
 
-  getFromUserId(id: string): Observable<IArmyListLbr[]> {
-    return this.http.get<IArmyListLbr[]>(this.resourceUrl + '/user/' + id);
+  getFromUserId(id: string): Observable<EntityArrayResponseType> {
+    return this.http.get<IArmyListLbr[]>(`${this.resourceUrl}/user/${id}`, { observe: 'response' });
   }
 }

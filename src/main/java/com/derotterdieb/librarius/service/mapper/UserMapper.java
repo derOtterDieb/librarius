@@ -29,7 +29,7 @@ public class UserMapper {
     public UserDTO userToUserDTO(User user) {
         UserDTO userDTO = new UserDTO(user);
         for (ArmyList armyList : user.getArmyLists()) {
-        	userDTO.addArmyListId(armyList.getId());
+        	userDTO = userDTO.addArmyListId(armyList.getId());
         }
         return userDTO;
     }

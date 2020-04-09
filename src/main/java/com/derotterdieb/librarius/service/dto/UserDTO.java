@@ -221,11 +221,13 @@ public class UserDTO {
         );
     }
 
-	public void addArmyListId(String id2) {
+	public UserDTO addArmyListId(String id2) {
 		this.armyListIds.add(id2);
+		return this;
 	}
 	
-	public void removeArmyListId(String id) {
+	public UserDTO removeArmyListId(String id) {
 		this.armyListIds.remove(id);
+		return this;
 	}
 }

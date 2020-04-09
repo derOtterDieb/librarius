@@ -150,11 +150,10 @@ public class ArmyListResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
     
-    @GetMapping("/user/{id}")
+    @GetMapping("/army-lists/user/{id}")
     public ResponseEntity<List<ArmyListDTO>> getFromUserId(@PathVariable String id) {
     	log.debug("REST request to search for armyLists of a user ", id);
-    	List<ArmyListDTO> result = this.armyListService.findAllByUser(id);
-    	HttpHeaders headers = HttpHeaders.EMPTY;
-    	return ResponseEntity.ok().headers(headers).body(result);
+    	Optional<List<ArmyListDTO>> result = this.armyListService.findAllByUser(id);
+    	return ResponseUtil.wrapOrNotFound(result);
     }
 }

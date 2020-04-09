@@ -123,10 +123,10 @@ public class ArmyListServiceImpl implements ArmyListService {
     }
 
 	@Override
-	public List<ArmyListDTO> findAllByUser(String id) {
+	public Optional<List<ArmyListDTO>> findAllByUser(String id) {
 		Optional<User> optionalUser = this.userRepository.findById(id);
-		if (optionalUser.get() != null) {
-			return optionalUser.get().getArmyLists().stream().map(o -> armyListMapper.toDto(o)).collect(Collectors.toList());
+		if (optionalUser.isPresent()) {
+			return Optional.of(optionalUser.get().getArmyLists().stream().map(o -> armyListMapper.toDto(o)).collect(Collectors.toList()));
 		}
 		return null;
 	}

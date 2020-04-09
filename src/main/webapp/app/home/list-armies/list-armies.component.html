@@ -1,6 +1,24 @@
-<div>Liste(s) cr&eacute;&eacute;e(s) :&nbsp;{{armyList.length}}</div>
+<div>
+	<span>Liste(s) cr&eacute;&eacute;e(s) :&nbsp;{{armyList.length}}</span>
+	<button *ngIf="!showForm" type="button" class="btn btn-primary float-right" (click)="startCreatingNewList()">Ajouter une liste</button>
+</div>
+<br>
+<div *ngIf="showForm" class="new-list-form">
+	<div class="form-group">
+       <label class="form-control-label" jhiTranslate="librariusApp.armyList.listName" for="field_listName">List Name</label>
+       <input type="text" class="form-control" name="listName" id="field_listName" [(ngModel)]="newArmyList.listName" />
+       <br>
+       <button type="button" class="btn btn-primary float-right" (click)="createArmyList();">Enregistrer</button>
+       <button type="button" class="btn btn-secondary float-left" (click)="showForm = false;">Annuler</button>
+       <br>
+   </div>
+</div>
 <ul>
 	<li *ngFor="let army of armyList">
-		{{army.name}}
+		<span>
+			<span class="important-text">{{army.listName}}</span>
+			<button type="button" class="btn btn-primary">Consulter</button>
+			<button type="button" class="btn btn-danger" (click)="deleteListAndUpdateUser(army.id);">Supprimer</button>
+		</span>
 	</li>
 </ul>
