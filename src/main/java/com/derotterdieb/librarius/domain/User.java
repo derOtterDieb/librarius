@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 /**
@@ -78,7 +79,34 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
+    
+    @DBRef
+    @Field("armyLists")
+    private Set<ArmyList> armyLists = new HashSet<>();
 
+    public Set<ArmyList> getArmyLists() {
+        return armyLists;
+    }
+
+    public User armyLists(Set<ArmyList> armyLists) {
+        this.armyLists = armyLists;
+        return this;
+    }
+
+    public User addArmyList(ArmyList armyList) {
+        this.armyLists.add(armyList);
+        return this;
+    }
+
+    public User removeArmyList(ArmyList armyList) {
+        this.armyLists.remove(armyList);
+        return this;
+    }
+
+    public void setArmyLists(Set<ArmyList> armyLists) {
+        this.armyLists = armyLists;
+    }
+    
     public String getId() {
         return id;
     }

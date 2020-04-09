@@ -29,7 +29,7 @@ public class ExtendedUser implements Serializable {
     private String pseudo;
 
     @DBRef
-    @Field("user")
+    @Field("armyLists")
     private Set<ArmyList> armyLists = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove

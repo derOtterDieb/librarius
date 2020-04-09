@@ -1,10 +1,13 @@
 package com.derotterdieb.librarius.service.mapper;
 
+import com.derotterdieb.librarius.domain.ArmyList;
 import com.derotterdieb.librarius.domain.Authority;
 import com.derotterdieb.librarius.domain.User;
 import com.derotterdieb.librarius.service.dto.UserDTO;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,13 +18,20 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserMapper {
+	
+	@Autowired
+	private static ArmyListMapper armyListMapper;
 
     public List<UserDTO> usersToUserDTOs(List<User> users) {
         return users.stream().filter(Objects::nonNull).map(this::userToUserDTO).collect(Collectors.toList());
     }
 
     public UserDTO userToUserDTO(User user) {
-        return new UserDTO(user);
+        UserDTO userDTO = new UserDTO(user);
+        for (ArmyList armyList : user.getArmyLists()) {
+        	userDTO.addArmyListId(armyList.getId());
+        }
+        return userDTO;
     }
 
     public List<User> userDTOsToUsers(List<UserDTO> userDTOs) {
@@ -43,6 +53,9 @@ public class UserMapper {
             user.setLangKey(userDTO.getLangKey());
             Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
             user.setAuthorities(authorities);
+            for (String id : userDTO.getArmyListIds()) {
+            	user.addArmyList(armyListMapper.fromId(id));
+            }
             return user;
         }
     }

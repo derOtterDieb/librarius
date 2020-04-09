@@ -49,10 +49,16 @@ spring:
         path:
           home: target/elasticsearch
   mail:
-    host: localhost
-    port: 25
-    username:
-    password:
+    host: smtp.gmail.com
+    port: 587
+    username: librarius.40k.bot@gmail.com
+    password: 'Librarius40kBerzingueBot-1337'
+    protocol: smtp
+    tls: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
+      ssl.trust: smtp.gmail.com
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:

@@ -4,6 +4,7 @@ import com.derotterdieb.librarius.config.Constants;
 import com.derotterdieb.librarius.domain.Authority;
 import com.derotterdieb.librarius.domain.User;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.constraints.*;
@@ -46,6 +47,16 @@ public class UserDTO {
     private Instant lastModifiedDate;
 
     private Set<String> authorities;
+    
+    private Set<String> armyListIds = new HashSet<>();
+    
+    public Set<String> getArmyListIds() {
+		return armyListIds;
+	}
+
+	public void setArmyListIds(Set<String> armyListIds) {
+		this.armyListIds = armyListIds;
+	}
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -209,4 +220,12 @@ public class UserDTO {
             "}"
         );
     }
+
+	public void addArmyListId(String id2) {
+		this.armyListIds.add(id2);
+	}
+	
+	public void removeArmyListId(String id) {
+		this.armyListIds.remove(id);
+	}
 }
