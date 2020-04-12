@@ -17,7 +17,7 @@
 	<li *ngFor="let army of armyList">
 		<span>
 			<span class="important-text">{{army.listName}}</span>
-			<button type="button" class="btn btn-primary">Consulter</button>
+			<button type="submit" class="btn btn-primary" [routerLink]="['/army-list-lbr', army.id, 'edit']">Consulter</button>
 			<button type="button" class="btn btn-danger" (click)="deleteListAndUpdateUser(army.id);">Supprimer</button>
 		</span>
 	</li>
