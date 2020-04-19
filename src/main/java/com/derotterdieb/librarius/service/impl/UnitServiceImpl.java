@@ -1,6 +1,7 @@
 package com.derotterdieb.librarius.service.impl;
 
 import com.derotterdieb.librarius.service.UnitService;
+import com.derotterdieb.librarius.domain.Gear;
 import com.derotterdieb.librarius.domain.Unit;
 import com.derotterdieb.librarius.repository.UnitRepository;
 import com.derotterdieb.librarius.repository.search.UnitSearchRepository;
@@ -47,13 +48,23 @@ public class UnitServiceImpl implements UnitService {
     public UnitDTO save(UnitDTO unitDTO) {
         log.debug("Request to save Unit : {}", unitDTO);
         Unit unit = unitMapper.toEntity(unitDTO);
+        unit = this.computeTotalUnitPoint(unit);
         unit = unitRepository.save(unit);
         UnitDTO result = unitMapper.toDto(unit);
         unitSearchRepository.save(unit);
         return result;
     }
 
-    /**
+    private Unit computeTotalUnitPoint(Unit unit) {
+    	int totalGear = 0;
+    	for (Gear gear : unit.getGears()) {
+    		totalGear += gear.getPointValue();
+    	}
+    	unit.setTotalPoint(unit.getBasePoint() + totalGear);
+    	return unit;
+	}
+
+	/**
      * Get all the units.
      *
      * @param pageable the pagination information.

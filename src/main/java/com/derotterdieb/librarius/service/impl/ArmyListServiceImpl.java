@@ -2,12 +2,17 @@ package com.derotterdieb.librarius.service.impl;
 
 import com.derotterdieb.librarius.service.ArmyListService;
 import com.derotterdieb.librarius.domain.ArmyList;
+import com.derotterdieb.librarius.domain.Unit;
 import com.derotterdieb.librarius.domain.User;
 import com.derotterdieb.librarius.repository.ArmyListRepository;
+import com.derotterdieb.librarius.repository.UnitRepository;
 import com.derotterdieb.librarius.repository.UserRepository;
 import com.derotterdieb.librarius.repository.search.ArmyListSearchRepository;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
+import com.derotterdieb.librarius.service.dto.UnitDTO;
 import com.derotterdieb.librarius.service.mapper.ArmyListMapper;
+import com.derotterdieb.librarius.service.mapper.UnitMapper;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +23,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -36,13 +43,20 @@ public class ArmyListServiceImpl implements ArmyListService {
     private final ArmyListMapper armyListMapper;
 
     private final ArmyListSearchRepository armyListSearchRepository;
+    
+    private final UnitRepository unitRepository;
+    
+    private final UnitMapper unitMapper;
 
     public ArmyListServiceImpl(ArmyListRepository armyListRepository, ArmyListMapper armyListMapper,
-    		ArmyListSearchRepository armyListSearchRepository, UserRepository userRepository) {
+    		ArmyListSearchRepository armyListSearchRepository, UserRepository userRepository,
+    		UnitRepository unitRepository, UnitMapper unitMapper) {
         this.armyListRepository = armyListRepository;
         this.armyListMapper = armyListMapper;
         this.armyListSearchRepository = armyListSearchRepository;
         this.userRepository = userRepository;
+        this.unitRepository = unitRepository;
+        this.unitMapper = unitMapper;
     }
 
     /**
@@ -127,6 +141,18 @@ public class ArmyListServiceImpl implements ArmyListService {
 		Optional<User> optionalUser = this.userRepository.findById(id);
 		if (optionalUser.isPresent()) {
 			return Optional.of(optionalUser.get().getArmyLists().stream().map(o -> armyListMapper.toDto(o)).collect(Collectors.toList()));
+		}
+		return null;
+	}
+
+	@Override
+	public ArmyListDTO addUnit(String id, @Valid UnitDTO unitDTO) {
+		Optional<ArmyList> armyList = this.armyListRepository.findById(id);
+		Unit unit = this.unitRepository.save(this.unitMapper.toEntity(unitDTO));
+		if (armyList.isPresent()) {
+			armyList.get().addUnit(unit);
+			ArmyList result = this.armyListRepository.save(armyList.get());
+			return this.armyListMapper.toDto(result);
 		}
 		return null;
 	}

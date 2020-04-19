@@ -68,7 +68,7 @@ export class ListArmiesComponent implements OnInit {
   public deleteListAndUpdateUser(listId: string): void {
     this.userService.deleteArmyList(listId, this.user).subscribe(
       res => (this.user = res),
-      error => {},
+      () => {},
       () => this.getArmyList()
     );
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
+import { IUnitLbr } from 'app/shared/model/unit-lbr.model';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption, SearchWithPagination } from 'app/shared/util/request-util';
 import { IArmyListLbr } from 'app/shared/model/army-list-lbr.model';
@@ -44,5 +44,9 @@ export class ArmyListLbrService {
 
   getFromUserId(id: string): Observable<EntityArrayResponseType> {
     return this.http.get<IArmyListLbr[]>(`${this.resourceUrl}/user/${id}`, { observe: 'response' });
+  }
+
+  addUnit(armyList: IArmyListLbr, unit: IUnitLbr): Observable<EntityResponseType> {
+    return this.http.put<IArmyListLbr>(`${this.resourceUrl}/add-unit/${armyList.id}`, unit, { observe: 'response' });
   }
 }

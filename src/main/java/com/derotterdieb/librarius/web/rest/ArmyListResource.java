@@ -3,6 +3,7 @@ package com.derotterdieb.librarius.web.rest;
 import com.derotterdieb.librarius.service.ArmyListService;
 import com.derotterdieb.librarius.web.rest.errors.BadRequestAlertException;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
+import com.derotterdieb.librarius.service.dto.UnitDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -86,6 +87,18 @@ public class ArmyListResource {
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, armyListDTO.getId().toString()))
             .body(result);
+    }
+    
+    @PutMapping("/army-lists/add-unit/{id}")
+    public ResponseEntity<ArmyListDTO> addArmyList(@PathVariable String id, @Valid @RequestBody UnitDTO unitDTO) {
+    	log.debug("REST request to add unit to ArmyList : {}", id);
+    	if (id == null) {
+    		throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+    	}
+    	ArmyListDTO result = armyListService.addUnit(id, unitDTO);
+    	return ResponseEntity.ok()
+                .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,id))
+                .body(result);
     }
 
     /**
