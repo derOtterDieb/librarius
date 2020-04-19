@@ -15,7 +15,7 @@
 </div>
 <ul>
 	<li *ngFor="let army of armyList">
-		<span>
+		<span *ngIf="army != null">
 			<span class="important-text">{{army.listName}}</span>
 			<button type="submit" class="btn btn-primary" [routerLink]="['/army-list-lbr', army.id, 'edit']">Consulter</button>
 			<button type="button" class="btn btn-danger" (click)="deleteListAndUpdateUser(army.id);">Supprimer</button>

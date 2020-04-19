@@ -20,6 +20,14 @@ export class UserService {
     return this.http.put<IUser>(this.resourceUrl, user);
   }
 
+  updateOneSelf(connectedUserId: string, user: IUser): Observable<IUser> {
+    return this.http.put<IUser>(`${this.resourceUrl}/self-update/${connectedUserId}`, user);
+  }
+
+  deleteArmyList(listId: string, user: IUser): Observable<IUser> {
+    return this.http.put<IUser>(`${this.resourceUrl}/self-update/delete-list/${listId}`, user);
+  }
+
   find(login: string): Observable<IUser> {
     return this.http.get<IUser>(`${this.resourceUrl}/${login}`);
   }

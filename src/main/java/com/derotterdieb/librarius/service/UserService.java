@@ -3,6 +3,7 @@ package com.derotterdieb.librarius.service;
 import com.derotterdieb.librarius.config.Constants;
 import com.derotterdieb.librarius.domain.Authority;
 import com.derotterdieb.librarius.domain.User;
+import com.derotterdieb.librarius.repository.ArmyListRepository;
 import com.derotterdieb.librarius.repository.AuthorityRepository;
 import com.derotterdieb.librarius.repository.PersistentTokenRepository;
 import com.derotterdieb.librarius.repository.UserRepository;
@@ -17,6 +18,9 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -43,6 +47,8 @@ public class UserService {
     private final AuthorityRepository authorityRepository;
     
     private final ArmyListMapper armyListMapper;
+    
+    private final ArmyListRepository armyListRepository;
 
     public UserService(
         UserRepository userRepository,
@@ -50,7 +56,8 @@ public class UserService {
         UserSearchRepository userSearchRepository,
         PersistentTokenRepository persistentTokenRepository,
         AuthorityRepository authorityRepository,
-        ArmyListMapper armyListMapper
+        ArmyListMapper armyListMapper,
+        ArmyListRepository armyListRepository
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -58,6 +65,7 @@ public class UserService {
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
         this.armyListMapper = armyListMapper;
+        this.armyListRepository = armyListRepository;
     }
 
     public Optional<User> activateRegistration(String key) {
@@ -358,4 +366,11 @@ public class UserService {
     public List<String> getAuthorities() {
         return authorityRepository.findAll().stream().map(Authority::getName).collect(Collectors.toList());
     }
+
+	public Optional<UserDTO> deleteArmyList(String listId, @Valid UserDTO userDTO) {
+		userDTO.removeArmyListId(listId);
+		Optional<UserDTO> result = this.updateUser(userDTO);
+		this.armyListRepository.deleteById(listId);
+		return result;
+	}
 }

@@ -39,7 +39,7 @@ export class ListArmiesComponent implements OnInit {
   private getArmyList(): void {
     this.armyListService.getFromUserId(this.account.id).subscribe(res => {
       if (res.body != null) {
-        this.armyList = res.body;
+        this.armyList = res.body.filter(o => o != null);
       }
     });
   }
@@ -53,7 +53,7 @@ export class ListArmiesComponent implements OnInit {
         }
         if (res.body.id != null) {
           this.user.armyListIds.push(res.body.id);
-          this.userService.update(this.user).subscribe(() => this.getContent());
+          this.userService.updateOneSelf(this.account.id, this.user).subscribe(() => this.getContent());
         }
       }
     });
@@ -66,10 +66,10 @@ export class ListArmiesComponent implements OnInit {
   }
 
   public deleteListAndUpdateUser(listId: string): void {
-    if (this.user.armyListIds != null) {
-      this.user.armyListIds.splice(this.user.armyListIds.indexOf(listId), 1);
-      this.userService.update(this.user).subscribe(() => this.getContent());
-    }
-    this.armyListService.delete(listId).subscribe();
+    this.userService.deleteArmyList(listId, this.user).subscribe(
+      res => (this.user = res),
+      error => {},
+      () => this.getArmyList()
+    );
   }
 }

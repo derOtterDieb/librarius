@@ -147,6 +147,29 @@ public class UserResource {
             HeaderUtil.createAlert(applicationName, "userManagement.updated", userDTO.getLogin())
         );
     }
+    
+    @PutMapping("/users/self-update/{connectedUserId}")
+    public ResponseEntity<UserDTO> updateOneSelf(@PathVariable String connectedUserId, @Valid @RequestBody UserDTO userDTO) {
+    	log.debug("REST request to update User : {}", userDTO);
+    	Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
+        if (connectedUserId.equals(existingUser.get().getId())) {
+        	Optional<UserDTO> updatedUser = userService.updateUser(userDTO);
+
+            return ResponseUtil.wrapOrNotFound(
+                updatedUser,
+                HeaderUtil.createAlert(applicationName, "userManagement.updated", userDTO.getLogin())
+            );
+        } else {
+        	throw new BadRequestAlertException("trying to update wrong user", "user", "wrong id");
+        }
+    }
+    
+    @PutMapping("/users/self-update/delete-list/{listId}")
+    public ResponseEntity<UserDTO> deleteList(@PathVariable String listId, @Valid @RequestBody UserDTO userDTO) {
+    	log.debug("REST Request to update User.armyLists : {}", userDTO);
+    	Optional<UserDTO> updatedUser = userService.deleteArmyList(listId, userDTO);
+    	return ResponseUtil.wrapOrNotFound(updatedUser, HeaderUtil.createAlert(applicationName, "userManagement.updated", userDTO.getLogin()));
+    }
 
     /**
      * {@code GET /users} : get all users.

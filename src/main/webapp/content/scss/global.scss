@@ -212,3 +212,13 @@ ui bootstrap tweaks
   color: var(--primary);
   font-size: 1.3rem;
 }
+
+.inline-flex {
+  display: flex;
+  flex-flow: row;
+}
+
+.column-flex {
+  display: flex;
+  flex-flow: column;
+}
