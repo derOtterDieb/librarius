@@ -103,7 +103,7 @@
     "ngc": "ngc -p tsconfig.app.json",
     "cleanup": "rimraf target/classes/static/ target/classes/aot",
     "clean-www": "rimraf target/classes/static/app/{src,target/}",
-    "start": "npm run webpack:dev",
+    "start": "npm run webpack:prod",
     "start-tls": "npm run webpack:dev -- --env.tls",
     "serve": "npm run start",
     "build": "npm run webpack:prod",
