@@ -43,7 +43,7 @@ export const armyListRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       defaultSort: 'id,asc',
       pageTitle: 'librariusApp.armyList.home.title'
     },
@@ -56,7 +56,7 @@ export const armyListRoute: Routes = [
       armyList: ArmyListLbrResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'librariusApp.armyList.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -68,7 +68,7 @@ export const armyListRoute: Routes = [
       armyList: ArmyListLbrResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'librariusApp.armyList.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const armyListRoute: Routes = [
       armyList: ArmyListLbrResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'librariusApp.armyList.home.title'
     },
     canActivate: [UserRouteAccessService]

@@ -43,7 +43,7 @@ export const gearRoute: Routes = [
       pagingParams: JhiResolvePagingParams
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       defaultSort: 'id,asc',
       pageTitle: 'librariusApp.gear.home.title'
     },
@@ -56,7 +56,7 @@ export const gearRoute: Routes = [
       gear: GearLbrResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'librariusApp.gear.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -68,7 +68,7 @@ export const gearRoute: Routes = [
       gear: GearLbrResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'librariusApp.gear.home.title'
     },
     canActivate: [UserRouteAccessService]
@@ -80,7 +80,7 @@ export const gearRoute: Routes = [
       gear: GearLbrResolve
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'librariusApp.gear.home.title'
     },
     canActivate: [UserRouteAccessService]
