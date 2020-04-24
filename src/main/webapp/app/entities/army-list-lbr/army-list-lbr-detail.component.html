@@ -1,65 +1,65 @@
-<div class="row justify-content-center">
-	<div class="col-8">
-		<div *ngIf="armyList">
-			<h2>
-				<span jhiTranslate="librariusApp.armyList.detail.title">Army
-					List</span> {{ armyList.listName }}
-			</h2>
+<div class="justify-content-center">
+	<div class="p-grid" *ngIf="armyList">
+		<h2 class="p-col-12">
+			<span jhiTranslate="librariusApp.armyList.detail.title">Army
+				List</span> {{ armyList.listName }}
+		</h2>
 
-			<hr>
+		<hr>
 
-			<jhi-alert-error></jhi-alert-error>
+		<jhi-alert-error></jhi-alert-error>
 
-			<dl class="row-md jh-entity-details">
-				<dt>
-					<span jhiTranslate="librariusApp.armyList.listName">List
-						Name</span>
-				</dt>
-				<dd>
-					<span>{{ armyList.listName }}</span>
-				</dd>
-				<dt>
-					<span jhiTranslate="librariusApp.armyList.totalPoint">Total
-						Point</span>
-				</dt>
-				<dd>
-					<span>{{ armyList.totalPoint }}</span>
-				</dd>
-			</dl>
+		<dl class="p-col-12 jh-entity-details">
+			<dt>
+				<span jhiTranslate="librariusApp.armyList.totalPoint">Total
+					Point</span>
+			</dt>
+			<dd>
+				<span>{{ armyList.totalPoint }}</span>
+			</dd>
+		</dl>
 
-			<dl class="row-md jh-entity-details" *ngIf="armyList.unitIds != null">
-				<ul>
-					<li *ngFor="let unit of unitList">
-						<div>{{unit.unitName}}</div>
-					</li>
-				</ul>
-			</dl>
+		<dl class="jh-entity-details p-col-12" *ngIf="armyList.unitIds != null">
+			<ul>
+				<li *ngFor="let unit of unitList">
+					<div>{{unit.unitName}}</div>
+				</li>
+			</ul>
+		</dl>
 
-			<dl class="row-md jh-entity-details">
-				<button type="button" (click)="addNewUnit = true;" class="btn btn-primary" *ngIf="!addNewUnit">
-					Ajouter une unit&eacute;
-				</button>
-				<dt *ngIf="addNewUnit">
-					<span>Nouvelle Unit&eacute;</span>
-					<div class="inline-flex">
-						<div class="col-4">
-							<span>Choisir une unit&eacute; existante :</span>
-							<ul *ngIf="availableUnit | async as availableUnits">
-								<li *ngFor="let unit of availableUnits.body">{{unit.unitName}}</li>
-							</ul>
-						</div>
-						<div class="col-4">
-							<button class="btn btn-primary">Cr&eacute;er une nouvelle unit&eacute;</button>
-						</div>
+		<dl class="p-col-12 jh-entity-details">
+			<button type="button" (click)="addNewUnit = true;" class="btn btn-primary" *ngIf="!addNewUnit">
+				Ajouter une unit&eacute;
+			</button>
+			<dt *ngIf="addNewUnit">
+				<div class="p-grid">
+					<div class="p-col-6">
+						<span>Choisir une unit&eacute; existante :</span>
+						<ul *ngIf="availableUnit | async as availableUnits">
+							<li *ngFor="let unit of availableUnits.body">
+								<button class="btn btn-sm btn-primary btn-li"
+									type="button" (click)="associate(unit)">
+									{{unit.unitName}}
+								</button>
+							</li>
+						</ul>
 					</div>
-				</dt>
-			</dl>
+					<div class="p-col-6">
+						<button class="btn btn-info" type="button"
+							[routerLink]="['/unit-lbr/new']">
+							Cr&eacute;er une nouvelle unit&eacute;
+						</button>
+					</div>
+				</div>
+			</dt>
+		</dl>
 
+		<div class="p-col-12">
 			<button type="submit" (click)="previousState()" class="btn btn-info">
 				<fa-icon icon="arrow-left"></fa-icon>
 				&nbsp;<span jhiTranslate="entity.action.back">Back</span>
 			</button>
-
+	
 			<button type="button"
 				[routerLink]="['/army-list-lbr', armyList.id, 'edit']"
 				class="btn btn-primary">

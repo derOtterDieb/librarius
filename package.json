@@ -28,6 +28,9 @@
     "ngx-cookie": "4.0.2",
     "ngx-infinite-scroll": "8.0.1",
     "ngx-webstorage": "5.0.0",
+    "primeflex": "^1.0.0",
+    "primeicons": "^2.0.0",
+    "primeng": "^9.0.6",
     "rxjs": "6.5.3",
     "swagger-ui-dist": "3.24.3",
     "tslib": "1.10.0",
@@ -97,6 +100,8 @@
     "node": ">=8.9.0"
   },
   "scripts": {
+    "heroku-prebuild": "export NPM_CONFIG_PRODUCTION=false; export NODE_ENV=; NPM_CONFIG_PRODUCTION=false NODE_ENV=development npm install --only=dev --dev",
+    "heroku-postbuild": "export NPM_CONFIG_PRODUCTION=true; export NODE_ENV=production;",
     "prettier:format": "prettier --write \"{,src/**/}*.{md,json,ts,css,scss,yml}\"",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "npm run lint -- --fix",

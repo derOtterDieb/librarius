@@ -1,6 +1,7 @@
 @import 'bootstrap-variables';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
+@import '../../../../../node_modules/primeflex/primeflex.css';
 
 /* ==============================================================
 Bootstrap tweaks
@@ -221,4 +222,8 @@ ui bootstrap tweaks
 .column-flex {
   display: flex;
   flex-flow: column;
+}
+
+.btn-li {
+  margin: 2px;
 }

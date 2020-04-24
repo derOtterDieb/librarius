@@ -7,6 +7,8 @@ import { UnitLbrService } from 'app/entities/unit-lbr/unit-lbr.service';
 import { GearLbrService } from 'app/entities/gear-lbr/gear-lbr.service';
 import { ArmyListLbrService } from 'app/entities/army-list-lbr/army-list-lbr.service';
 import { Observable } from 'rxjs';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ArmyListLbrAssociateUnitDialogComponent } from 'app/entities/army-list-lbr/army-list-lbr-associate-unit-dialog.component';
 
 @Component({
   selector: 'jhi-army-list-lbr-detail',
@@ -23,7 +25,8 @@ export class ArmyListLbrDetailComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected unitService: UnitLbrService,
     protected gearService: GearLbrService,
-    protected armyListService: ArmyListLbrService
+    protected armyListService: ArmyListLbrService,
+    protected modalService: NgbModal
   ) {
     this.newUnit = new UnitLbr();
     this.unitList = new Array<UnitLbr>();
@@ -74,5 +77,12 @@ export class ArmyListLbrDetailComponent implements OnInit {
     if (this.armyList != null) {
       this.armyListService.addUnit(this.armyList, unit).subscribe(res => (this.armyList = res.body));
     }
+  }
+
+  public associate(unit: IUnitLbr): void {
+    const modalRef = this.modalService.open(ArmyListLbrAssociateUnitDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.armyList = this.armyList;
+    modalRef.componentInstance.unit = unit;
+    modalRef.result.then(() => this.getAllUnits());
   }
 }
