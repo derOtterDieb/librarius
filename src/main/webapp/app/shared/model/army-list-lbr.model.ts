@@ -4,9 +4,9 @@ export interface IArmyListLbr {
   id?: string;
   listName?: string;
   totalPoint?: number;
-  units?: IUnitMapLbr[];
+  unitMaps?: IUnitMapLbr[];
 }
 
 export class ArmyListLbr implements IArmyListLbr {
-  constructor(public id?: string, public listName?: string, public totalPoint?: number, public units?: IUnitMapLbr[]) {}
+  constructor(public id?: string, public listName?: string, public totalPoint?: number, public unitMaps?: IUnitMapLbr[]) {}
 }

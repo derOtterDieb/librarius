@@ -15,10 +15,10 @@ import org.mapstruct.*;
 @Mapper(componentModel = "spring", uses = {UnitMapMapper.class})
 public interface ArmyListMapper extends EntityMapper<ArmyListDTO, ArmyList> {
 
-	@Mapping(source = "unitMap", target = "unitMapIds")
+	@Mapping(source = "unitMap", target = "unitMaps")
     ArmyListDTO toDto(ArmyList armyList);
 
-	@Mapping(source = "unitMapIds", target = "unitMap")
+	@Mapping(source = "unitMaps", target = "unitMap")
     ArmyList toEntity(ArmyListDTO armyListDTO);
 
     default ArmyList fromId(String id) {

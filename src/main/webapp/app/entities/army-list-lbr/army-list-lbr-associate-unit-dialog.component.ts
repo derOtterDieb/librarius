@@ -22,8 +22,8 @@ export class ArmyListLbrAssociateUnitDialogComponent {
   }
 
   confirmAssociate(): void {
-    if (this.armyList != null) {
-      this.armyListService.update(this.armyList).subscribe(() => {
+    if (this.armyList != null && this.unit != null) {
+      this.armyListService.addUnit(this.armyList, this.numberOfUnit, this.unit).subscribe(() => {
         this.eventManager.broadcast('armyListListModification');
         this.activeModal.close();
       });

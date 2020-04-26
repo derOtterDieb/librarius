@@ -23,7 +23,7 @@ public class ArmyListDTO implements Serializable {
 
     private Integer totalPoint;
 
-    private Set<String> unitMapIds = new HashSet<>();
+    private Set<UnitMapDTO> unitMaps = new HashSet<>();
 
 	public String getId() {
 		return id;
@@ -49,12 +49,12 @@ public class ArmyListDTO implements Serializable {
 		this.totalPoint = totalPoint;
 	}
 
-	public Set<String> getUnitMapIds() {
-		return unitMapIds;
+	public Set<UnitMapDTO> getUnitMaps() {
+		return unitMaps;
 	}
 
-	public void setUnitMapIds(Set<String> unitIds) {
-		this.unitMapIds = unitIds;
+	public void setUnitMaps(Set<UnitMapDTO> unitIds) {
+		this.unitMaps = unitIds;
 	}
 
 	@Override

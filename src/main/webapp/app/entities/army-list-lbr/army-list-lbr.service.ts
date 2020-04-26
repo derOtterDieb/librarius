@@ -24,7 +24,7 @@ export class ArmyListLbrService {
     return this.http.put<IArmyListLbr>(this.resourceUrl, armyList, { observe: 'response' });
   }
 
-  find(id: string): Observable<EntityResponseType> {
+  find(id: string | null): Observable<EntityResponseType> {
     return this.http.get<IArmyListLbr>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
@@ -46,7 +46,7 @@ export class ArmyListLbrService {
     return this.http.get<IArmyListLbr[]>(`${this.resourceUrl}/user/${id}`, { observe: 'response' });
   }
 
-  addUnit(armyList: IArmyListLbr, unit: IUnitLbr): Observable<EntityResponseType> {
-    return this.http.put<IArmyListLbr>(`${this.resourceUrl}/add-unit/${armyList.id}`, unit, { observe: 'response' });
+  addUnit(armyList: IArmyListLbr, numberOfUnit: number, unit: IUnitLbr): Observable<EntityResponseType> {
+    return this.http.put<IArmyListLbr>(`${this.resourceUrl}/add-unit/${armyList.id}/${numberOfUnit}`, unit, { observe: 'response' });
   }
 }

@@ -41,8 +41,8 @@ export class ArmyListLbrDetailComponent implements OnInit {
   }
 
   private getAllUnits(): void {
-    this.activatedRoute.data.subscribe(res => {
-      this.armyList = res.armyList;
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.armyListService.find(params.get('id')).subscribe(res => (this.armyList = res.body));
     });
     this.computePoints();
   }
@@ -52,19 +52,13 @@ export class ArmyListLbrDetailComponent implements OnInit {
   }
 
   private computePoints(): void {
-    if (this.armyList != null && this.armyList.totalPoint != null && this.armyList.units != null) {
+    if (this.armyList != null && this.armyList.totalPoint != null && this.armyList.unitMaps != null) {
       this.armyList.totalPoint = 0;
-      for (const unitMap of this.armyList.units) {
+      for (const unitMap of this.armyList.unitMaps) {
         if (unitMap != null && unitMap.numberOfUnit != null && unitMap.unit != null && unitMap.unit.totalPoint != null) {
           this.armyList.totalPoint += unitMap.unit.totalPoint * unitMap.numberOfUnit;
         }
       }
-    }
-  }
-
-  public saveUnit(unit: IUnitLbr): void {
-    if (this.armyList != null) {
-      this.armyListService.addUnit(this.armyList, unit).subscribe(res => (this.armyList = res.body));
     }
   }
 
