@@ -3,14 +3,18 @@ package com.derotterdieb.librarius.service.impl;
 import com.derotterdieb.librarius.service.ArmyListService;
 import com.derotterdieb.librarius.domain.ArmyList;
 import com.derotterdieb.librarius.domain.Unit;
+import com.derotterdieb.librarius.domain.UnitMap;
 import com.derotterdieb.librarius.domain.User;
 import com.derotterdieb.librarius.repository.ArmyListRepository;
+import com.derotterdieb.librarius.repository.UnitMapRepository;
 import com.derotterdieb.librarius.repository.UnitRepository;
 import com.derotterdieb.librarius.repository.UserRepository;
 import com.derotterdieb.librarius.repository.search.ArmyListSearchRepository;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
 import com.derotterdieb.librarius.service.dto.UnitDTO;
+import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 import com.derotterdieb.librarius.service.mapper.ArmyListMapper;
+import com.derotterdieb.librarius.service.mapper.UnitMapMapper;
 import com.derotterdieb.librarius.service.mapper.UnitMapper;
 
 import org.slf4j.Logger;
@@ -44,19 +48,19 @@ public class ArmyListServiceImpl implements ArmyListService {
 
     private final ArmyListSearchRepository armyListSearchRepository;
     
-    private final UnitRepository unitRepository;
+    private final UnitMapRepository unitMapRepository;
     
-    private final UnitMapper unitMapper;
+    private final UnitMapMapper unitMapMapper;
 
     public ArmyListServiceImpl(ArmyListRepository armyListRepository, ArmyListMapper armyListMapper,
     		ArmyListSearchRepository armyListSearchRepository, UserRepository userRepository,
-    		UnitRepository unitRepository, UnitMapper unitMapper) {
+    		UnitMapRepository unitRepository, UnitMapMapper unitMapper) {
         this.armyListRepository = armyListRepository;
         this.armyListMapper = armyListMapper;
         this.armyListSearchRepository = armyListSearchRepository;
         this.userRepository = userRepository;
-        this.unitRepository = unitRepository;
-        this.unitMapper = unitMapper;
+        this.unitMapRepository = unitRepository;
+        this.unitMapMapper = unitMapper;
     }
 
     /**
@@ -146,11 +150,11 @@ public class ArmyListServiceImpl implements ArmyListService {
 	}
 
 	@Override
-	public ArmyListDTO addUnit(String id, @Valid UnitDTO unitDTO) {
+	public ArmyListDTO addUnit(String id, @Valid UnitMapDTO unitDTO) {
 		Optional<ArmyList> armyList = this.armyListRepository.findById(id);
-		Unit unit = this.unitRepository.save(this.unitMapper.toEntity(unitDTO));
+		UnitMap unit = this.unitMapRepository.save(this.unitMapMapper.toEntity(unitDTO));
 		if (armyList.isPresent()) {
-			armyList.get().addUnit(unit);
+			armyList.get().addUnitMap(unit);
 			ArmyList result = this.armyListRepository.save(armyList.get());
 			return this.armyListMapper.toDto(result);
 		}

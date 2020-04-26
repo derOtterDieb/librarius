@@ -31,7 +31,7 @@ public class ArmyList implements Serializable {
 
     @DBRef
     @Field("units")
-    private Set<Unit> units = new HashSet<>();
+    private Set<UnitMap> unitMap = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
@@ -68,27 +68,27 @@ public class ArmyList implements Serializable {
         this.totalPoint = totalPoint;
     }
 
-    public Set<Unit> getUnits() {
-        return units;
+    public Set<UnitMap> getUnitMap() {
+        return unitMap;
     }
 
-    public ArmyList units(Set<Unit> units) {
-        this.units = units;
+    public ArmyList units(Set<UnitMap> units) {
+        this.unitMap = units;
         return this;
     }
 
-    public ArmyList addUnit(Unit unit) {
-        this.units.add(unit);
+    public ArmyList addUnitMap(UnitMap unit) {
+        this.unitMap.add(unit);
         return this;
     }
 
-    public ArmyList removeUnit(Unit unit) {
-        this.units.remove(unit);
+    public ArmyList removeUnitMap(UnitMap unit) {
+        this.unitMap.remove(unit);
         return this;
     }
 
-    public void setUnits(Set<Unit> units) {
-        this.units = units;
+    public void setUnitMap(Set<UnitMap> units) {
+        this.unitMap = units;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove

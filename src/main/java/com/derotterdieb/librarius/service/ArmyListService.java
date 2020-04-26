@@ -2,6 +2,7 @@ package com.derotterdieb.librarius.service;
 
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
 import com.derotterdieb.librarius.service.dto.UnitDTO;
+import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,5 +67,5 @@ public interface ArmyListService {
 
 	Optional<List<ArmyListDTO>> findAllByUser(String id);
 
-	ArmyListDTO addUnit(String id, @Valid UnitDTO unitDTO);
+	ArmyListDTO addUnit(String id, @Valid UnitMapDTO unitDTO);
 }

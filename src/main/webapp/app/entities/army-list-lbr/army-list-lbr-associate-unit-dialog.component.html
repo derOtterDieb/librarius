@@ -1,6 +1,6 @@
 <form *ngIf="armyList" name="associateForm" (ngSubmit)="confirmAssociate()">
     <div class="modal-header">
-        <h4 class="modal-title" jhiTranslate="librariusApp.armyList.detail.title">Confirm delete operation</h4>
+        <h4 class="modal-title" jhiTranslate="librariusApp.armyList.detail.title">{{armyList?.listName}}</h4>
 
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
                 (click)="cancel()">&times;</button>
@@ -8,8 +8,11 @@
 
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div>{{armyList?.listName}}</div>
-		<div>{{unit?.unitName}}</div>
+		<div>Vous allez ajouter <b>{{unit?.unitName}}</b> dans la liste.</div>
+		<div class="inline-flex">
+			<span>Combien de figurine dans cette escouade ?&nbsp;</span>
+			<input type="number" [(ngModel)]="numberOfUnit" name="numberOfUnit"/>
+		</div>
     </div>
 
     <div class="modal-footer">

@@ -19,10 +19,10 @@
 			</dd>
 		</dl>
 
-		<dl class="jh-entity-details p-col-12" *ngIf="armyList.unitIds != null">
+		<dl class="jh-entity-details p-col-12" *ngIf="armyList.units != null">
 			<ul>
-				<li *ngFor="let unit of unitList">
-					<div>{{unit.unitName}}</div>
+				<li *ngFor="let unitMap of armyList.units">
+					<div>{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}</div>
 				</li>
 			</ul>
 		</dl>

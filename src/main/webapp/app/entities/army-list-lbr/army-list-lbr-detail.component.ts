@@ -18,7 +18,6 @@ export class ArmyListLbrDetailComponent implements OnInit {
   public armyList: IArmyListLbr | null = null;
   public addNewUnit = false;
   public newUnit: IUnitLbr;
-  public unitList: IUnitLbr[];
   public availableUnit: Observable<any>;
 
   constructor(
@@ -29,15 +28,11 @@ export class ArmyListLbrDetailComponent implements OnInit {
     protected modalService: NgbModal
   ) {
     this.newUnit = new UnitLbr();
-    this.unitList = new Array<UnitLbr>();
     this.availableUnit = new Observable<any>();
   }
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(res => {
-      this.armyList = res.armyList;
-      this.getAllUnits();
-    });
+    this.getAllUnits();
     this.getAllAvailableUnits();
   }
 
@@ -46,15 +41,9 @@ export class ArmyListLbrDetailComponent implements OnInit {
   }
 
   private getAllUnits(): void {
-    if (this.armyList != null && this.armyList.unitIds != null) {
-      for (const id of this.armyList.unitIds) {
-        this.unitService.find(id).subscribe(res => {
-          if (res.body != null) {
-            this.unitList.push(res.body);
-          }
-        });
-      }
-    }
+    this.activatedRoute.data.subscribe(res => {
+      this.armyList = res.armyList;
+    });
     this.computePoints();
   }
 
@@ -63,11 +52,11 @@ export class ArmyListLbrDetailComponent implements OnInit {
   }
 
   private computePoints(): void {
-    if (this.armyList != null && this.armyList.totalPoint != null) {
+    if (this.armyList != null && this.armyList.totalPoint != null && this.armyList.units != null) {
       this.armyList.totalPoint = 0;
-      for (const unit of this.unitList) {
-        if (unit != null && unit.totalPoint != null) {
-          this.armyList.totalPoint += unit.totalPoint;
+      for (const unitMap of this.armyList.units) {
+        if (unitMap != null && unitMap.numberOfUnit != null && unitMap.unit != null && unitMap.unit.totalPoint != null) {
+          this.armyList.totalPoint += unitMap.unit.totalPoint * unitMap.numberOfUnit;
         }
       }
     }

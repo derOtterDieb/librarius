@@ -12,13 +12,13 @@ import org.mapstruct.*;
 /**
  * Mapper for the entity {@link ArmyList} and its DTO {@link ArmyListDTO}.
  */
-@Mapper(componentModel = "spring", uses = {UnitMapper.class})
+@Mapper(componentModel = "spring", uses = {UnitMapMapper.class})
 public interface ArmyListMapper extends EntityMapper<ArmyListDTO, ArmyList> {
 
-	@Mapping(source = "units", target = "unitIds")
+	@Mapping(source = "unitMap", target = "unitMapIds")
     ArmyListDTO toDto(ArmyList armyList);
 
-	@Mapping(source = "unitIds", target = "units")
+	@Mapping(source = "unitMapIds", target = "unitMap")
     ArmyList toEntity(ArmyListDTO armyListDTO);
 
     default ArmyList fromId(String id) {

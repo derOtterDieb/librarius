@@ -11,8 +11,11 @@ import { ArmyListLbrService } from './army-list-lbr.service';
 export class ArmyListLbrAssociateUnitDialogComponent {
   armyList?: IArmyListLbr;
   unit?: IUnitLbr;
+  numberOfUnit: number;
 
-  constructor(protected armyListService: ArmyListLbrService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
+  constructor(protected armyListService: ArmyListLbrService, public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {
+    this.numberOfUnit = 0;
+  }
 
   cancel(): void {
     this.activeModal.dismiss();

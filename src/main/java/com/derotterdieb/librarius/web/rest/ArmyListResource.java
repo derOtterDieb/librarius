@@ -1,9 +1,12 @@
 package com.derotterdieb.librarius.web.rest;
 
 import com.derotterdieb.librarius.service.ArmyListService;
+import com.derotterdieb.librarius.service.UnitMapService;
+import com.derotterdieb.librarius.service.UnitService;
 import com.derotterdieb.librarius.web.rest.errors.BadRequestAlertException;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
 import com.derotterdieb.librarius.service.dto.UnitDTO;
+import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
@@ -44,9 +47,15 @@ public class ArmyListResource {
     private String applicationName;
 
     private final ArmyListService armyListService;
+    
+    private final UnitService unitService;
+    
+    private final UnitMapService unitMapService;
 
-    public ArmyListResource(ArmyListService armyListService) {
+    public ArmyListResource(ArmyListService armyListService, UnitService unitService, UnitMapService unitMapService) {
         this.armyListService = armyListService;
+        this.unitService = unitService;
+        this.unitMapService = unitMapService;
     }
 
     /**
@@ -89,13 +98,20 @@ public class ArmyListResource {
             .body(result);
     }
     
-    @PutMapping("/army-lists/add-unit/{id}")
-    public ResponseEntity<ArmyListDTO> addArmyList(@PathVariable String id, @Valid @RequestBody UnitDTO unitDTO) {
+    @PutMapping("/army-lists/add-unit/{id}/{numberOfUnit}")
+    public ResponseEntity<ArmyListDTO> addArmyList(@PathVariable String id, @PathVariable Integer numberOfUnit, @Valid @RequestBody UnitDTO unitDTO) {
     	log.debug("REST request to add unit to ArmyList : {}", id);
     	if (id == null) {
     		throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
     	}
-    	ArmyListDTO result = armyListService.addUnit(id, unitDTO);
+    	if (unitDTO.getId() == null) {
+    		unitDTO = unitService.save(unitDTO);
+    	}
+    	UnitMapDTO unitMapDTO = new UnitMapDTO();
+    	unitMapDTO.setNumberOfUnit(numberOfUnit);
+    	unitMapDTO.setUnit(unitDTO);
+    	unitMapDTO = unitMapService.save(unitMapDTO);
+    	ArmyListDTO result = armyListService.addUnit(id, unitMapDTO);
     	return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,id))
                 .body(result);
