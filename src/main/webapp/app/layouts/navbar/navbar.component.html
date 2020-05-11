@@ -174,3 +174,13 @@
         </ul>
     </div>
 </nav>
+<div *ngIf="shouldDisplayCookie">
+	<div>This website uses few cookies to handle your connection status.</div>
+	<div>It does not keep any information about you, only about your web browser so that you can get connected immediately next time you visit.</div>
+	<div>
+		<span>
+			<b>If you do not wish to agree with this, then you should go away, I'm sorry.</b>
+			<button type="button" class="btn btn-sm btn-primary" (click)="cookieAgreed()">I agree</button>
+		</span>
+	</div>
+</div>

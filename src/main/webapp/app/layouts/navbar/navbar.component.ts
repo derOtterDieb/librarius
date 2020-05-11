@@ -21,6 +21,7 @@ export class NavbarComponent implements OnInit {
   languages = LANGUAGES;
   swaggerEnabled?: boolean;
   version: string;
+  public shouldDisplayCookie: boolean;
 
   constructor(
     private loginService: LoginService,
@@ -32,6 +33,11 @@ export class NavbarComponent implements OnInit {
     private router: Router
   ) {
     this.version = VERSION ? (VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION) : '';
+    if (localStorage.getItem('displayCookie') !== 'false') {
+      this.shouldDisplayCookie = true;
+    } else {
+      this.shouldDisplayCookie = false;
+    }
   }
 
   ngOnInit(): void {
@@ -70,5 +76,10 @@ export class NavbarComponent implements OnInit {
 
   getImageUrl(): string {
     return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
+  }
+
+  public cookieAgreed(): void {
+    localStorage.setItem('displayCookie', 'false');
+    this.shouldDisplayCookie = false;
   }
 }
