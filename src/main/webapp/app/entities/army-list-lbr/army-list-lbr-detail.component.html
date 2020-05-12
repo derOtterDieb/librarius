@@ -23,7 +23,15 @@
 			<h4>Unit&eacute;</h4>
 			<ul>
 				<li *ngFor="let unitMap of armyList.unitMaps">
-					<div>{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}</div>
+					<div class="p-grid">
+                        <span class="p-col-4">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * unitMap.unit.totalPoint }} points)</span>
+                        <span class="p-col-2">
+                            <button type="button" class="btn btn-sm btn-danger" (click)="deleteUnit(unitMap)">
+                                <fa-icon icon="trash-alt"></fa-icon>
+                                &nbsp;<span jhiTranslate="entity.action.delete">delete</span>
+                            </button>
+                        </span>
+                    </div>
 				</li>
 			</ul>
 		</dl>
@@ -60,7 +68,7 @@
 				<fa-icon icon="arrow-left"></fa-icon>
 				&nbsp;<span jhiTranslate="entity.action.back">Back</span>
 			</button>
-	
+
 			<button type="button"
 				[routerLink]="['/army-list-lbr', armyList.id, 'edit']"
 				class="btn btn-primary">

@@ -47,9 +47,9 @@ public class ArmyListResource {
     private String applicationName;
 
     private final ArmyListService armyListService;
-    
+
     private final UnitService unitService;
-    
+
     private final UnitMapService unitMapService;
 
     public ArmyListResource(ArmyListService armyListService, UnitService unitService, UnitMapService unitMapService) {
@@ -97,9 +97,9 @@ public class ArmyListResource {
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, armyListDTO.getId().toString()))
             .body(result);
     }
-    
+
     @PutMapping("/army-lists/add-unit/{id}/{numberOfUnit}")
-    public ResponseEntity<ArmyListDTO> addArmyList(@PathVariable String id, @PathVariable Integer numberOfUnit, @Valid @RequestBody UnitDTO unitDTO) {
+    public ResponseEntity<ArmyListDTO> addUnitToArmyList(@PathVariable String id, @PathVariable Integer numberOfUnit, @Valid @RequestBody UnitDTO unitDTO) {
     	log.debug("REST request to add unit to ArmyList : {}", id);
     	if (id == null) {
     		throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
@@ -115,6 +115,18 @@ public class ArmyListResource {
     	return ResponseEntity.ok()
                 .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,id))
                 .body(result);
+    }
+
+    @PutMapping("/army-lists/remove-unit/{id}")
+    public ResponseEntity<ArmyListDTO> removeUnitFromArmyList(@PathVariable String id, @Valid @RequestBody UnitMapDTO unitDTO) {
+        log.debug("REST request to add unit to ArmyList : {}", id);
+        if (id == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        ArmyListDTO result = armyListService.removeUnit(id, unitDTO);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME,id))
+            .body(result);
     }
 
     /**
@@ -178,7 +190,7 @@ public class ArmyListResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-    
+
     @GetMapping("/army-lists/user/{id}")
     public ResponseEntity<List<ArmyListDTO>> getFromUserId(@PathVariable String id) {
     	log.debug("REST request to search for armyLists of a user ", id);

@@ -2,20 +2,16 @@ package com.derotterdieb.librarius.service.impl;
 
 import com.derotterdieb.librarius.service.ArmyListService;
 import com.derotterdieb.librarius.domain.ArmyList;
-import com.derotterdieb.librarius.domain.Unit;
 import com.derotterdieb.librarius.domain.UnitMap;
 import com.derotterdieb.librarius.domain.User;
 import com.derotterdieb.librarius.repository.ArmyListRepository;
 import com.derotterdieb.librarius.repository.UnitMapRepository;
-import com.derotterdieb.librarius.repository.UnitRepository;
 import com.derotterdieb.librarius.repository.UserRepository;
 import com.derotterdieb.librarius.repository.search.ArmyListSearchRepository;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
-import com.derotterdieb.librarius.service.dto.UnitDTO;
 import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 import com.derotterdieb.librarius.service.mapper.ArmyListMapper;
 import com.derotterdieb.librarius.service.mapper.UnitMapMapper;
-import com.derotterdieb.librarius.service.mapper.UnitMapper;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -41,15 +38,15 @@ public class ArmyListServiceImpl implements ArmyListService {
     private final Logger log = LoggerFactory.getLogger(ArmyListServiceImpl.class);
 
     private final ArmyListRepository armyListRepository;
-    
+
     private final UserRepository userRepository;
 
     private final ArmyListMapper armyListMapper;
 
     private final ArmyListSearchRepository armyListSearchRepository;
-    
+
     private final UnitMapRepository unitMapRepository;
-    
+
     private final UnitMapMapper unitMapMapper;
 
     public ArmyListServiceImpl(ArmyListRepository armyListRepository, ArmyListMapper armyListMapper,
@@ -63,6 +60,30 @@ public class ArmyListServiceImpl implements ArmyListService {
         this.unitMapMapper = unitMapper;
     }
 
+    private int computeDTOPoints(ArmyListDTO armyListDTO) {
+        int result = 0;
+        if (armyListDTO.getUnitMaps() != null) {
+            for (UnitMapDTO unitMap : armyListDTO.getUnitMaps()) {
+                if (unitMap.getNumberOfUnit() != null && unitMap.getUnit().getTotalPoint() != null) {
+                    result += (unitMap.getUnit().getTotalPoint() * unitMap.getNumberOfUnit());
+                }
+            }
+        }
+        return result;
+    }
+
+    private int computeEntityPoints(ArmyList armyList) {
+        int result = 0;
+        if (armyList.getUnitMap() != null) {
+            for (UnitMap unitMap : armyList.getUnitMap()) {
+                if (unitMap.getNumberOfUnit() != null && unitMap.getUnit().getTotalPoint() != null) {
+                    result += (unitMap.getUnit().getTotalPoint() * unitMap.getNumberOfUnit());
+                }
+            }
+        }
+        return result;
+    }
+
     /**
      * Save a armyList.
      *
@@ -72,6 +93,7 @@ public class ArmyListServiceImpl implements ArmyListService {
     @Override
     public ArmyListDTO save(ArmyListDTO armyListDTO) {
         log.debug("Request to save ArmyList : {}", armyListDTO);
+        armyListDTO.setTotalPoint(this.computeDTOPoints(armyListDTO));
         ArmyList armyList = armyListMapper.toEntity(armyListDTO);
         armyList = armyListRepository.save(armyList);
         ArmyListDTO result = armyListMapper.toDto(armyList);
@@ -150,14 +172,33 @@ public class ArmyListServiceImpl implements ArmyListService {
 	}
 
 	@Override
+    @Transactional
 	public ArmyListDTO addUnit(String id, @Valid UnitMapDTO unitDTO) {
 		Optional<ArmyList> armyList = this.armyListRepository.findById(id);
 		UnitMap unit = this.unitMapRepository.save(this.unitMapMapper.toEntity(unitDTO));
 		if (armyList.isPresent()) {
-			armyList.get().addUnitMap(unit);
-			ArmyList result = this.armyListRepository.save(armyList.get());
+		    ArmyList properArmyList = armyList.get();
+            properArmyList = properArmyList.addUnitMap(unit);
+            properArmyList.setTotalPoint(this.computeEntityPoints(armyList.get()));
+			ArmyList result = this.armyListRepository.save(properArmyList);
 			return this.armyListMapper.toDto(result);
 		}
 		return null;
 	}
+
+	@Override
+    @Transactional
+    public ArmyListDTO removeUnit(String id, @Valid UnitMapDTO unitDTO) {
+        Optional<ArmyList> armyList = this.armyListRepository.findById(id);
+        UnitMap unit = this.unitMapMapper.toEntity(unitDTO);
+        if (armyList.isPresent()) {
+            ArmyList properArmyList = armyList.get();
+            properArmyList = properArmyList.removeUnitMap(unit);
+            this.unitMapRepository.delete(unit);
+            properArmyList.setTotalPoint(this.computeEntityPoints(properArmyList));
+            ArmyList result = this.armyListRepository.save(properArmyList);
+            return this.armyListMapper.toDto(result);
+        }
+        return null;
+    }
 }

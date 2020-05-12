@@ -49,4 +49,8 @@ export class ArmyListLbrService {
   addUnit(armyList: IArmyListLbr, numberOfUnit: number, unit: IUnitLbr): Observable<EntityResponseType> {
     return this.http.put<IArmyListLbr>(`${this.resourceUrl}/add-unit/${armyList.id}/${numberOfUnit}`, unit, { observe: 'response' });
   }
+
+  removeUnit(armyList: IArmyListLbr, unit: IUnitLbr): Observable<EntityResponseType> {
+    return this.http.put<IArmyListLbr>(`${this.resourceUrl}/remove-unit/${armyList.id}`, unit, { observe: 'response' });
+  }
 }

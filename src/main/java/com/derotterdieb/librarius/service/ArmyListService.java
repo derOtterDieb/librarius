@@ -59,7 +59,7 @@ public interface ArmyListService {
      * Search for the armyList corresponding to the query.
      *
      * @param query the query of the search.
-     * 
+     *
      * @param pageable the pagination information.
      * @return the list of entities.
      */
@@ -68,4 +68,6 @@ public interface ArmyListService {
 	Optional<List<ArmyListDTO>> findAllByUser(String id);
 
 	ArmyListDTO addUnit(String id, @Valid UnitMapDTO unitDTO);
+
+	ArmyListDTO removeUnit(String id, @Valid UnitMapDTO unitDTO);
 }

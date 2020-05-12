@@ -9,6 +9,7 @@ import { ArmyListLbrService } from 'app/entities/army-list-lbr/army-list-lbr.ser
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArmyListLbrAssociateUnitDialogComponent } from 'app/entities/army-list-lbr/army-list-lbr-associate-unit-dialog.component';
+import { IUnitMapLbr } from 'app/shared/model/unit-map-lbr.model';
 
 @Component({
   selector: 'jhi-army-list-lbr-detail',
@@ -42,24 +43,14 @@ export class ArmyListLbrDetailComponent implements OnInit {
 
   private getAllUnits(): void {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.armyListService.find(params.get('id')).subscribe(res => (this.armyList = res.body));
+      this.armyListService.find(params.get('id')).subscribe(res => {
+        this.armyList = res.body;
+      });
     });
-    this.computePoints();
   }
 
   private getAllAvailableUnits(): void {
     this.availableUnit = this.unitService.query();
-  }
-
-  private computePoints(): void {
-    if (this.armyList != null && this.armyList.totalPoint != null && this.armyList.unitMaps != null) {
-      this.armyList.totalPoint = 0;
-      for (const unitMap of this.armyList.unitMaps) {
-        if (unitMap != null && unitMap.numberOfUnit != null && unitMap.unit != null && unitMap.unit.totalPoint != null) {
-          this.armyList.totalPoint += unitMap.unit.totalPoint * unitMap.numberOfUnit;
-        }
-      }
-    }
   }
 
   public associate(unit: IUnitLbr): void {
@@ -67,5 +58,11 @@ export class ArmyListLbrDetailComponent implements OnInit {
     modalRef.componentInstance.armyList = this.armyList;
     modalRef.componentInstance.unit = unit;
     modalRef.result.then(() => this.getAllUnits());
+  }
+
+  public deleteUnit(unit: IUnitMapLbr): void {
+    if (this.armyList) {
+      this.armyListService.removeUnit(this.armyList, unit).subscribe(() => this.ngOnInit());
+    }
   }
 }

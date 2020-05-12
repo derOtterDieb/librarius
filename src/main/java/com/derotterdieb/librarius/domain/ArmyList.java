@@ -83,7 +83,13 @@ public class ArmyList implements Serializable {
     }
 
     public ArmyList removeUnitMap(UnitMap unit) {
-        this.unitMap.remove(unit);
+        UnitMap unitMapToRemove = new UnitMap();
+        for (UnitMap unitMap : this.getUnitMap()) {
+            if (unitMap.getId().equals(unit.getId())) {
+                unitMapToRemove = unitMap;
+            }
+        }
+        this.unitMap.remove(unitMapToRemove);
         return this;
     }
 
