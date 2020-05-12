@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArmyListLbrAssociateUnitDialogComponent } from 'app/entities/army-list-lbr/army-list-lbr-associate-unit-dialog.component';
 import { IUnitMapLbr } from 'app/shared/model/unit-map-lbr.model';
+import { GearLbr, IGearLbr } from 'app/shared/model/gear-lbr.model';
 
 @Component({
   selector: 'jhi-army-list-lbr-detail',
@@ -20,6 +21,9 @@ export class ArmyListLbrDetailComponent implements OnInit {
   public addNewUnit = false;
   public newUnit: IUnitLbr;
   public availableUnit: Observable<any>;
+  public toggledGear: string;
+  public gearSearch: string;
+  public gearList: IGearLbr[];
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -30,6 +34,9 @@ export class ArmyListLbrDetailComponent implements OnInit {
   ) {
     this.newUnit = new UnitLbr();
     this.availableUnit = new Observable<any>();
+    this.toggledGear = '';
+    this.gearSearch = '';
+    this.gearList = new Array<IGearLbr>();
   }
 
   ngOnInit(): void {
@@ -63,6 +70,22 @@ export class ArmyListLbrDetailComponent implements OnInit {
   public deleteUnit(unit: IUnitMapLbr): void {
     if (this.armyList) {
       this.armyListService.removeUnit(this.armyList, unit).subscribe(() => this.ngOnInit());
+    }
+  }
+
+  public toggleGear(unitMap: IUnitMapLbr): void {
+    if (this.toggledGear !== unitMap.id) {
+      this.toggledGear = unitMap.id ? unitMap.id : '';
+    } else {
+      this.toggledGear = '';
+    }
+  }
+
+  public searchGear(): void {
+    if (this.gearSearch !== '' && this.gearSearch != null) {
+      this.gearService.findAllByName(this.gearSearch).subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
+    } else {
+      this.gearService.query().subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
     }
   }
 }

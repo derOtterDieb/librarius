@@ -13,7 +13,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static org.elasticsearch.index.query.QueryBuilders.*;
 
@@ -103,5 +105,11 @@ public class GearServiceImpl implements GearService {
         log.debug("Request to search for a page of Gears for query {}", query);
         return gearSearchRepository.search(queryStringQuery(query), pageable)
             .map(gearMapper::toDto);
+    }
+
+    @Override
+    public List<GearDTO> findAllByName(String name) {
+        log.debug("Request to search for a page of Gears for query {}", name);
+        return gearRepository.findAllByGearName(name).stream().map(gearMapper::toDto).collect(Collectors.toList());
     }
 }

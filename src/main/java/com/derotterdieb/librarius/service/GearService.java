@@ -5,6 +5,7 @@ import com.derotterdieb.librarius.service.dto.GearDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -52,4 +53,6 @@ public interface GearService {
      * @return the list of entities.
      */
     Page<GearDTO> search(String query, Pageable pageable);
+
+    List<GearDTO> findAllByName(String name);
 }

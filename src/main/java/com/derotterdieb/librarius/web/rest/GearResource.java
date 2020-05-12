@@ -114,6 +114,14 @@ public class GearResource {
         return ResponseUtil.wrapOrNotFound(gearDTO);
     }
 
+    @GetMapping("/gears/search/{name}")
+    public ResponseEntity<List<GearDTO>> getAllByName(@PathVariable String name) {
+        log.debug("REST request to get Gears : {}", name);
+        List<GearDTO> list = gearService.findAllByName(name);
+        HttpHeaders headers = HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, "list from name");
+        return ResponseEntity.ok().headers(headers).body(list);
+    }
+
     /**
      * {@code DELETE  /gears/:id} : delete the "id" gear.
      *

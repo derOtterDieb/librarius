@@ -1,3 +1,5 @@
+import { IGearLbr } from 'app/shared/model/gear-lbr.model';
+
 export interface IUnitLbr {
   id?: string;
   unitName?: string;
@@ -12,7 +14,7 @@ export interface IUnitLbr {
   a?: string;
   cd?: string;
   sv?: string;
-  gears?: string[];
+  gears?: IGearLbr[];
 }
 
 export class UnitLbr implements IUnitLbr {
@@ -30,6 +32,6 @@ export class UnitLbr implements IUnitLbr {
     public a?: string,
     public cd?: string,
     public sv?: string,
-    public gears?: string[]
+    public gears?: IGearLbr[]
   ) {}
 }

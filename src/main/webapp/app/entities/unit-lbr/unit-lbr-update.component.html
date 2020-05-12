@@ -41,7 +41,7 @@
 
                 <div class="form-group">
                     <label class="form-control-label" jhiTranslate="librariusApp.unit.totalPoint" for="field_totalPoint">Total Point</label>
-                    <input type="number" class="form-control" name="totalPoint" id="field_totalPoint"
+                    <input type="number" class="form-control" name="totalPoint" id="field_totalPoint" disabled="true"
                            formControlName="totalPoint"/>
                 </div>
 
@@ -153,7 +153,6 @@
                     </div>
                 </div>
             </div>
-
             <div>
                 <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                     <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>

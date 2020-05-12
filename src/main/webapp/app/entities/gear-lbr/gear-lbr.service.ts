@@ -33,6 +33,10 @@ export class GearLbrService {
     return this.http.get<IGearLbr[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  findAllByName(name: string): Observable<EntityArrayResponseType> {
+    return this.http.get<IGearLbr[]>(`${this.resourceUrl}/search/${name}`, { observe: 'response' });
+  }
+
   delete(id: string): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

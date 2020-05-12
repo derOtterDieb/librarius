@@ -7,8 +7,6 @@ import { Observable } from 'rxjs';
 
 import { IUnitLbr, UnitLbr } from 'app/shared/model/unit-lbr.model';
 import { UnitLbrService } from './unit-lbr.service';
-import { IGearLbr } from 'app/shared/model/gear-lbr.model';
-import { GearLbrService } from 'app/entities/gear-lbr/gear-lbr.service';
 
 @Component({
   selector: 'jhi-unit-lbr-update',
@@ -16,7 +14,6 @@ import { GearLbrService } from 'app/entities/gear-lbr/gear-lbr.service';
 })
 export class UnitLbrUpdateComponent implements OnInit {
   isSaving = false;
-  gears: IGearLbr[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -34,18 +31,11 @@ export class UnitLbrUpdateComponent implements OnInit {
     sv: [null, [Validators.required]]
   });
 
-  constructor(
-    protected unitService: UnitLbrService,
-    protected gearService: GearLbrService,
-    protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
-  ) {}
+  constructor(protected unitService: UnitLbrService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ unit }) => {
       this.updateForm(unit);
-
-      this.gearService.query().subscribe((res: HttpResponse<IGearLbr[]>) => (this.gears = res.body || []));
     });
   }
 
@@ -114,20 +104,5 @@ export class UnitLbrUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
-  }
-
-  trackById(index: number, item: IGearLbr): any {
-    return item.id;
-  }
-
-  getSelected(selectedVals: IGearLbr[], option: IGearLbr): IGearLbr {
-    if (selectedVals) {
-      for (let i = 0; i < selectedVals.length; i++) {
-        if (option.id === selectedVals[i].id) {
-          return selectedVals[i];
-        }
-      }
-    }
-    return option;
   }
 }
