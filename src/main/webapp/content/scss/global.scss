@@ -242,3 +242,26 @@ ui bootstrap tweaks
   position: relative;
   top: 5px;
 }
+
+.btn-icon {
+  background-color: transparent !important;
+  .material-icons {
+    font-size: 30px !important;
+  }
+}
+
+.primary {
+  color: var(--primary);
+}
+
+.danger {
+  color: var(--danger);
+}
+
+.secondary {
+  color: var(--secondary);
+}
+
+.info {
+  color: var(--info);
+}

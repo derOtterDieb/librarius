@@ -11,9 +11,9 @@ import java.util.Objects;
  * A DTO for the {@link com.derotterdieb.librarius.domain.Unit} entity.
  */
 public class UnitDTO implements Serializable {
-    
+
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -8294792833210006484L;
 
@@ -54,19 +54,9 @@ public class UnitDTO implements Serializable {
     @NotNull
     private String sv;
 
-    private Set<String> gearIds = new HashSet<>();
-    
     public String getId() {
         return id;
     }
-
-    public Set<String> getGearIds() {
-		return gearIds;
-	}
-
-	public void setGearIds(Set<String> gearIds) {
-		this.gearIds = gearIds;
-	}
 
 	public void setId(String id) {
         this.id = id;

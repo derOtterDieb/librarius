@@ -56,11 +56,7 @@ public class UnitServiceImpl implements UnitService {
     }
 
     private Unit computeTotalUnitPoint(Unit unit) {
-    	int totalGear = 0;
-    	for (Gear gear : unit.getGears()) {
-    		totalGear += gear.getPointValue();
-    	}
-    	unit.setTotalPoint(unit.getBasePoint() + totalGear);
+    	unit.setTotalPoint(unit.getBasePoint());
     	return unit;
 	}
 

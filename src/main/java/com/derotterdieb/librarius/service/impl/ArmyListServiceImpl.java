@@ -1,5 +1,6 @@
 package com.derotterdieb.librarius.service.impl;
 
+import com.derotterdieb.librarius.domain.Gear;
 import com.derotterdieb.librarius.service.ArmyListService;
 import com.derotterdieb.librarius.domain.ArmyList;
 import com.derotterdieb.librarius.domain.UnitMap;
@@ -9,6 +10,7 @@ import com.derotterdieb.librarius.repository.UnitMapRepository;
 import com.derotterdieb.librarius.repository.UserRepository;
 import com.derotterdieb.librarius.repository.search.ArmyListSearchRepository;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
+import com.derotterdieb.librarius.service.dto.GearDTO;
 import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 import com.derotterdieb.librarius.service.mapper.ArmyListMapper;
 import com.derotterdieb.librarius.service.mapper.UnitMapMapper;
@@ -64,8 +66,12 @@ public class ArmyListServiceImpl implements ArmyListService {
         int result = 0;
         if (armyListDTO.getUnitMaps() != null) {
             for (UnitMapDTO unitMap : armyListDTO.getUnitMaps()) {
+                int gearPoints = 0;
                 if (unitMap.getNumberOfUnit() != null && unitMap.getUnit().getTotalPoint() != null) {
-                    result += (unitMap.getUnit().getTotalPoint() * unitMap.getNumberOfUnit());
+                    for (GearDTO gearDTO : unitMap.getGears()) {
+                        gearPoints += gearDTO.getPointValue();
+                    }
+                    result += (unitMap.getUnit().getTotalPoint() + gearPoints) * unitMap.getNumberOfUnit();
                 }
             }
         }
@@ -76,8 +82,12 @@ public class ArmyListServiceImpl implements ArmyListService {
         int result = 0;
         if (armyList.getUnitMap() != null) {
             for (UnitMap unitMap : armyList.getUnitMap()) {
+                int gearPoints = 0;
                 if (unitMap.getNumberOfUnit() != null && unitMap.getUnit().getTotalPoint() != null) {
-                    result += (unitMap.getUnit().getTotalPoint() * unitMap.getNumberOfUnit());
+                    for (Gear gear : unitMap.getGears()) {
+                        gearPoints += gear.getPointValue();
+                    }
+                    result += (unitMap.getUnit().getTotalPoint() + gearPoints) * unitMap.getNumberOfUnit();
                 }
             }
         }
@@ -132,8 +142,13 @@ public class ArmyListServiceImpl implements ArmyListService {
     @Override
     public Optional<ArmyListDTO> findOne(String id) {
         log.debug("Request to get ArmyList : {}", id);
-        return armyListRepository.findOneWithEagerRelationships(id)
-            .map(armyListMapper::toDto);
+        Optional<ArmyList> resultEntity = armyListRepository.findOneWithEagerRelationships(id);
+        if (resultEntity.isPresent()) {
+            ArmyListDTO result = armyListMapper.toDto(resultEntity.get());
+            result.setTotalPoint(this.computeDTOPoints(result));
+            return Optional.of(result);
+        }
+        return resultEntity.map(armyListMapper::toDto);
     }
 
     /**

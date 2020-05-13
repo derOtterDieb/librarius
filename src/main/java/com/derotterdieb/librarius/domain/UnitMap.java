@@ -1,6 +1,8 @@
 package com.derotterdieb.librarius.domain;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.validation.constraints.NotNull;
 
@@ -16,16 +18,43 @@ public class UnitMap implements Serializable {
 
     @Id
     private String id;
-    
+
     @NotNull
     @DBRef
     @Field("unit")
     private Unit unit;
-    
+
     @NotNull
     @Field("number_of_unit")
     private Integer numberOfUnit;
-    
+
+    @DBRef
+    @Field("gears")
+    private Set<Gear> gears = new HashSet<>();
+
+    public Set<Gear> getGears() {
+        return gears;
+    }
+
+    public void setGears(Set<Gear> gear) {
+        this.gears = gear;
+    }
+
+    public UnitMap addGear(Gear gear) {
+        this.gears.add(gear);
+        return this;
+    }
+
+    public UnitMap removeGear(Gear gear) {
+        this.gears.remove(gear);
+        return this;
+    }
+
+    public UnitMap gears(Set<Gear> gear) {
+        this.gears = gear;
+        return this;
+    }
+
     public String getId() {
         return id;
     }
@@ -49,7 +78,7 @@ public class UnitMap implements Serializable {
 	public void setNumberOfUnit(Integer numberOfUnit) {
 		this.numberOfUnit = numberOfUnit;
 	}
-    
+
 	 @Override
 	    public boolean equals(Object o) {
 	        if (this == o) {

@@ -24,7 +24,7 @@
 			<ul>
 				<li *ngFor="let unitMap of armyList.unitMaps">
 					<div class="p-grid">
-                        <span class="p-col-12">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * unitMap.unit.totalPoint }} points)</span>
+                        <span class="p-col-12">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)</span>
                         <span class="p-col-6">
                             <button class="btn btn-sm btn-info" type="button" (click)="toggleGear(unitMap)">
                                 <i class="material-icons">settings</i>
@@ -40,7 +40,12 @@
                         <div class="p-col-12 p-grid" *ngIf="toggledGear === unitMap.id">
                             <div class="p-col-12">
                                 <ul>
-                                    <li *ngFor="let gear of unitMap.unit.gears">{{gear.gearName}}</li>
+                                    <li *ngFor="let gear of unitMap.gears">
+                                        <span>{{gear.gearName}} ({{gear.pointValue}} points)</span>
+                                        <button class="btn btn-sm btn-icon danger" (click)="removeGearFromUnit(gear, unitMap)">
+                                            <i class="material-icons">remove_circle_outline</i>
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                             <div class="p-col-12">
@@ -55,7 +60,12 @@
                             <div class="p-col-12">
                                 <span>R&eacute;sultat(s) : {{gearList.length}}</span>
                                 <ul>
-                                    <li *ngFor="let gear of gearList">{{gear.gearName}}</li>
+                                    <li *ngFor="let gear of gearList">
+                                        <span>{{gear.gearName}} ({{gear.pointValue}} points)</span>
+                                        <button class="btn btn-sm btn-icon info" (click)="addGearToUnit(gear, unitMap)">
+                                            <i class="material-icons">add_circle_outline</i>
+                                        </button>
+                                    </li>
                                 </ul>
                             </div>
                         </div>

@@ -9,8 +9,9 @@ import { ArmyListLbrService } from 'app/entities/army-list-lbr/army-list-lbr.ser
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArmyListLbrAssociateUnitDialogComponent } from 'app/entities/army-list-lbr/army-list-lbr-associate-unit-dialog.component';
-import { IUnitMapLbr } from 'app/shared/model/unit-map-lbr.model';
+import { IUnitMapLbr, UnitMapLBr } from 'app/shared/model/unit-map-lbr.model';
 import { GearLbr, IGearLbr } from 'app/shared/model/gear-lbr.model';
+import { UnitMapLbrService } from 'app/entities/unit-map-lbr/unit-map-lbr.service';
 
 @Component({
   selector: 'jhi-army-list-lbr-detail',
@@ -30,6 +31,7 @@ export class ArmyListLbrDetailComponent implements OnInit {
     protected unitService: UnitLbrService,
     protected gearService: GearLbrService,
     protected armyListService: ArmyListLbrService,
+    protected unitMapLbrService: UnitMapLbrService,
     protected modalService: NgbModal
   ) {
     this.newUnit = new UnitLbr();
@@ -50,9 +52,21 @@ export class ArmyListLbrDetailComponent implements OnInit {
 
   private getAllUnits(): void {
     this.activatedRoute.paramMap.subscribe(params => {
-      this.armyListService.find(params.get('id')).subscribe(res => {
-        this.armyList = res.body;
-      });
+      this.armyListService.find(params.get('id')).subscribe(
+        res => (this.armyList = res.body),
+        () => {},
+        () => {
+          if (this.armyList && this.armyList.unitMaps) {
+            this.armyList.unitMaps.sort((a: IUnitMapLbr, b: IUnitMapLbr) => {
+              if (a.unit && a.unit.unitName && b.unit && b.unit.unitName) {
+                return a.unit?.unitName?.toUpperCase() > b.unit?.unitName?.toUpperCase() ? 1 : -1;
+              } else {
+                return -1;
+              }
+            });
+          }
+        }
+      );
     });
   }
 
@@ -86,6 +100,37 @@ export class ArmyListLbrDetailComponent implements OnInit {
       this.gearService.findAllByName(this.gearSearch).subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
     } else {
       this.gearService.query().subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
+    }
+  }
+
+  public addGearToUnit(gear: IGearLbr, unitMap: UnitMapLBr): void {
+    if (unitMap) {
+      if (unitMap.gears) {
+        unitMap.gears.push(gear);
+      } else {
+        unitMap.gears = new Array<GearLbr>();
+        unitMap.gears.push(gear);
+      }
+      this.unitMapLbrService.update(unitMap).subscribe(() => this.getAllUnits());
+    }
+  }
+
+  public removeGearFromUnit(gear: IGearLbr, unitMap: UnitMapLBr): void {
+    if (unitMap && unitMap.gears) {
+      unitMap.gears.splice(unitMap.gears.indexOf(gear), 1);
+      this.unitMapLbrService.update(unitMap).subscribe(() => this.getAllUnits());
+    }
+  }
+
+  public computeGearPoint(unitMap: IUnitMapLbr): number {
+    if (unitMap && unitMap.gears) {
+      let result = 0;
+      for (const gear of unitMap.gears) {
+        result += gear.pointValue ? gear.pointValue : 0;
+      }
+      return result;
+    } else {
+      return 0;
     }
   }
 }

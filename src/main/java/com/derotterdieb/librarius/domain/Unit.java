@@ -72,33 +72,6 @@ public class Unit implements Serializable {
     @Field("sv")
     private String sv;
 
-    @DBRef
-    @Field("gears")
-    private Set<Gear> gears = new HashSet<>();
-
-    public Set<Gear> getGears() {
-		return gears;
-	}
-
-	public void setGears(Set<Gear> gear) {
-		this.gears = gear;
-	}
-	
-	public Unit addGear(Gear gear) {
-		this.gears.add(gear);
-		return this;
-	}
-	
-	public Unit removeGear(Gear gear) {
-		this.gears.remove(gear);
-		return this;
-	}
-	
-	public Unit gears(Set<Gear> gear) {
-		this.gears = gear;
-		return this;
-	}
-
 	// jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public String getId() {
         return id;
