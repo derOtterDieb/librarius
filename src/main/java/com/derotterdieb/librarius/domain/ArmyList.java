@@ -14,7 +14,6 @@ import java.util.Set;
  * A ArmyList.
  */
 @Document(collection = "army_list")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "armylist")
 public class ArmyList implements Serializable {
 
     private static final long serialVersionUID = 1L;

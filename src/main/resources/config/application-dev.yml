@@ -42,8 +42,8 @@ spring:
       indent-output: true
   data:
     mongodb:
-      uri: mongodb://LibrariusAdmin:BerzingueLibrariusAdmin-1337@ds155845.mlab.com:55845/heroku_2pfsng6l?retryWrites=false
-      database: heroku_2pfsng6l
+      uri: mongodb://uuv2uisvqm2aht13zgxv:xcsh6VrSpW6Q2dxTsllg@bvsngokoqaiplmb-mongodb.services.clever-cloud.com:27017/bvsngokoqaiplmb
+      database: bvsngokoqaiplmb
     elasticsearch:
       properties:
         path:

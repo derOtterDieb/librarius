@@ -1,9 +1,7 @@
 package com.derotterdieb.librarius.web.rest;
 
 import com.derotterdieb.librarius.service.UnitMapService;
-import com.derotterdieb.librarius.service.UnitService;
 import com.derotterdieb.librarius.web.rest.errors.BadRequestAlertException;
-import com.derotterdieb.librarius.service.dto.UnitDTO;
 import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 
 import io.github.jhipster.web.util.HeaderUtil;
@@ -15,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,9 +22,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link com.derotterdieb.librarius.domain.Unit}.
@@ -135,19 +129,11 @@ public class UnitMapResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 
-    /**
-     * {@code SEARCH  /_search/units?query=:query} : search for the unit corresponding
-     * to the query.
-     *
-     * @param query the query of the unit search.
-     * @param pageable the pagination information.
-     * @return the result of the search.
-     */
-    @GetMapping("/_search/unit-maps")
+    /*@GetMapping("/_search/unit-maps")
     public ResponseEntity<List<UnitMapDTO>> searchUnits(@RequestParam String query, Pageable pageable) {
         log.debug("REST request to search for a page of UnitMaps for query {}", query);
         Page<UnitMapDTO> page = unitMapService.search(query, pageable);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }
+    }*/
 }

@@ -12,7 +12,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
 
 @Document(collection = "unit_map")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "unitmap")
 public class UnitMap implements Serializable {
 	private static final long serialVersionUID = 1L;
 

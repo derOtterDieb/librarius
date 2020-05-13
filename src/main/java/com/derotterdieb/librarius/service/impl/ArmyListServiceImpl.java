@@ -8,7 +8,6 @@ import com.derotterdieb.librarius.domain.User;
 import com.derotterdieb.librarius.repository.ArmyListRepository;
 import com.derotterdieb.librarius.repository.UnitMapRepository;
 import com.derotterdieb.librarius.repository.UserRepository;
-import com.derotterdieb.librarius.repository.search.ArmyListSearchRepository;
 import com.derotterdieb.librarius.service.dto.ArmyListDTO;
 import com.derotterdieb.librarius.service.dto.GearDTO;
 import com.derotterdieb.librarius.service.dto.UnitMapDTO;
@@ -29,7 +28,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link ArmyList}.
@@ -45,18 +43,18 @@ public class ArmyListServiceImpl implements ArmyListService {
 
     private final ArmyListMapper armyListMapper;
 
-    private final ArmyListSearchRepository armyListSearchRepository;
+//    private final ArmyListSearchRepository armyListSearchRepository;
 
     private final UnitMapRepository unitMapRepository;
 
     private final UnitMapMapper unitMapMapper;
 
     public ArmyListServiceImpl(ArmyListRepository armyListRepository, ArmyListMapper armyListMapper,
-    		ArmyListSearchRepository armyListSearchRepository, UserRepository userRepository,
+    		UserRepository userRepository,
     		UnitMapRepository unitRepository, UnitMapMapper unitMapper) {
         this.armyListRepository = armyListRepository;
         this.armyListMapper = armyListMapper;
-        this.armyListSearchRepository = armyListSearchRepository;
+//        this.armyListSearchRepository = armyListSearchRepository;
         this.userRepository = userRepository;
         this.unitMapRepository = unitRepository;
         this.unitMapMapper = unitMapper;
@@ -107,7 +105,7 @@ public class ArmyListServiceImpl implements ArmyListService {
         ArmyList armyList = armyListMapper.toEntity(armyListDTO);
         armyList = armyListRepository.save(armyList);
         ArmyListDTO result = armyListMapper.toDto(armyList);
-        armyListSearchRepository.save(armyList);
+//        armyListSearchRepository.save(armyList);
         return result;
     }
 
@@ -160,22 +158,15 @@ public class ArmyListServiceImpl implements ArmyListService {
     public void delete(String id) {
         log.debug("Request to delete ArmyList : {}", id);
         armyListRepository.deleteById(id);
-        armyListSearchRepository.deleteById(id);
+//        armyListSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the armyList corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Override
+  /*  @Override
     public Page<ArmyListDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ArmyLists for query {}", query);
         return armyListSearchRepository.search(queryStringQuery(query), pageable)
             .map(armyListMapper::toDto);
-    }
+    }*/
 
 	@Override
 	public Optional<List<ArmyListDTO>> findAllByUser(String id) {

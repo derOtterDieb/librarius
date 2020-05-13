@@ -18,7 +18,6 @@ import org.springframework.context.annotation.FilterType;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.convert.converter.Converter;
-import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 import org.springframework.data.mongodb.config.EnableMongoAuditing;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.convert.MongoCustomConversions;
@@ -28,7 +27,6 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 @Configuration
-@EnableElasticsearchRepositories("com.derotterdieb.librarius.repository.search")
 @EnableMongoRepositories(
     basePackages = "com.derotterdieb.librarius.repository",
     includeFilters = @Filter(type = FilterType.ASSIGNABLE_TYPE, value = MongoRepository.class)

@@ -63,7 +63,7 @@ public interface ArmyListService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<ArmyListDTO> search(String query, Pageable pageable);
+//    Page<ArmyListDTO> search(String query, Pageable pageable);
 
 	Optional<List<ArmyListDTO>> findAllByUser(String id);
 

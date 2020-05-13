@@ -1,11 +1,9 @@
 package com.derotterdieb.librarius.web.rest;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 import com.derotterdieb.librarius.config.Constants;
 import com.derotterdieb.librarius.domain.User;
 import com.derotterdieb.librarius.repository.UserRepository;
-import com.derotterdieb.librarius.repository.search.UserSearchRepository;
 import com.derotterdieb.librarius.security.AuthoritiesConstants;
 import com.derotterdieb.librarius.service.MailService;
 import com.derotterdieb.librarius.service.UserService;
@@ -19,8 +17,6 @@ import io.github.jhipster.web.util.ResponseUtil;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 import javax.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,18 +68,18 @@ public class UserResource {
 
     private final MailService mailService;
 
-    private final UserSearchRepository userSearchRepository;
+//    private final UserSearchRepository userSearchRepository;
 
     public UserResource(
         UserService userService,
         UserRepository userRepository,
-        MailService mailService,
-        UserSearchRepository userSearchRepository
+        MailService mailService
+//        UserSearchRepository userSearchRepository
     ) {
         this.userService = userService;
         this.userRepository = userRepository;
         this.mailService = mailService;
-        this.userSearchRepository = userSearchRepository;
+//        this.userSearchRepository = userSearchRepository;
     }
 
     /**
@@ -147,7 +143,7 @@ public class UserResource {
             HeaderUtil.createAlert(applicationName, "userManagement.updated", userDTO.getLogin())
         );
     }
-    
+
     @PutMapping("/users/self-update/{connectedUserId}")
     public ResponseEntity<UserDTO> updateOneSelf(@PathVariable String connectedUserId, @Valid @RequestBody UserDTO userDTO) {
     	log.debug("REST request to update User : {}", userDTO);
@@ -163,7 +159,7 @@ public class UserResource {
         	throw new BadRequestAlertException("trying to update wrong user", "user", "wrong id");
         }
     }
-    
+
     @PutMapping("/users/self-update/delete-list/{listId}")
     public ResponseEntity<UserDTO> deleteList(@PathVariable String listId, @Valid @RequestBody UserDTO userDTO) {
     	log.debug("REST Request to update User.armyLists : {}", userDTO);
@@ -220,14 +216,8 @@ public class UserResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createAlert(applicationName, "userManagement.deleted", login)).build();
     }
 
-    /**
-     * {@code SEARCH /_search/users/:query} : search for the User corresponding to the query.
-     *
-     * @param query the query to search.
-     * @return the result of the search.
-     */
-    @GetMapping("/_search/users/{query}")
+ /*   @GetMapping("/_search/users/{query}")
     public List<User> search(@PathVariable String query) {
         return StreamSupport.stream(userSearchRepository.search(queryStringQuery(query)).spliterator(), false).collect(Collectors.toList());
-    }
+    }*/
 }

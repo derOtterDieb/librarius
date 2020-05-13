@@ -7,7 +7,6 @@ import com.derotterdieb.librarius.repository.ArmyListRepository;
 import com.derotterdieb.librarius.repository.AuthorityRepository;
 import com.derotterdieb.librarius.repository.PersistentTokenRepository;
 import com.derotterdieb.librarius.repository.UserRepository;
-import com.derotterdieb.librarius.repository.search.UserSearchRepository;
 import com.derotterdieb.librarius.security.AuthoritiesConstants;
 import com.derotterdieb.librarius.security.SecurityUtils;
 import com.derotterdieb.librarius.service.dto.UserDTO;
@@ -40,20 +39,20 @@ public class UserService {
 
     private final PasswordEncoder passwordEncoder;
 
-    private final UserSearchRepository userSearchRepository;
+    // private final UserSearchRepository userSearchRepository;
 
     private final PersistentTokenRepository persistentTokenRepository;
 
     private final AuthorityRepository authorityRepository;
-    
+
     private final ArmyListMapper armyListMapper;
-    
+
     private final ArmyListRepository armyListRepository;
 
     public UserService(
         UserRepository userRepository,
         PasswordEncoder passwordEncoder,
-        UserSearchRepository userSearchRepository,
+        // UserSearchRepository userSearchRepository,
         PersistentTokenRepository persistentTokenRepository,
         AuthorityRepository authorityRepository,
         ArmyListMapper armyListMapper,
@@ -61,7 +60,7 @@ public class UserService {
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userSearchRepository = userSearchRepository;
+        // this.userSearchRepository = userSearchRepository;
         this.persistentTokenRepository = persistentTokenRepository;
         this.authorityRepository = authorityRepository;
         this.armyListMapper = armyListMapper;
@@ -78,7 +77,7 @@ public class UserService {
                     user.setActivated(true);
                     user.setActivationKey(null);
                     userRepository.save(user);
-                    userSearchRepository.save(user);
+                    // userSearchRepository.save(user);
                     log.debug("Activated user: {}", user);
                     return user;
                 }
@@ -156,7 +155,7 @@ public class UserService {
         authorityRepository.findById(AuthoritiesConstants.USER).ifPresent(authorities::add);
         newUser.setAuthorities(authorities);
         userRepository.save(newUser);
-        userSearchRepository.save(newUser);
+        // userSearchRepository.save(newUser);
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
@@ -199,7 +198,7 @@ public class UserService {
             user.setAuthorities(authorities);
         }
         userRepository.save(user);
-        userSearchRepository.save(user);
+        // userSearchRepository.save(user);
         log.debug("Created Information for User: {}", user);
         return user;
     }
@@ -227,7 +226,7 @@ public class UserService {
                     user.setLangKey(langKey);
                     user.setImageUrl(imageUrl);
                     userRepository.save(user);
-                    userSearchRepository.save(user);
+                    // userSearchRepository.save(user);
                     log.debug("Changed Information for User: {}", user);
                 }
             );
@@ -268,7 +267,7 @@ public class UserService {
                         .map(Optional::get)
                         .forEach(managedAuthorities::add);
                     userRepository.save(user);
-                    userSearchRepository.save(user);
+                    // userSearchRepository.save(user);
                     log.debug("Changed Information for User: {}", user);
                     return user;
                 }
@@ -282,7 +281,7 @@ public class UserService {
             .ifPresent(
                 user -> {
                     userRepository.delete(user);
-                    userSearchRepository.delete(user);
+                    // userSearchRepository.delete(user);
                     log.debug("Deleted User: {}", user);
                 }
             );
@@ -354,7 +353,7 @@ public class UserService {
                 user -> {
                     log.debug("Deleting not activated user {}", user.getLogin());
                     userRepository.delete(user);
-                    userSearchRepository.delete(user);
+                    // userSearchRepository.delete(user);
                 }
             );
     }

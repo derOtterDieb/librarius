@@ -1,23 +1,16 @@
 package com.derotterdieb.librarius.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.Field;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import javax.validation.constraints.*;
 
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.io.Serializable;
-import java.util.Objects;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * A Unit.
  */
 @Document(collection = "unit")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "unit")
 public class Unit implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -48,11 +48,11 @@ public interface GearService {
      * Search for the gear corresponding to the query.
      *
      * @param query the query of the search.
-     * 
+     *
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<GearDTO> search(String query, Pageable pageable);
+//    Page<GearDTO> search(String query, Pageable pageable);
 
     List<GearDTO> findAllByName(String name);
 }

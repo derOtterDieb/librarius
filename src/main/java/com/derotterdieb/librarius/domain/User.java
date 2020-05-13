@@ -13,7 +13,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Field;
@@ -22,12 +21,10 @@ import org.springframework.data.mongodb.core.mapping.Field;
  * A user.
  */
 @org.springframework.data.mongodb.core.mapping.Document(collection = "jhi_user")
-@org.springframework.data.elasticsearch.annotations.Document(indexName = "user")
 public class User extends AbstractAuditingEntity implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @org.springframework.data.elasticsearch.annotations.Field(type = FieldType.Keyword)
     private String id;
 
     @NotNull
@@ -79,7 +76,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
 
     @JsonIgnore
     private Set<Authority> authorities = new HashSet<>();
-    
+
     @DBRef
     @Field("armyLists")
     private Set<ArmyList> armyLists = new HashSet<>();
@@ -106,7 +103,7 @@ public class User extends AbstractAuditingEntity implements Serializable {
     public void setArmyLists(Set<ArmyList> armyLists) {
         this.armyLists = armyLists;
     }
-    
+
     public String getId() {
         return id;
     }

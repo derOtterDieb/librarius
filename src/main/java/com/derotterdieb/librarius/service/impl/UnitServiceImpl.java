@@ -1,10 +1,8 @@
 package com.derotterdieb.librarius.service.impl;
 
 import com.derotterdieb.librarius.service.UnitService;
-import com.derotterdieb.librarius.domain.Gear;
 import com.derotterdieb.librarius.domain.Unit;
 import com.derotterdieb.librarius.repository.UnitRepository;
-import com.derotterdieb.librarius.repository.search.UnitSearchRepository;
 import com.derotterdieb.librarius.service.dto.UnitDTO;
 import com.derotterdieb.librarius.service.mapper.UnitMapper;
 import org.slf4j.Logger;
@@ -15,8 +13,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link Unit}.
@@ -30,12 +26,12 @@ public class UnitServiceImpl implements UnitService {
 
     private final UnitMapper unitMapper;
 
-    private final UnitSearchRepository unitSearchRepository;
+//    private final UnitSearchRepository unitSearchRepository;
 
-    public UnitServiceImpl(UnitRepository unitRepository, UnitMapper unitMapper, UnitSearchRepository unitSearchRepository) {
+    public UnitServiceImpl(UnitRepository unitRepository, UnitMapper unitMapper) {
         this.unitRepository = unitRepository;
         this.unitMapper = unitMapper;
-        this.unitSearchRepository = unitSearchRepository;
+//        this.unitSearchRepository = unitSearchRepository;
     }
 
     /**
@@ -51,7 +47,7 @@ public class UnitServiceImpl implements UnitService {
         unit = this.computeTotalUnitPoint(unit);
         unit = unitRepository.save(unit);
         UnitDTO result = unitMapper.toDto(unit);
-        unitSearchRepository.save(unit);
+//        unitSearchRepository.save(unit);
         return result;
     }
 
@@ -104,7 +100,7 @@ public class UnitServiceImpl implements UnitService {
     public void delete(String id) {
         log.debug("Request to delete Unit : {}", id);
         unitRepository.deleteById(id);
-        unitSearchRepository.deleteById(id);
+//        unitSearchRepository.deleteById(id);
     }
 
     /**
@@ -114,10 +110,10 @@ public class UnitServiceImpl implements UnitService {
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    @Override
+ /*   @Override
     public Page<UnitDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Units for query {}", query);
         return unitSearchRepository.search(queryStringQuery(query), pageable)
             .map(unitMapper::toDto);
-    }
+    }*/
 }

@@ -3,7 +3,6 @@ package com.derotterdieb.librarius.service.impl;
 import com.derotterdieb.librarius.service.GearService;
 import com.derotterdieb.librarius.domain.Gear;
 import com.derotterdieb.librarius.repository.GearRepository;
-import com.derotterdieb.librarius.repository.search.GearSearchRepository;
 import com.derotterdieb.librarius.service.dto.GearDTO;
 import com.derotterdieb.librarius.service.mapper.GearMapper;
 import org.slf4j.Logger;
@@ -17,7 +16,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link Gear}.
@@ -31,12 +29,12 @@ public class GearServiceImpl implements GearService {
 
     private final GearMapper gearMapper;
 
-    private final GearSearchRepository gearSearchRepository;
+//    private final GearSearchRepository gearSearchRepository;
 
-    public GearServiceImpl(GearRepository gearRepository, GearMapper gearMapper, GearSearchRepository gearSearchRepository) {
+    public GearServiceImpl(GearRepository gearRepository, GearMapper gearMapper) {
         this.gearRepository = gearRepository;
         this.gearMapper = gearMapper;
-        this.gearSearchRepository = gearSearchRepository;
+//        this.gearSearchRepository = gearSearchRepository;
     }
 
     /**
@@ -51,7 +49,7 @@ public class GearServiceImpl implements GearService {
         Gear gear = gearMapper.toEntity(gearDTO);
         gear = gearRepository.save(gear);
         GearDTO result = gearMapper.toDto(gear);
-        gearSearchRepository.save(gear);
+//        gearSearchRepository.save(gear);
         return result;
     }
 
@@ -90,22 +88,15 @@ public class GearServiceImpl implements GearService {
     public void delete(String id) {
         log.debug("Request to delete Gear : {}", id);
         gearRepository.deleteById(id);
-        gearSearchRepository.deleteById(id);
+//        gearSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the gear corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Override
+/*    @Override
     public Page<GearDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of Gears for query {}", query);
         return gearSearchRepository.search(queryStringQuery(query), pageable)
             .map(gearMapper::toDto);
-    }
+    }*/
 
     @Override
     public List<GearDTO> findAllByName(String name) {

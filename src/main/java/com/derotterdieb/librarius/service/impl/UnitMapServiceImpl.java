@@ -1,7 +1,5 @@
 package com.derotterdieb.librarius.service.impl;
 
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
-
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -12,30 +10,29 @@ import org.springframework.stereotype.Service;
 
 import com.derotterdieb.librarius.domain.UnitMap;
 import com.derotterdieb.librarius.repository.UnitMapRepository;
-import com.derotterdieb.librarius.repository.search.UnitMapSearchRepository;
 import com.derotterdieb.librarius.service.UnitMapService;
 import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 import com.derotterdieb.librarius.service.mapper.UnitMapMapper;
 
 @Service
 public class UnitMapServiceImpl implements UnitMapService {
-	
+
 	private final Logger log = LoggerFactory.getLogger(UnitServiceImpl.class);
-	
+
 	private final UnitMapRepository unitMapRepository;
-	
+
 	private final UnitMapMapper unitMapMapper;
-	
-	private final UnitMapSearchRepository unitMapSearchRepository;
-	
+
+//	private final UnitMapSearchRepository unitMapSearchRepository;
+
 	public UnitMapServiceImpl(
 		UnitMapRepository unitMapRepository,
-		UnitMapMapper unitMapMapper,
-		UnitMapSearchRepository unitMapSearchRepository
+		UnitMapMapper unitMapMapper
+//		UnitMapSearchRepository unitMapSearchRepository
 	) {
 		this.unitMapRepository = unitMapRepository;
 		this.unitMapMapper = unitMapMapper;
-		this.unitMapSearchRepository = unitMapSearchRepository;
+//		this.unitMapSearchRepository = unitMapSearchRepository;
 	}
 
 	@Override
@@ -44,7 +41,7 @@ public class UnitMapServiceImpl implements UnitMapService {
         UnitMap unitMap = unitMapMapper.toEntity(UnitMapDTO);
         unitMap = unitMapRepository.save(unitMap);
         UnitMapDTO result = unitMapMapper.toDto(unitMap);
-        unitMapSearchRepository.save(unitMap);
+//        unitMapSearchRepository.save(unitMap);
         return result;
 	}
 
@@ -71,14 +68,14 @@ public class UnitMapServiceImpl implements UnitMapService {
 	public void delete(String id) {
 		log.debug("Request to delete UnitMap : {}", id);
         unitMapRepository.deleteById(id);
-        unitMapSearchRepository.deleteById(id);
+//        unitMapSearchRepository.deleteById(id);
 	}
 
-	@Override
+/*	@Override
 	public Page<UnitMapDTO> search(String query, Pageable pageable) {
 		log.debug("Request to search for a page of Unitmapss for query {}", query);
         return unitMapSearchRepository.search(queryStringQuery(query), pageable)
             .map(unitMapMapper::toDto);
-	}
+	}*/
 
 }

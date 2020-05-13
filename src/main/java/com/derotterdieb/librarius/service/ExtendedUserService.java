@@ -47,9 +47,9 @@ public interface ExtendedUserService {
      * Search for the extendedUser corresponding to the query.
      *
      * @param query the query of the search.
-     * 
+     *
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<ExtendedUserDTO> search(String query, Pageable pageable);
+//    Page<ExtendedUserDTO> search(String query, Pageable pageable);
 }

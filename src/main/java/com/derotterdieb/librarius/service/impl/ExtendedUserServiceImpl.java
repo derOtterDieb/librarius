@@ -3,7 +3,6 @@ package com.derotterdieb.librarius.service.impl;
 import com.derotterdieb.librarius.service.ExtendedUserService;
 import com.derotterdieb.librarius.domain.ExtendedUser;
 import com.derotterdieb.librarius.repository.ExtendedUserRepository;
-import com.derotterdieb.librarius.repository.search.ExtendedUserSearchRepository;
 import com.derotterdieb.librarius.service.dto.ExtendedUserDTO;
 import com.derotterdieb.librarius.service.mapper.ExtendedUserMapper;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link ExtendedUser}.
@@ -29,12 +27,12 @@ public class ExtendedUserServiceImpl implements ExtendedUserService {
 
     private final ExtendedUserMapper extendedUserMapper;
 
-    private final ExtendedUserSearchRepository extendedUserSearchRepository;
+//    private final ExtendedUserSearchRepository extendedUserSearchRepository;
 
-    public ExtendedUserServiceImpl(ExtendedUserRepository extendedUserRepository, ExtendedUserMapper extendedUserMapper, ExtendedUserSearchRepository extendedUserSearchRepository) {
+    public ExtendedUserServiceImpl(ExtendedUserRepository extendedUserRepository, ExtendedUserMapper extendedUserMapper) {
         this.extendedUserRepository = extendedUserRepository;
         this.extendedUserMapper = extendedUserMapper;
-        this.extendedUserSearchRepository = extendedUserSearchRepository;
+//        this.extendedUserSearchRepository = extendedUserSearchRepository;
     }
 
     /**
@@ -49,7 +47,7 @@ public class ExtendedUserServiceImpl implements ExtendedUserService {
         ExtendedUser extendedUser = extendedUserMapper.toEntity(extendedUserDTO);
         extendedUser = extendedUserRepository.save(extendedUser);
         ExtendedUserDTO result = extendedUserMapper.toDto(extendedUser);
-        extendedUserSearchRepository.save(extendedUser);
+//        extendedUserSearchRepository.save(extendedUser);
         return result;
     }
 
@@ -88,20 +86,13 @@ public class ExtendedUserServiceImpl implements ExtendedUserService {
     public void delete(String id) {
         log.debug("Request to delete ExtendedUser : {}", id);
         extendedUserRepository.deleteById(id);
-        extendedUserSearchRepository.deleteById(id);
+//        extendedUserSearchRepository.deleteById(id);
     }
 
-    /**
-     * Search for the extendedUser corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Override
+    /*@Override
     public Page<ExtendedUserDTO> search(String query, Pageable pageable) {
         log.debug("Request to search for a page of ExtendedUsers for query {}", query);
         return extendedUserSearchRepository.search(queryStringQuery(query), pageable)
             .map(extendedUserMapper::toDto);
-    }
+    }*/
 }

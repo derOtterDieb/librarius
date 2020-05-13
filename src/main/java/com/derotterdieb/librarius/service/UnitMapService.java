@@ -50,9 +50,9 @@ public interface UnitMapService {
      * Search for the UnitMap corresponding to the query.
      *
      * @param query the query of the search.
-     * 
+     *
      * @param pageable the pagination information.
      * @return the list of entities.
      */
-    Page<UnitMapDTO> search(String query, Pageable pageable);
+//    Page<UnitMapDTO> search(String query, Pageable pageable);
 }
