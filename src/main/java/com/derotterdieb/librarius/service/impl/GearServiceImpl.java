@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -101,6 +102,13 @@ public class GearServiceImpl implements GearService {
     @Override
     public List<GearDTO> findAllByName(String name) {
         log.debug("Request to search for a page of Gears for query {}", name);
-        return gearRepository.findAllByGearName(name).stream().map(gearMapper::toDto).collect(Collectors.toList());
+        List<GearDTO> result = new ArrayList<>();
+        List<Gear> allGear = gearRepository.findAll();
+        for (Gear gear : allGear) {
+            if (gear.getGearName().toLowerCase().contains(name.toLowerCase())) {
+                result.add(gearMapper.toDto(gear));
+            }
+        }
+        return result;
     }
 }

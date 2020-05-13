@@ -3,7 +3,6 @@ import { ActivatedRoute } from '@angular/router';
 import { IUnitLbr, UnitLbr } from 'app/shared/model/unit-lbr.model';
 import { IArmyListLbr } from 'app/shared/model/army-list-lbr.model';
 import { UnitLbrService } from 'app/entities/unit-lbr/unit-lbr.service';
-// import { IGearLbr } from 'app/shared/model/gear-lbr.model';
 import { GearLbrService } from 'app/entities/gear-lbr/gear-lbr.service';
 import { ArmyListLbrService } from 'app/entities/army-list-lbr/army-list-lbr.service';
 import { Observable } from 'rxjs';
@@ -25,6 +24,7 @@ export class ArmyListLbrDetailComponent implements OnInit {
   public toggledGear: string;
   public gearSearch: string;
   public gearList: IGearLbr[];
+  public unitSearch: string;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -39,6 +39,7 @@ export class ArmyListLbrDetailComponent implements OnInit {
     this.toggledGear = '';
     this.gearSearch = '';
     this.gearList = new Array<IGearLbr>();
+    this.unitSearch = '';
   }
 
   ngOnInit(): void {
@@ -100,6 +101,14 @@ export class ArmyListLbrDetailComponent implements OnInit {
       this.gearService.findAllByName(this.gearSearch).subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
     } else {
       this.gearService.query().subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
+    }
+  }
+
+  public searchUnit(): void {
+    if (this.unitSearch !== '' && this.unitSearch != null) {
+      this.availableUnit = this.unitService.getAllByName(this.unitSearch);
+    } else {
+      this.availableUnit = this.unitService.query();
     }
   }
 

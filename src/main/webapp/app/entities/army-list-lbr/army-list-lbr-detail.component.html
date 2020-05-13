@@ -49,7 +49,7 @@
                                 </ul>
                             </div>
                             <div class="p-col-12">
-                                <button type="button" class="btn btn-sm btn-primary">Créer un équipement</button>
+                                <button type="button" [routerLink]="['/gear-lbr/new']" class="btn btn-sm btn-primary">Créer un équipement</button>
                             </div>
                             <div class="p-col-8">
                                 <input placeholder="Nom de l'équipement" [(ngModel)]="gearSearch" type="text"/>
@@ -80,9 +80,24 @@
 			</button>
 			<dt *ngIf="addNewUnit">
 				<div class="p-grid">
-					<div class="p-col-6">
-						<span>Choisir une unit&eacute; existante :</span>
-						<ul *ngIf="availableUnit | async as availableUnits">
+                    <div class="p-col-12">
+                        <button class="btn btn-info" type="button"
+                                [routerLink]="['/unit-lbr/new']">
+                            Cr&eacute;er une nouvelle unit&eacute;
+                        </button>
+                    </div>
+                    <div class="p-col-12">
+                        <span>Choisir une unit&eacute; existante :</span>
+                        <div class="p-col-8">
+                            <input placeholder="Nom de l'unité" [(ngModel)]="unitSearch" type="text"/>
+                        </div>
+                        <div class="p-col-4">
+                            <button type="button" class="btn btn-sm btn-secondary" (click)="searchUnit()">Chercher</button>
+                        </div>
+                    </div>
+					<div class="p-col-12" *ngIf="availableUnit | async as availableUnits">
+                        <span>R&eacute;sultat(s) : {{availableUnits.body.length}}</span>
+						<ul>
 							<li *ngFor="let unit of availableUnits.body">
 								<button class="btn btn-sm btn-primary btn-li"
 									type="button" (click)="associate(unit)">
@@ -90,12 +105,6 @@
 								</button>
 							</li>
 						</ul>
-					</div>
-					<div class="p-col-6">
-						<button class="btn btn-info" type="button"
-							[routerLink]="['/unit-lbr/new']">
-							Cr&eacute;er une nouvelle unit&eacute;
-						</button>
 					</div>
 				</div>
 			</dt>

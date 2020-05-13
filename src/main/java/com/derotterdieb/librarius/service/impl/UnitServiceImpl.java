@@ -12,7 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Unit}.
@@ -89,6 +92,19 @@ public class UnitServiceImpl implements UnitService {
         log.debug("Request to get Unit : {}", id);
         return unitRepository.findOneWithEagerRelationships(id)
             .map(unitMapper::toDto);
+    }
+
+    @Override
+    public List<UnitDTO> findAllByName(String name) {
+        log.debug("Request to search for a page of Units for query {}", name);
+        List<UnitDTO> result = new ArrayList<>();
+        List<Unit> allUnit = unitRepository.findAll();
+        for (Unit unit : allUnit) {
+            if (unit.getUnitName().toLowerCase().contains(name.toLowerCase())) {
+                result.add(unitMapper.toDto(unit));
+            }
+        }
+        return result;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.derotterdieb.librarius.repository;
 
+import com.derotterdieb.librarius.domain.Gear;
 import com.derotterdieb.librarius.domain.Unit;
 
 import org.springframework.data.domain.Page;
@@ -25,4 +26,6 @@ public interface UnitRepository extends MongoRepository<Unit, String> {
 
     @Query("{'id': ?0}")
     Optional<Unit> findOneWithEagerRelationships(String id);
+
+    List<Unit> findAllByUnitName(String name);
 }

@@ -1,6 +1,7 @@
 package com.derotterdieb.librarius.web.rest;
 
 import com.derotterdieb.librarius.service.UnitService;
+import com.derotterdieb.librarius.service.dto.GearDTO;
 import com.derotterdieb.librarius.web.rest.errors.BadRequestAlertException;
 import com.derotterdieb.librarius.service.dto.UnitDTO;
 
@@ -128,6 +129,14 @@ public class UnitResource {
         log.debug("REST request to delete Unit : {}", id);
         unitService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+    }
+
+    @GetMapping("/units/search/{name}")
+    public ResponseEntity<List<UnitDTO>> findAllUnitByName(@PathVariable String name) {
+        log.debug("REST request to get Gears : {}", name);
+        List<UnitDTO> list = unitService.findAllByName(name);
+        HttpHeaders headers = HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, "list from name");
+        return ResponseEntity.ok().headers(headers).body(list);
     }
 
   /*  @GetMapping("/_search/units")

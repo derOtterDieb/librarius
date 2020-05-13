@@ -41,4 +41,8 @@ export class UnitLbrService {
     const options = createRequestOption(req);
     return this.http.get<IUnitLbr[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
   }
+
+  getAllByName(name: string): Observable<EntityArrayResponseType> {
+    return this.http.get<IUnitLbr[]>(`${this.resourceUrl}/search/${name}`, { observe: 'response' });
+  }
 }

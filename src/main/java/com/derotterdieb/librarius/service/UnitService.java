@@ -5,6 +5,7 @@ import com.derotterdieb.librarius.service.dto.UnitDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -42,6 +43,8 @@ public interface UnitService {
      * @return the entity.
      */
     Optional<UnitDTO> findOne(String id);
+
+    List<UnitDTO> findAllByName(String name);
 
     /**
      * Delete the "id" unit.
