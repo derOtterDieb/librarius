@@ -27,7 +27,6 @@
                         <span class="p-col-12">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)</span>
                         <span class="p-col-6">
                             <button class="btn btn-sm btn-info" type="button" (click)="toggleGear(unitMap)">
-                                <i class="material-icons">settings</i>
                                 &nbsp;<span>&Eacute;quipement</span>
                             </button>
                         </span>
@@ -42,8 +41,8 @@
                                 <ul>
                                     <li *ngFor="let gear of unitMap.gears">
                                         <span>{{gear.gearName}} ({{gear.pointValue}} points)</span>
-                                        <button class="btn btn-sm btn-icon danger" (click)="removeGearFromUnit(gear, unitMap)">
-                                            <i class="material-icons">remove_circle_outline</i>
+                                        <button class="btn btn-sm btn-icon btn-icon-danger" (click)="removeGearFromUnit(gear, unitMap)">
+                                            <span>-</span>
                                         </button>
                                     </li>
                                 </ul>
@@ -62,8 +61,8 @@
                                 <ul>
                                     <li *ngFor="let gear of gearList">
                                         <span>{{gear.gearName}} ({{gear.pointValue}} points)</span>
-                                        <button class="btn btn-sm btn-icon info" (click)="addGearToUnit(gear, unitMap)">
-                                            <i class="material-icons">add_circle_outline</i>
+                                        <button class="btn btn-sm btn-icon btn-icon-info" (click)="addGearToUnit(gear, unitMap)">
+                                            <span>+</span>
                                         </button>
                                     </li>
                                 </ul>

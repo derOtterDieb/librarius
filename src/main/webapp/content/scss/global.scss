@@ -244,10 +244,35 @@ ui bootstrap tweaks
 }
 
 .btn-icon {
-  background-color: transparent !important;
-  .material-icons {
-    font-size: 30px !important;
+  color: #fff !important;
+  font-size: 30px !important;
+  border-radius: 30px;
+  height: 30px;
+  width: 30px;
+  line-height: 0;
+  padding: 0;
+  font-weight: bold;
+  span {
+    display: flex;
+    place-content: center;
+    padding-bottom: 5px;
   }
+}
+
+.btn-icon-primary {
+  background-color: var(--primary) !important;
+}
+
+.btn-icon-danger {
+  background-color: var(--danger) !important;
+}
+
+.btn-icon-secondary {
+  background-color: var(--secondary) !important;
+}
+
+.btn-icon-info {
+  background-color: var(--info) !important;
 }
 
 .primary {
