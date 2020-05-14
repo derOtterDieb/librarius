@@ -11,6 +11,20 @@ import { ArmyListLbrAssociateUnitDialogComponent } from 'app/entities/army-list-
 import { IUnitMapLbr, UnitMapLBr } from 'app/shared/model/unit-map-lbr.model';
 import { GearLbr, IGearLbr } from 'app/shared/model/gear-lbr.model';
 import { UnitMapLbrService } from 'app/entities/unit-map-lbr/unit-map-lbr.service';
+import { SquadronLbrService } from 'app/entities/squadron-lbr/squadron-lbr.service';
+import { SquadronLbr } from 'app/shared/model/squadron-lbr.model';
+import { AccountService } from 'app/core/auth/account.service';
+import { SquadronDialogComponent } from 'app/entities/army-list-lbr/squadron-dialog.component';
+
+export interface ISquadronMap {
+  squadronId: string;
+  unitMaps: IUnitMapLbr[];
+  name: string;
+}
+
+export class SquadronMap implements ISquadronMap {
+  constructor(public squadronId: string, public unitMaps: IUnitMapLbr[], public name: string) {}
+}
 
 @Component({
   selector: 'jhi-army-list-lbr-detail',
@@ -25,6 +39,14 @@ export class ArmyListLbrDetailComponent implements OnInit {
   public gearSearch: string;
   public gearList: IGearLbr[];
   public unitSearch: string;
+  public squadronView: boolean;
+  public unitWithSquadron: IUnitMapLbr[];
+  public unitWithoutSquadron: IUnitMapLbr[];
+  public squadrons: ISquadronMap[];
+  public newSquadronName: string;
+  public isCreatingSquadron = false;
+  public userId: any;
+  public armyListId: string;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -32,7 +54,9 @@ export class ArmyListLbrDetailComponent implements OnInit {
     protected gearService: GearLbrService,
     protected armyListService: ArmyListLbrService,
     protected unitMapLbrService: UnitMapLbrService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected squadronLbrService: SquadronLbrService,
+    private accountService: AccountService
   ) {
     this.newUnit = new UnitLbr();
     this.availableUnit = new Observable<any>();
@@ -40,11 +64,19 @@ export class ArmyListLbrDetailComponent implements OnInit {
     this.gearSearch = '';
     this.gearList = new Array<IGearLbr>();
     this.unitSearch = '';
+    this.squadronView = false;
+    this.unitWithSquadron = new Array<IUnitMapLbr>();
+    this.unitWithoutSquadron = new Array<IUnitMapLbr>();
+    this.squadrons = new Array<SquadronMap>();
+    this.newSquadronName = '';
+    this.userId = '';
+    this.armyListId = '';
   }
 
   ngOnInit(): void {
     this.getAllUnits();
     this.getAllAvailableUnits();
+    this.accountService.identity().subscribe(res => (this.userId = res?.id));
   }
 
   previousState(): void {
@@ -57,7 +89,8 @@ export class ArmyListLbrDetailComponent implements OnInit {
         res => (this.armyList = res.body),
         () => {},
         () => {
-          if (this.armyList && this.armyList.unitMaps) {
+          if (this.armyList && this.armyList.unitMaps && this.armyList.id) {
+            this.armyListId = this.armyList.id;
             this.armyList.unitMaps.sort((a: IUnitMapLbr, b: IUnitMapLbr) => {
               if (a.unit && a.unit.unitName && b.unit && b.unit.unitName) {
                 return a.unit?.unitName?.toUpperCase() > b.unit?.unitName?.toUpperCase() ? 1 : -1;
@@ -65,6 +98,16 @@ export class ArmyListLbrDetailComponent implements OnInit {
                 return -1;
               }
             });
+            for (const unitMap of this.armyList.unitMaps) {
+              if (unitMap.squadronId !== null) {
+                this.unitWithSquadron.push(unitMap);
+              } else {
+                this.unitWithoutSquadron.push(unitMap);
+              }
+            }
+            if (this.unitWithSquadron.length > 0) {
+              this.computeSquadrons();
+            }
           }
         }
       );
@@ -73,6 +116,40 @@ export class ArmyListLbrDetailComponent implements OnInit {
 
   private getAllAvailableUnits(): void {
     this.availableUnit = this.unitService.query();
+  }
+
+  private computeSquadrons(): void {
+    const sortedBySquadron = this.unitWithSquadron.sort((a: IUnitMapLbr, b: IUnitMapLbr) => {
+      if (a.squadronId && b.squadronId) {
+        return a.squadronId > b.squadronId ? 1 : -1;
+      } else {
+        return -1;
+      }
+    });
+    for (const [index, unitMap] of sortedBySquadron.entries()) {
+      if (unitMap.squadronId != null) {
+        if (index === 0) {
+          const unitMapArray = new Array<UnitMapLBr>();
+          unitMapArray.push(unitMap);
+          const squadronMap = new SquadronMap(unitMap.squadronId, unitMapArray, '');
+          this.squadrons.push(squadronMap);
+        } else {
+          for (const squadronMap of this.squadrons) {
+            if (squadronMap.squadronId === unitMap.squadronId) {
+              squadronMap.unitMaps.push(unitMap);
+            } else {
+              const newUnitMapArray = new Array<UnitMapLBr>();
+              newUnitMapArray.push(unitMap);
+              const newSquadronMap = new SquadronMap(unitMap.squadronId, newUnitMapArray, '');
+              this.squadrons.push(newSquadronMap);
+            }
+          }
+        }
+      }
+    }
+    this.squadrons.forEach(squad => {
+      this.squadronLbrService.find(squad.squadronId).subscribe(res => (squad.name = res.body ? (res.body.name ? res.body.name : '') : ''));
+    });
   }
 
   public associate(unit: IUnitLbr): void {
@@ -98,9 +175,33 @@ export class ArmyListLbrDetailComponent implements OnInit {
 
   public searchGear(): void {
     if (this.gearSearch !== '' && this.gearSearch != null) {
-      this.gearService.findAllByName(this.gearSearch).subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
+      this.gearService.findAllByName(this.gearSearch).subscribe(
+        res => (this.gearList = res.body ? res.body : new Array<GearLbr>()),
+        () => {},
+        () => {
+          this.gearList.sort((a: IGearLbr, b: IGearLbr) => {
+            if (a && a.gearName && b && b.gearName) {
+              return a.gearName.toUpperCase() > b.gearName.toUpperCase() ? 1 : -1;
+            } else {
+              return -1;
+            }
+          });
+        }
+      );
     } else {
-      this.gearService.query().subscribe(res => (this.gearList = res.body ? res.body : new Array<GearLbr>()));
+      this.gearService.query().subscribe(
+        res => (this.gearList = res.body ? res.body : new Array<GearLbr>()),
+        () => {},
+        () => {
+          this.gearList.sort((a: IGearLbr, b: IGearLbr) => {
+            if (a && a.gearName && b && b.gearName) {
+              return a.gearName.toUpperCase() > b.gearName.toUpperCase() ? 1 : -1;
+            } else {
+              return -1;
+            }
+          });
+        }
+      );
     }
   }
 
@@ -141,5 +242,30 @@ export class ArmyListLbrDetailComponent implements OnInit {
     } else {
       return 0;
     }
+  }
+
+  public createSquadron(): void {
+    const squadron = new SquadronLbr();
+    squadron.userId = this.userId;
+    squadron.listId = this.armyListId;
+    squadron.name = this.newSquadronName;
+    this.squadronLbrService.create(squadron).subscribe(
+      () => {},
+      () => {},
+      () => {
+        this.newSquadronName = '';
+        this.isCreatingSquadron = false;
+        this.getAllUnits();
+      }
+    );
+  }
+
+  public addUnitMapToSquadron(unitMap: IUnitMapLbr): void {
+    const modalRef = this.modalService.open(SquadronDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.unitMap = unitMap;
+    modalRef.componentInstance.userId = this.userId;
+    modalRef.componentInstance.listId = this.armyList?.id;
+
+    modalRef.result.then(() => this.getAllUnits());
   }
 }

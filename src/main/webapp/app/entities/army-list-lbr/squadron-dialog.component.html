@@ -1,0 +1,26 @@
+<div class="modal-header">
+    <h4 class="modal-title">Affilier une unit&eacute; à une escouade</h4>
+
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+            (click)="cancel()">&times;</button>
+</div>
+
+<div class="modal-body p-grid">
+    <div class="p-col-12" *ngIf="unitMap != null && unitMap.unit != null && unitMap.unit.unitName != null">
+        Vous allez placer l'unit&eacute; : {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} dans l'escouade suivante :
+    </div>
+    <div class="p-col-12 p-grid" *ngIf="squadrons | async as availableSquadrons">
+        <span class="p-col-11" *ngFor="let squadron of availableSquadrons.body">{{squadron.name}}</span>
+        <input class="p-col-1" type="radio" [(ngModel)]="selectedSquad" *ngFor="let squadron of availableSquadrons.body" [value]="squadron" />
+    </div>
+</div>
+
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-secondary" data-dismiss="modal" (click)="cancel()">
+        <fa-icon icon="ban"></fa-icon>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+    </button>
+
+    <button id="jhi-confirm-delete-unit" type="button" class="btn btn-sm btn-primary" (click)="save()">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Sauvegarder</span>
+    </button>
+</div>

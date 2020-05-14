@@ -31,6 +31,9 @@ public class UnitMap implements Serializable {
     @Field("gears")
     private Set<Gear> gears = new HashSet<>();
 
+    @Field("squadron")
+    private String squadronId;
+
     public Set<Gear> getGears() {
         return gears;
     }
@@ -78,7 +81,15 @@ public class UnitMap implements Serializable {
 		this.numberOfUnit = numberOfUnit;
 	}
 
-	 @Override
+    public String getSquadronId() {
+        return squadronId;
+    }
+
+    public void setSquadronId(String squadronId) {
+        this.squadronId = squadronId;
+    }
+
+    @Override
 	    public boolean equals(Object o) {
 	        if (this == o) {
 	            return true;

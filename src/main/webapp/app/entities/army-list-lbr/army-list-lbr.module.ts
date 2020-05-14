@@ -7,6 +7,7 @@ import { ArmyListLbrDetailComponent } from './army-list-lbr-detail.component';
 import { ArmyListLbrUpdateComponent } from './army-list-lbr-update.component';
 import { ArmyListLbrDeleteDialogComponent } from './army-list-lbr-delete-dialog.component';
 import { ArmyListLbrAssociateUnitDialogComponent } from './army-list-lbr-associate-unit-dialog.component';
+import { SquadronDialogComponent } from './squadron-dialog.component';
 import { armyListRoute } from './army-list-lbr.route';
 
 @NgModule({
@@ -16,8 +17,9 @@ import { armyListRoute } from './army-list-lbr.route';
     ArmyListLbrDetailComponent,
     ArmyListLbrUpdateComponent,
     ArmyListLbrDeleteDialogComponent,
-    ArmyListLbrAssociateUnitDialogComponent
+    ArmyListLbrAssociateUnitDialogComponent,
+    SquadronDialogComponent
   ],
-  entryComponents: [ArmyListLbrDeleteDialogComponent, ArmyListLbrAssociateUnitDialogComponent]
+  entryComponents: [ArmyListLbrDeleteDialogComponent, ArmyListLbrAssociateUnitDialogComponent, SquadronDialogComponent]
 })
 export class LibrariusArmyListLbrModule {}

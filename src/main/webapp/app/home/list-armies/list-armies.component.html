@@ -1,23 +1,30 @@
 <div>
 	<span>Liste(s) cr&eacute;&eacute;e(s) :&nbsp;{{armyList.length}}</span>
-	<button *ngIf="!showForm" type="button" class="btn btn-primary float-right" (click)="startCreatingNewList()">Ajouter une liste</button>
+	<button *ngIf="!showForm" type="button" class="btn btn-sm btn-primary float-right" (click)="startCreatingNewList()">Ajouter une liste</button>
 </div>
 <br>
 <div *ngIf="showForm" class="new-list-form">
-	<div class="form-group">
-       <label class="form-control-label" jhiTranslate="librariusApp.armyList.listName" for="field_listName">List Name</label>
-       <input type="text" class="form-control" name="listName" id="field_listName" [(ngModel)]="newArmyList.listName" />
-       <br>
-       <button type="button" class="btn btn-primary float-right" (click)="createArmyList();">Enregistrer</button>
-       <button type="button" class="btn btn-secondary float-left" (click)="showForm = false;">Annuler</button>
-       <br>
+	<div class="form-group p-grid">
+        <div class="p-col-12">
+            <label class="form-control-label" for="field_listName">Nom de la liste :</label>
+            <input type="text" class="form-control" name="listName" id="field_listName" [(ngModel)]="newArmyList.listName" />
+        </div>
+        <div class="p-col-6">
+            <button type="button" class="btn btn-sm btn-secondary" (click)="showForm = false;">Annuler</button>
+        </div>
+        <div class="p-col-6">
+            <button type="button" class="btn btn-sm btn-primary" (click)="createArmyList();">Enregistrer</button>
+        </div>
    </div>
 </div>
-<ul>
+<ul *ngIf="!showForm">
 	<li *ngFor="let army of armyList">
-		<span *ngIf="army != null">
-			<span class="important-text"><a [routerLink]="['/army-list-lbr', army.id, 'view']">{{army.listName}}</a></span>
-			<button type="button" class="btn btn-danger float-right" (click)="deleteListAndUpdateUser(army.id);">Supprimer</button>
+		<span *ngIf="army != null" class="p-grid">
+			<span class="important-text p-col-8"><a [routerLink]="['/army-list-lbr', army.id, 'view']">{{army.listName}}</a></span>
+            <span class="p-col-4">
+                <button type="button" class="btn btn-sm btn-danger" (click)="deleteListAndUpdateUser(army.id);">Supprimer</button>
+            </span>
+            <span class="p-col-8">({{army.totalPoint}} points)</span>
 		</span>
 	</li>
 </ul>

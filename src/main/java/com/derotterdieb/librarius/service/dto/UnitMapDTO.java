@@ -21,6 +21,8 @@ public class UnitMapDTO implements Serializable {
     @NotNull
     private Integer numberOfUnit;
 
+    private String squadronId;
+
     private Set<GearDTO> gears = new HashSet<>();
 
 	public String getId() {
@@ -53,5 +55,13 @@ public class UnitMapDTO implements Serializable {
 
     public void setGears(Set<GearDTO> gears) {
         this.gears = gears;
+    }
+
+    public String getSquadronId() {
+        return squadronId;
+    }
+
+    public void setSquadronId(String squadronId) {
+        this.squadronId = squadronId;
     }
 }

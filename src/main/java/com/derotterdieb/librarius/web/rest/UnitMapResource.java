@@ -32,7 +32,7 @@ public class UnitMapResource {
 
     private final Logger log = LoggerFactory.getLogger(UnitMapResource.class);
 
-    private static final String ENTITY_NAME = "unit";
+    private static final String ENTITY_NAME = "unitMap";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;

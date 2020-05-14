@@ -19,7 +19,12 @@
 			</dd>
 		</dl>
 
-		<dl class="jh-entity-details p-col-12" *ngIf="armyList.unitMaps != null">
+        <dl class="p-col-12 jh-entity-details">
+            <label for="squadron-view"><b>Afficher les escouades</b></label>
+            <input id="squadron-view" name="squadron-view" type="checkbox" [(ngModel)]="squadronView" />
+        </dl>
+
+		<dl class="jh-entity-details p-col-12" *ngIf="armyList.unitMaps != null && !squadronView">
 			<h4>Unit&eacute;</h4>
 			<ul>
 				<li *ngFor="let unitMap of armyList.unitMaps">
@@ -39,11 +44,13 @@
                         <div class="p-col-12 p-grid" *ngIf="toggledGear === unitMap.id">
                             <div class="p-col-12">
                                 <ul>
-                                    <li *ngFor="let gear of unitMap.gears">
-                                        <span>{{gear.gearName}} ({{gear.pointValue}} points)</span>
-                                        <button class="btn btn-sm btn-icon btn-icon-danger" (click)="removeGearFromUnit(gear, unitMap)">
-                                            <span>-</span>
-                                        </button>
+                                    <li *ngFor="let gear of unitMap.gears" class="p-grid">
+                                        <span class="p-col-8">{{gear.gearName}} ({{gear.pointValue}} points)</span>
+                                        <span class="p-col-4">
+                                            <button class="btn btn-sm btn-icon btn-icon-danger" (click)="removeGearFromUnit(gear, unitMap)">
+                                                <span>-</span>
+                                            </button>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
@@ -59,11 +66,13 @@
                             <div class="p-col-12">
                                 <span>R&eacute;sultat(s) : {{gearList.length}}</span>
                                 <ul>
-                                    <li *ngFor="let gear of gearList">
-                                        <span>{{gear.gearName}} ({{gear.pointValue}} points)</span>
-                                        <button class="btn btn-sm btn-icon btn-icon-info" (click)="addGearToUnit(gear, unitMap)">
-                                            <span>+</span>
-                                        </button>
+                                    <li *ngFor="let gear of gearList" class="p-grid">
+                                        <span class="p-col-8">{{gear.gearName}} ({{gear.pointValue}} points)</span>
+                                        <span class="p-col-4">
+                                            <button class="btn btn-sm btn-icon btn-icon-info" (click)="addGearToUnit(gear, unitMap)">
+                                                <span>+</span>
+                                            </button>
+                                        </span>
                                     </li>
                                 </ul>
                             </div>
@@ -73,7 +82,7 @@
 			</ul>
 		</dl>
 
-		<dl class="p-col-12 jh-entity-details">
+		<dl class="p-col-12 jh-entity-details" *ngIf="!squadronView">
 			<button type="button" (click)="addNewUnit = true;" class="btn btn-primary" *ngIf="!addNewUnit">
 				Ajouter une unit&eacute;
 			</button>
@@ -108,6 +117,54 @@
 				</div>
 			</dt>
 		</dl>
+        <dl class="p-col-12 jh-entity-details" *ngIf="squadronView">
+            <dt>
+                <div class="p-grid">
+                    <div class="p-col-12 important-text">&Eacute;scouade(s) : {{squadrons.length}}</div>
+                    <div class="p-col-12" *ngIf="!isCreatingSquadron">
+                        <button class="btn btn-sm btn-primary" type="button" (click)="isCreatingSquadron = !isCreatingSquadron">
+                            Cr&eacute;er une escouade
+                        </button>
+                    </div>
+                    <div class="p-col-12" *ngIf="squadrons.length > 0">
+                        <ul *ngFor="let squads of squadrons">
+                            <span class="important-text">{{squads.name}}</span>
+                            <li *ngFor="let unitMap of squads.unitMaps">
+                                {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="p-col-12 p-grid" *ngIf="isCreatingSquadron">
+                        <div class="p-col-12 from-group">
+                            <label class="form-control-label" for="field_squadronName">Nom de l'escouade :</label>
+                            <input type="text" class="form-control" name="squadronName" id="field_squadronName" [(ngModel)]="newSquadronName" />
+                        </div>
+                        <div class="p-col-6">
+                            <button type="button" (click)="newSquadronName = ''; isCreatingSquadron = false;" class="btn btn-sm btn-secondary">Annuler</button>
+                        </div>
+                        <div class="p-col-6">
+                            <button type="button" (click)="createSquadron()" class="btn btn-sm btn-primary">Enregistrer</button>
+                        </div>
+                    </div>
+                </div>
+            </dt>
+            <br>
+            <dt *ngIf="!isCreatingSquadron">
+               <div class="p-grid">
+                   <div class="important-text p-col-12">Unit&eacute;e(s) sans escouade :</div>
+                   <ul class="p-col-12">
+                       <li *ngFor="let unitMap of unitWithoutSquadron" class="p-grid">
+                           <span class="p-col-8">
+                               {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)
+                           </span>
+                           <span class="p-col-4">
+                               <button type="button" class="btn btn-sm btn-info" (click)="addUnitMapToSquadron(unitMap)">Affilier</button>
+                           </span>
+                       </li>
+                   </ul>
+               </div>
+            </dt>
+        </dl>
 
 		<div class="p-col-12">
 			<button type="submit" (click)="previousState()" class="btn btn-info">
