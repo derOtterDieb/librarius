@@ -6,6 +6,19 @@
 /* ==============================================================
 Bootstrap tweaks
 ===============================================================*/
+body {
+  background-color: #1d1916 !important;
+  color: #f4f2f0 !important;
+}
+
+.card {
+  background-color: #1d1916;
+  color: #f4f2f0;
+}
+
+.bg-dark {
+  background-color: $banner !important;
+}
 
 body,
 h1,
@@ -17,12 +30,12 @@ h4 {
 
 /* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
 a {
-  color: #533f03;
+  color: #3c7377;
   font-weight: bold;
 }
 
 a:hover {
-  color: #533f03;
+  color: #4d9499;
 }
 
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
@@ -49,8 +62,8 @@ Browser Upgrade Prompt
 ========================================================================== */
 .browserupgrade {
   margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
+  background-color: #1d1916;
+  color: #f4f2f0;
   padding: 0.2em 0;
 }
 
@@ -61,11 +74,11 @@ Generic styles
 /* Error highlight on input fields */
 .ng-valid[required],
 .ng-valid.required {
-  border-left: 5px solid green;
+  border-left: 5px solid #3c7377;
 }
 
 .ng-invalid:not(form) {
-  border-left: 5px solid red;
+  border-left: 5px solid #c12a2c;
 }
 
 /* other generic styles */
@@ -78,7 +91,7 @@ Generic styles
 
 .error {
   color: white;
-  background-color: red;
+  background-color: #c12a2c;
 }
 
 .pad {
@@ -99,7 +112,8 @@ Generic styles
 }
 
 .readonly {
-  background-color: #eee;
+  background-color: #1d1916;
+  color: #f4f2f0;
   opacity: 1;
 }
 
@@ -169,7 +183,7 @@ entity detail page css
       margin-bottom: 15px;
     }
     dd {
-      border-bottom: 1px solid #eee;
+      border-bottom: 1px solid #67574c;
       padding-left: 180px;
       margin-left: 0;
     }
@@ -210,7 +224,7 @@ ui bootstrap tweaks
 
 .important-text {
   font-weight: 600;
-  color: var(--primary);
+  color: #3c7377;
   font-size: 1.3rem;
 }
 
@@ -260,11 +274,11 @@ ui bootstrap tweaks
 }
 
 .btn-icon-primary {
-  background-color: var(--primary) !important;
+  background-color: #294f52 !important;
 }
 
 .btn-icon-danger {
-  background-color: var(--danger) !important;
+  background-color: #c12a2c !important;
 }
 
 .btn-icon-secondary {
@@ -272,23 +286,23 @@ ui bootstrap tweaks
 }
 
 .btn-icon-info {
-  background-color: var(--info) !important;
+  background-color: #877364 !important;
 }
 
 .primary {
-  color: var(--primary);
+  color: $primary;
 }
 
 .danger {
-  color: var(--danger);
+  color: $danger;
 }
 
 .secondary {
-  color: var(--secondary);
+  color: $secondary;
 }
 
 .info {
-  color: var(--info);
+  color: $info;
 }
 
 ul {
