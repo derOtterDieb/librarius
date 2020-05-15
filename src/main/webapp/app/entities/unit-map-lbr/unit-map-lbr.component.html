@@ -1,0 +1,54 @@
+<ul>
+    <li *ngFor="let unitMap of unitMaps">
+        <div class="p-grid">
+            <span class="p-col-12">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)</span>
+            <span class="p-col-6">
+                <button class="btn btn-sm btn-info" type="button" (click)="toggleGear(unitMap)">
+                    &nbsp;<span>&Eacute;quipement</span>
+                </button>
+            </span>
+            <span class="p-col-6">
+                <button type="button" class="btn btn-sm btn-danger" (click)="deleteUnit(unitMap)">
+                    <fa-icon icon="trash-alt"></fa-icon>
+                    &nbsp;<span jhiTranslate="entity.action.delete">delete</span>
+                </button>
+            </span>
+            <div class="p-col-12 p-grid" *ngIf="toggledGear === unitMap.id">
+                <div class="p-col-12">
+                    <ul>
+                        <li *ngFor="let gear of unitMap.gears" class="p-grid">
+                            <span class="p-col-8">{{gear.gearName}} ({{gear.pointValue}} points)</span>
+                            <span class="p-col-4">
+                                <button class="btn btn-sm btn-icon btn-icon-danger" (click)="removeGearFromUnit(gear, unitMap)">
+                                    <span>-</span>
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="p-col-12">
+                    <button type="button" [routerLink]="['/gear-lbr/new']" class="btn btn-sm btn-primary">Créer un équipement</button>
+                </div>
+                <div class="p-col-8">
+                    <input placeholder="Nom de l'équipement" [(ngModel)]="gearSearch" type="text"/>
+                </div>
+                <div class="p-col-4">
+                    <button type="button" class="btn btn-sm btn-secondary" (click)="searchGear()">Chercher</button>
+                </div>
+                <div class="p-col-12">
+                    <span>R&eacute;sultat(s) : {{gearList.length}}</span>
+                    <ul>
+                        <li *ngFor="let gear of gearList" class="p-grid">
+                            <span class="p-col-8">{{gear.gearName}} ({{gear.pointValue}} points)</span>
+                            <span class="p-col-4">
+                                <button class="btn btn-sm btn-icon btn-icon-info" (click)="addGearToUnit(gear, unitMap)">
+                                    <span>+</span>
+                                </button>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>

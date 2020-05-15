@@ -9,12 +9,13 @@ import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArmyListLbrAssociateUnitDialogComponent } from 'app/entities/army-list-lbr/army-list-lbr-associate-unit-dialog.component';
 import { IUnitMapLbr, UnitMapLBr } from 'app/shared/model/unit-map-lbr.model';
-import { GearLbr, IGearLbr } from 'app/shared/model/gear-lbr.model';
+import { IGearLbr } from 'app/shared/model/gear-lbr.model';
 import { UnitMapLbrService } from 'app/entities/unit-map-lbr/unit-map-lbr.service';
 import { SquadronLbrService } from 'app/entities/squadron-lbr/squadron-lbr.service';
 import { SquadronLbr } from 'app/shared/model/squadron-lbr.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { SquadronDialogComponent } from 'app/entities/army-list-lbr/squadron-dialog.component';
+import { computeGearPoint } from 'app/shared/util/compute-points-util';
 
 export interface ISquadronMap {
   squadronId: string;
@@ -35,7 +36,6 @@ export class ArmyListLbrDetailComponent implements OnInit {
   public addNewUnit = false;
   public newUnit: IUnitLbr;
   public availableUnit: Observable<any>;
-  public toggledGear: string;
   public gearSearch: string;
   public gearList: IGearLbr[];
   public unitSearch: string;
@@ -60,7 +60,6 @@ export class ArmyListLbrDetailComponent implements OnInit {
   ) {
     this.newUnit = new UnitLbr();
     this.availableUnit = new Observable<any>();
-    this.toggledGear = '';
     this.gearSearch = '';
     this.gearList = new Array<IGearLbr>();
     this.unitSearch = '';
@@ -90,14 +89,7 @@ export class ArmyListLbrDetailComponent implements OnInit {
         () => {},
         () => {
           if (this.armyList && this.armyList.unitMaps && this.armyList.id) {
-            this.armyListId = this.armyList.id;
-            this.armyList.unitMaps.sort((a: IUnitMapLbr, b: IUnitMapLbr) => {
-              if (a.unit && a.unit.unitName && b.unit && b.unit.unitName) {
-                return a.unit?.unitName?.toUpperCase() > b.unit?.unitName?.toUpperCase() ? 1 : -1;
-              } else {
-                return -1;
-              }
-            });
+            this.sortArmyListUnitMaps();
             for (const unitMap of this.armyList.unitMaps) {
               if (unitMap.squadronId !== null) {
                 this.unitWithSquadron.push(unitMap);
@@ -159,52 +151,6 @@ export class ArmyListLbrDetailComponent implements OnInit {
     modalRef.result.then(() => this.getAllUnits());
   }
 
-  public deleteUnit(unit: IUnitMapLbr): void {
-    if (this.armyList) {
-      this.armyListService.removeUnit(this.armyList, unit).subscribe(() => this.ngOnInit());
-    }
-  }
-
-  public toggleGear(unitMap: IUnitMapLbr): void {
-    if (this.toggledGear !== unitMap.id) {
-      this.toggledGear = unitMap.id ? unitMap.id : '';
-    } else {
-      this.toggledGear = '';
-    }
-  }
-
-  public searchGear(): void {
-    if (this.gearSearch !== '' && this.gearSearch != null) {
-      this.gearService.findAllByName(this.gearSearch).subscribe(
-        res => (this.gearList = res.body ? res.body : new Array<GearLbr>()),
-        () => {},
-        () => {
-          this.gearList.sort((a: IGearLbr, b: IGearLbr) => {
-            if (a && a.gearName && b && b.gearName) {
-              return a.gearName.toUpperCase() > b.gearName.toUpperCase() ? 1 : -1;
-            } else {
-              return -1;
-            }
-          });
-        }
-      );
-    } else {
-      this.gearService.query().subscribe(
-        res => (this.gearList = res.body ? res.body : new Array<GearLbr>()),
-        () => {},
-        () => {
-          this.gearList.sort((a: IGearLbr, b: IGearLbr) => {
-            if (a && a.gearName && b && b.gearName) {
-              return a.gearName.toUpperCase() > b.gearName.toUpperCase() ? 1 : -1;
-            } else {
-              return -1;
-            }
-          });
-        }
-      );
-    }
-  }
-
   public searchUnit(): void {
     if (this.unitSearch !== '' && this.unitSearch != null) {
       this.availableUnit = this.unitService.getAllByName(this.unitSearch);
@@ -213,35 +159,8 @@ export class ArmyListLbrDetailComponent implements OnInit {
     }
   }
 
-  public addGearToUnit(gear: IGearLbr, unitMap: UnitMapLBr): void {
-    if (unitMap) {
-      if (unitMap.gears) {
-        unitMap.gears.push(gear);
-      } else {
-        unitMap.gears = new Array<GearLbr>();
-        unitMap.gears.push(gear);
-      }
-      this.unitMapLbrService.update(unitMap).subscribe(() => this.getAllUnits());
-    }
-  }
-
-  public removeGearFromUnit(gear: IGearLbr, unitMap: UnitMapLBr): void {
-    if (unitMap && unitMap.gears) {
-      unitMap.gears.splice(unitMap.gears.indexOf(gear), 1);
-      this.unitMapLbrService.update(unitMap).subscribe(() => this.getAllUnits());
-    }
-  }
-
   public computeGearPoint(unitMap: IUnitMapLbr): number {
-    if (unitMap && unitMap.gears) {
-      let result = 0;
-      for (const gear of unitMap.gears) {
-        result += gear.pointValue ? gear.pointValue : 0;
-      }
-      return result;
-    } else {
-      return 0;
-    }
+    return computeGearPoint(unitMap);
   }
 
   public createSquadron(): void {
@@ -267,5 +186,28 @@ export class ArmyListLbrDetailComponent implements OnInit {
     modalRef.componentInstance.listId = this.armyList?.id;
 
     modalRef.result.then(() => this.getAllUnits());
+  }
+
+  public shouldReloadUnitList(): void {
+    this.activatedRoute.paramMap.subscribe(params => {
+      this.armyListService.find(params.get('id')).subscribe(
+        res => (this.armyList = res.body),
+        () => {},
+        () => this.sortArmyListUnitMaps()
+      );
+    });
+  }
+
+  private sortArmyListUnitMaps(): void {
+    if (this.armyList && this.armyList.unitMaps && this.armyList.id) {
+      this.armyListId = this.armyList.id;
+      this.armyList.unitMaps.sort((a: IUnitMapLbr, b: IUnitMapLbr) => {
+        if (a.unit && a.unit.unitName && b.unit && b.unit.unitName) {
+          return a.unit?.unitName?.toUpperCase() > b.unit?.unitName?.toUpperCase() ? 1 : -1;
+        } else {
+          return -1;
+        }
+      });
+    }
   }
 }

@@ -9,9 +9,10 @@ import { ArmyListLbrDeleteDialogComponent } from './army-list-lbr-delete-dialog.
 import { ArmyListLbrAssociateUnitDialogComponent } from './army-list-lbr-associate-unit-dialog.component';
 import { SquadronDialogComponent } from './squadron-dialog.component';
 import { armyListRoute } from './army-list-lbr.route';
+import { LibrariusUnitMapLbrModule } from 'app/entities/unit-map-lbr/unit-map-lbr.module';
 
 @NgModule({
-  imports: [LibrariusSharedModule, RouterModule.forChild(armyListRoute)],
+  imports: [LibrariusSharedModule, RouterModule.forChild(armyListRoute), LibrariusUnitMapLbrModule],
   declarations: [
     ArmyListLbrComponent,
     ArmyListLbrDetailComponent,
