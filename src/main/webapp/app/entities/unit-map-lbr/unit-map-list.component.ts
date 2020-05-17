@@ -5,7 +5,6 @@ import { IUnitMapLbr } from 'app/shared/model/unit-map-lbr.model';
 import { Subscription } from 'rxjs';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { IGearLbr } from 'app/shared/model/gear-lbr.model';
 import { UnitMapLbrService } from 'app/entities/unit-map-lbr/unit-map-lbr.service';
 
 @Component({
@@ -46,7 +45,7 @@ export class UnitMapListComponent implements OnInit, OnDestroy {
     }
   }
 
-  trackId(index: number, item: IGearLbr): string {
+  trackId(index: number, item: IUnitMapLbr): string {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return item.id!;
   }
@@ -63,7 +62,7 @@ export class UnitMapListComponent implements OnInit, OnDestroy {
         sort: this.sort()
       })
       .subscribe(
-        (res: HttpResponse<IGearLbr[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
+        (res: HttpResponse<IUnitMapLbr[]>) => this.onSuccess(res.body, res.headers, pageToLoad),
         () => this.onError()
       );
   }
@@ -82,7 +81,7 @@ export class UnitMapListComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  protected onSuccess(data: IGearLbr[] | null, headers: HttpHeaders, page: number): void {
+  protected onSuccess(data: IUnitMapLbr[] | null, headers: HttpHeaders, page: number): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     this.ngbPaginationPage = this.page;
