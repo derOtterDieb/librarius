@@ -81,7 +81,7 @@
 		</dl>
         <dl class="p-col-12 jh-entity-details" *ngIf="squadronView">
             <dt>
-                <jhi-squadron-lbr [userId]="userId" [armyListId]="armyList.id"></jhi-squadron-lbr>
+                <jhi-squadron-lbr [userId]="userId" [armyListId]="armyList.id" (emit)="shouldReloadUnitList()"></jhi-squadron-lbr>
             </dt>
         </dl>
 	</div>

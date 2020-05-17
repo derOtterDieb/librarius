@@ -39,11 +39,9 @@ export class SquadronDialogComponent implements OnInit {
 
   save(): void {
     if (this.unitMap) {
-      this.unitMap.squadronId = this.selectedSquad.id;
-      this.unitMapLbrService.update(this.unitMap).subscribe(
-        () => {},
-        () => {},
-        () => this.cancel()
+      this.unitMapLbrService.createOrAddToSquadronMap(this.unitMap.id!, this.selectedSquad.id!, this.userId!, this.listId!).subscribe(
+        () => this.cancel(),
+        () => {}
       );
     }
   }

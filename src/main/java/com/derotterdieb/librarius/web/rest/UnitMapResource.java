@@ -138,11 +138,10 @@ public class UnitMapResource {
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
 
-    /*@GetMapping("/_search/unit-maps")
-    public ResponseEntity<List<UnitMapDTO>> searchUnits(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of UnitMaps for query {}", query);
-        Page<UnitMapDTO> page = unitMapService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-    }*/
+    @PutMapping("/unit-maps/unitMapId/{unitMapId}/affiliate/{squadId}/userId/{userId}/listId/{listId}")
+    public ResponseEntity<Void> createOrAddToSquadronMap(@PathVariable String unitMapId, @PathVariable String squadId, @PathVariable String userId, @PathVariable String listId) {
+        log.debug("REST request to associate unit to squadron");
+        unitMapService.createOrAddToSquadronMap(unitMapId, squadId, userId, listId);
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "association")).build();
+    }
 }

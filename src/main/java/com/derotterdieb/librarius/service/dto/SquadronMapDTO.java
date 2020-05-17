@@ -1,6 +1,7 @@
 package com.derotterdieb.librarius.service.dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SquadronMapDTO implements Serializable {
@@ -36,6 +37,9 @@ public class SquadronMapDTO implements Serializable {
     }
 
     public List<UnitMapDTO> addUnitMap(UnitMapDTO unitMap) {
+        if (this.unitMaps == null) {
+            this.unitMaps = new ArrayList<>();
+        }
         this.unitMaps.add(unitMap);
         return this.unitMaps;
     }

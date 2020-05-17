@@ -45,4 +45,10 @@ export class UnitMapLbrService {
   findUnitMapWithoutSquadronByListId(listId: string): Observable<EntityArrayResponseType> {
     return this.http.get<IUnitMapLbr[]>(`${this.resourceUrl}/list/${listId}/no-squad`, { observe: 'response' });
   }
+
+  createOrAddToSquadronMap(unitMapId: string, squadId: string, userId: string, listId: string): Observable<HttpResponse<any>> {
+    return this.http.put<any>(`${this.resourceUrl}/unitMapId/${unitMapId}/affiliate/${squadId}/userId/${userId}/listId/${listId}`, {
+      observe: 'response'
+    });
+  }
 }

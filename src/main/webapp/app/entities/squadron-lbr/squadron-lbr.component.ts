@@ -46,6 +46,14 @@ export class SquadronLbrComponent implements OnInit {
     this.getUnitWithoutSquadron();
   }
 
+  private reload(): void {
+    this.squadrons = new Observable<SquadronMapLbr[]>();
+    this.newSquadronName = '';
+    this.unitWithoutSquadron = new Observable<IUnitMapLbr[]>();
+    this.getSquadrons();
+    this.getUnitWithoutSquadron();
+  }
+
   public getSquadrons(): void {
     this.squadrons = this.squadronMapLbrService.findByUserIdAndListId(this.userId, this.armyListId).pipe(map(res => res.body));
   }
@@ -59,6 +67,11 @@ export class SquadronLbrComponent implements OnInit {
     modalRef.componentInstance.unitMap = unitMap;
     modalRef.componentInstance.userId = this.userId;
     modalRef.componentInstance.listId = this.armyListId;
+
+    modalRef.result.then(
+      () => this.reload(),
+      () => this.reload()
+    );
   }
 
   public createSquadron(): void {

@@ -50,7 +50,7 @@ export class UnitMapLbrComponent implements OnInit {
 
   public deleteUnit(unit: IUnitMapLbr): void {
     if (this.armyListId) {
-      this.armyListLbrService.removeUnit(this.armyListId, unit).subscribe(() => this.ngOnInit());
+      this.armyListLbrService.removeUnit(this.armyListId, unit).subscribe(() => this.emit.emit());
     }
   }
 

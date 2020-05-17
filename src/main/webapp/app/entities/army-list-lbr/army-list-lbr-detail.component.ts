@@ -79,7 +79,7 @@ export class ArmyListLbrDetailComponent implements OnInit {
     const modalRef = this.modalService.open(ArmyListLbrAssociateUnitDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.armyList = this.armyList;
     modalRef.componentInstance.unit = unit;
-    modalRef.result.then(() => this.getAllUnits());
+    modalRef.result.then(() => this.shouldReloadUnitList());
   }
 
   public searchUnit(): void {
