@@ -13,7 +13,7 @@ import { SquadronListComponent } from 'app/entities/squadron-lbr/squadron-list.c
 import { SquadronEditComponent } from 'app/entities/squadron-lbr/squadron-edit.component';
 
 @Injectable({ providedIn: 'root' })
-export class UnitMapLbrResolve implements Resolve<ISquadronLbr> {
+export class SquadronLbrResolve implements Resolve<ISquadronLbr> {
   constructor(private service: SquadronLbrService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ISquadronLbr> | Observable<never> {
@@ -52,7 +52,7 @@ export const squadronRoute: Routes = [
     path: 'new',
     component: SquadronEditComponent,
     resolve: {
-      unitMap: UnitMapLbrResolve
+      unitMap: SquadronLbrResolve
     },
     data: {
       authorities: [Authority.USER, Authority.ADMIN],
@@ -64,7 +64,7 @@ export const squadronRoute: Routes = [
     path: ':id/edit',
     component: SquadronEditComponent,
     resolve: {
-      unitMap: UnitMapLbrResolve
+      unitMap: SquadronLbrResolve
     },
     data: {
       authorities: [Authority.USER, Authority.ADMIN],

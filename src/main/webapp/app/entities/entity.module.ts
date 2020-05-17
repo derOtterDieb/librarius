@@ -27,6 +27,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'squadron-lbr',
         loadChildren: () => import('./squadron-lbr/squadron-lbr.module').then(m => m.LibrariusSquadronLbrModule)
+      },
+      {
+        path: 'squadron-map-lbr',
+        loadChildren: () => import('./squadron-map-lbr/squadron-map.module').then(m => m.LibrariusSquadronMapModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

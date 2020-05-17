@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-gear-lbr-heading">Create or edit a squad</h2>
+            <h2 id="jhi-gear-lbr-heading">Create or edit a squad map</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -12,10 +12,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_name">unit</label>
-                    <input type="text" class="form-control" name="name" id="field_name"
-                           formControlName="name"/>
-                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                    <label class="form-control-label" for="field_squadron">unit</label>
+                    <input type="text" class="form-control" name="squadron" id="field_squadron"
+                           formControlName="squadron"/>
+                    <div *ngIf="editForm.get('squadron')!.invalid && (editForm.get('squadron')!.dirty || editForm.get('squadron')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('name')?.errors?.required" jhiTranslate="entity.validation.required">
                             This field is required.
@@ -24,24 +24,12 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_userId">numberOfUnit</label>
-                    <input type="text" class="form-control" name="userId" id="field_userId"
-                           formControlName="userId"/>
-                    <div *ngIf="editForm.get('userId')!.invalid && (editForm.get('userId')!.dirty || editForm.get('userId')!.touched)">
+                    <label class="form-control-label" for="field_unitMaps">numberOfUnit</label>
+                    <input type="text" class="form-control" name="unitMaps" id="field_unitMaps"
+                           formControlName="unitMaps"/>
+                    <div *ngIf="editForm.get('unitMaps')!.invalid && (editForm.get('unitMaps')!.dirty || editForm.get('unitMaps')!.touched)">
                         <small class="form-text text-danger"
-                               *ngIf="editForm.get('userId')?.errors?.required" jhiTranslate="entity.validation.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_listId">numberOfUnit</label>
-                    <input type="text" class="form-control" name="listId" id="field_listId"
-                           formControlName="listId"/>
-                    <div *ngIf="editForm.get('listId')!.invalid && (editForm.get('listId')!.dirty || editForm.get('listId')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('listId')?.errors?.required" jhiTranslate="entity.validation.required">
+                               *ngIf="editForm.get('unitMaps')?.errors?.required" jhiTranslate="entity.validation.required">
                             This field is required.
                         </small>
                     </div>

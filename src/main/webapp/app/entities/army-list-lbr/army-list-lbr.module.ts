@@ -10,9 +10,16 @@ import { ArmyListLbrAssociateUnitDialogComponent } from './army-list-lbr-associa
 import { armyListRoute } from './army-list-lbr.route';
 import { LibrariusUnitMapLbrModule } from 'app/entities/unit-map-lbr/unit-map-lbr.module';
 import { LibrariusSquadronLbrModule } from 'app/entities/squadron-lbr/squadron-lbr.module';
+import { LibrariusSquadronMapModule } from 'app/entities/squadron-map-lbr/squadron-map.module';
 
 @NgModule({
-  imports: [LibrariusSharedModule, RouterModule.forChild(armyListRoute), LibrariusUnitMapLbrModule, LibrariusSquadronLbrModule],
+  imports: [
+    LibrariusSharedModule,
+    RouterModule.forChild(armyListRoute),
+    LibrariusUnitMapLbrModule,
+    LibrariusSquadronLbrModule,
+    LibrariusSquadronMapModule
+  ],
   declarations: [
     ArmyListLbrComponent,
     ArmyListLbrDetailComponent,
