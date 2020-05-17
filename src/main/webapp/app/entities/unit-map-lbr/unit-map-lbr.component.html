@@ -1,7 +1,9 @@
 <ul>
     <li *ngFor="let unitMap of unitMaps">
         <div class="p-grid">
-            <span class="p-col-12">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)</span>
+            <a class="p-col-12" [routerLink]="['/unit-map-lbr/view', unitMap.id]">
+                {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)
+            </a>
             <span class="p-col-6">
                 <button class="btn btn-sm btn-info" type="button" (click)="toggleGear(unitMap)">
                     &nbsp;<span>&Eacute;quipement</span>

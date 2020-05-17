@@ -5,10 +5,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import com.derotterdieb.librarius.service.SquadronMapService;
-import com.derotterdieb.librarius.service.SquadronService;
-import com.derotterdieb.librarius.service.dto.SquadronDTO;
-import com.derotterdieb.librarius.service.dto.SquadronMapDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -20,9 +16,6 @@ import com.derotterdieb.librarius.repository.UnitMapRepository;
 import com.derotterdieb.librarius.service.UnitMapService;
 import com.derotterdieb.librarius.service.dto.UnitMapDTO;
 import com.derotterdieb.librarius.service.mapper.UnitMapMapper;
-import org.springframework.transaction.annotation.Transactional;
-
-import javax.swing.text.html.Option;
 
 @Service
 public class UnitMapServiceImpl implements UnitMapService {
@@ -33,20 +26,12 @@ public class UnitMapServiceImpl implements UnitMapService {
 
 	private final UnitMapMapper unitMapMapper;
 
-	private final SquadronMapService squadronMapService;
-
-	private final SquadronService squadronService;
-
 	public UnitMapServiceImpl(
 		UnitMapRepository unitMapRepository,
-		UnitMapMapper unitMapMapper,
-        SquadronMapService squadronMapService,
-        SquadronService squadronService
+		UnitMapMapper unitMapMapper
 	) {
 		this.unitMapRepository = unitMapRepository;
 		this.unitMapMapper = unitMapMapper;
-		this.squadronMapService = squadronMapService;
-		this.squadronService = squadronService;
 	}
 
 	@Override
@@ -94,40 +79,5 @@ public class UnitMapServiceImpl implements UnitMapService {
         }
 
         return result;
-    }
-
-    @Override
-    @Transactional
-    public void createOrAddToSquadronMap(String unitMapId, String squadId, String userId, String listId) {
-        Optional<UnitMapDTO> unitMapDTOOptional = this.findOne(unitMapId);
-        if (unitMapDTOOptional.isPresent()) {
-            UnitMapDTO unitMapDTO = unitMapDTOOptional.get();
-            unitMapDTO.setSquadronId(squadId);
-            unitMapDTO = this.save(unitMapDTO);
-            List<SquadronMapDTO> squadronMapDTOS = this.squadronMapService.findByUserIdAndListId(userId, listId);
-            SquadronMapDTO squadMap = checkIfMapAlreadyExistsAndGetIt(squadronMapDTOS, squadId);
-            if (squadMap != null) {
-                squadMap.addUnitMap(unitMapDTO);
-                this.squadronMapService.save(squadMap);
-            } else {
-                Optional<SquadronDTO> squadOpt = this.squadronService.findOne(squadId);
-                if (squadOpt.isPresent()) {
-                    SquadronDTO squad = squadOpt.get();
-                    SquadronMapDTO newSquadMap = new SquadronMapDTO();
-                    newSquadMap.addUnitMap(unitMapDTO);
-                    newSquadMap.setSquadron(squad);
-                    this.squadronMapService.save(newSquadMap);
-                }
-            }
-        }
-    }
-
-    private SquadronMapDTO checkIfMapAlreadyExistsAndGetIt(List<SquadronMapDTO> squadMaps, String squadId) {
-        for (SquadronMapDTO squadMap : squadMaps) {
-            if (squadMap.getSquadron().getId().equals(squadId)) {
-                return squadMap;
-            }
-        }
-        return null;
     }
 }

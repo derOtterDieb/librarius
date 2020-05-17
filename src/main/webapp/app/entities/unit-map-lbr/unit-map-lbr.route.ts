@@ -11,6 +11,7 @@ import { UserRouteAccessService } from 'app/core/auth/user-route-access-service'
 import { UnitMapListComponent } from 'app/entities/unit-map-lbr/unit-map-list.component';
 import { UnitMapEditComponent } from 'app/entities/unit-map-lbr/unit-map-edit.component';
 import { IUnitMapLbr, UnitMapLBr } from 'app/shared/model/unit-map-lbr.model';
+import { UnitMapViewComponent } from 'app/entities/unit-map-lbr/unit-map-view.component';
 
 @Injectable({ providedIn: 'root' })
 export class UnitMapLbrResolve implements Resolve<IUnitMapLbr> {
@@ -57,6 +58,18 @@ export const unitMapRoute: Routes = [
     data: {
       authorities: [Authority.USER, Authority.ADMIN],
       pageTitle: 'new unit map'
+    },
+    canActivate: [UserRouteAccessService]
+  },
+  {
+    path: 'view/:id',
+    component: UnitMapViewComponent,
+    resolve: {
+      unitMap: UnitMapLbrResolve
+    },
+    data: {
+      authorities: [Authority.USER, Authority.ADMIN],
+      pageTitle: 'Librarius'
     },
     canActivate: [UserRouteAccessService]
   },

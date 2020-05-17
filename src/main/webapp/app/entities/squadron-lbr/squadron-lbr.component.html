@@ -6,10 +6,16 @@
         </button>
     </div>
     <div class="p-col-12" *ngIf="resultSquads.length > 0">
-        <ul *ngFor="let squads of resultSquads">
-            <span class="important-text">{{squads.squadron.name}}</span>
-            <li *ngFor="let unitMap of squads.unitMaps">
-                <span *ngIf="unitMap.unit">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}</span>
+        <ul *ngFor="let squad of resultSquads" class="p-grid">
+            <h4 class="p-col-8">{{squad.squadron.name}}</h4>
+            <span class="p-col-4">
+                <button type="button" class="btn btn-sm btn-danger" (click)="deleteSquad(squad)">Supprimer l'escouade</button>
+            </span>
+            <li *ngFor="let unitMap of squad.unitMaps" class="p-col-8 p-grid">
+                <a [routerLink]="['/unit-map-lbr/view', unitMap.id]" *ngIf="unitMap.unit" class="p-col-8">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}</a>
+                <span class="p-col-4">
+                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteUnitFromSquad(unitMap, squad)">Dissocier</button>
+                </span>
             </li>
         </ul>
     </div>
@@ -27,12 +33,12 @@
     </div>
 </div>
 <div class="p-grid" *ngIf="!isCreatingSquadron">
-    <div class="important-text p-col-12">Unit&eacute;e(s) sans escouade :</div>
+    <div class="important-text info p-col-12">Unit&eacute;e(s) sans escouade :</div>
     <ul class="p-col-12" *ngIf="unitWithoutSquadron | async as noSquadUnits">
         <li *ngFor="let unitMap of noSquadUnits" class="p-grid">
-           <span class="p-col-8" *ngIf="unitMap.unit">
+           <a class="p-col-8" *ngIf="unitMap.unit" [routerLink]="['/unit-map-lbr/view', unitMap.id]">
                {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)
-           </span>
+           </a>
             <span class="p-col-4">
                <button type="button" class="btn btn-sm btn-info" (click)="addUnitMapToSquadron(unitMap)">Affilier</button>
            </span>

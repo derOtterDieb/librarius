@@ -49,8 +49,6 @@ public interface UnitMapService {
 
     List<UnitMapDTO> getUnitMapWithoutSquadronByListId(String listId);
 
-    void createOrAddToSquadronMap(String unitMapId, String squadId, String userId, String listId);
-
     /**
      * Search for the UnitMap corresponding to the query.
      *

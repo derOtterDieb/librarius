@@ -99,4 +99,30 @@ public class SquadronMapResource {
         squadronMapService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
+
+    @DeleteMapping("/squadron-maps/cascade/{id}")
+    public ResponseEntity<Void> deleteCascadeSquadronMap(@PathVariable String id) {
+        log.debug("REST request to delete squadron map : {}", id);
+        squadronMapService.deleteCascade(id);
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
+    }
+
+    @PutMapping("/squadron-maps/remove/{unitId}/from/{squadronMapId}")
+    public ResponseEntity<SquadronMapDTO> removeUnitFromSquad(@PathVariable String unitId, @PathVariable String squadronMapId) {
+        log.debug("REST request to update squadron map : {}", squadronMapId);
+        if (squadronMapId == null) {
+            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        SquadronMapDTO result = squadronMapService.removeUnitFromSquad(unitId, squadronMapId);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, squadronMapId))
+            .body(result);
+    }
+
+    @PutMapping("/unit-maps/unitMapId/{unitMapId}/affiliate/{squadId}/userId/{userId}/listId/{listId}")
+    public ResponseEntity<Void> createOrAddToSquadronMap(@PathVariable String unitMapId, @PathVariable String squadId, @PathVariable String userId, @PathVariable String listId) {
+        log.debug("REST request to associate unit to squadron");
+        squadronMapService.createOrAddToSquadronMap(unitMapId, squadId, userId, listId);
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "association")).build();
+    }
 }

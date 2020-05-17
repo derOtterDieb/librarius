@@ -1,0 +1,39 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="unitMap">
+            <h2>
+                <span>Unité : {{ unitMap.numberOfUnit! }} x {{ unitMap.unit!.unitName! }}</span>
+            </h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Total des points :</span></dt>
+                <dd>
+                    <span>{{ unitMap.numberOfUnit! * (unitMap.unit!.totalPoint! + computeGearPoint(unitMap))}}</span>
+                </dd>
+                <dt><span>D&eacute;tails :</span></dt>
+                <dd>
+                    <span>M : {{unitMap.unit!.m!}} | CC : {{unitMap.unit!.cc!}} | CT : {{unitMap.unit!.ct!}} | F : {{unitMap.unit!.f!}} | E : {{unitMap.unit!.e!}} | PV : {{unitMap.unit!.pv!}} | A : {{unitMap.unit!.a!}} | CD : {{unitMap.unit!.cd!}} | SV : {{unitMap.unit!.sv!}}</span>
+                </dd>
+                <dt><span>&Eacute;quipement :</span></dt>
+                <dd *ngIf="unitMap.gears && unitMap.gears.length > 0">
+                    <ul>
+                        <li *ngFor="let gear of unitMap.gears">
+                            <div>{{gear.gearName}} :</div>
+                            <span>Type: {{gear.type!}} | F : {{gear.f!}} | Range : {{gear.range!}} | PA : {{gear.pa!}} | D {{gear.d!}}</span>
+                        </li>
+                    </ul>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+        </div>
+    </div>
+</div>

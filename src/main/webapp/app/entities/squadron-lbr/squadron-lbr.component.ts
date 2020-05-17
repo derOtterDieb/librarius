@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { JhiEventManager } from 'ng-jhipster';
-import { SquadronMapLbr } from 'app/shared/model/squadron-map-lbr.model';
+import { ISquadronMapLbr, SquadronMapLbr } from 'app/shared/model/squadron-map-lbr.model';
 import { SquadronLbr } from 'app/shared/model/squadron-lbr.model';
 import { SquadronLbrService } from 'app/entities/squadron-lbr/squadron-lbr.service';
 import { IUnitMapLbr } from 'app/shared/model/unit-map-lbr.model';
@@ -91,5 +91,13 @@ export class SquadronLbrComponent implements OnInit {
 
   public computeGearPoint(unitMap: IUnitMapLbr): number {
     return computeGearPoint(unitMap);
+  }
+
+  public deleteSquad(squad: ISquadronMapLbr): void {
+    this.squadronMapLbrService.deleteSquad(squad.id!).subscribe(() => this.reload());
+  }
+
+  public deleteUnitFromSquad(unitMap: IUnitMapLbr, squad: ISquadronMapLbr): void {
+    this.squadronMapLbrService.deleteUnitFromSquad(unitMap.id!, squad.id!).subscribe(() => this.reload());
   }
 }

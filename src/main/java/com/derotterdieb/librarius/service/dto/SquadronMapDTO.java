@@ -36,16 +36,16 @@ public class SquadronMapDTO implements Serializable {
         this.unitMaps = unitMaps;
     }
 
-    public List<UnitMapDTO> addUnitMap(UnitMapDTO unitMap) {
+    public SquadronMapDTO addUnitMap(UnitMapDTO unitMap) {
         if (this.unitMaps == null) {
             this.unitMaps = new ArrayList<>();
         }
         this.unitMaps.add(unitMap);
-        return this.unitMaps;
+        return this;
     }
 
-    public List<UnitMapDTO> removeUnitMap(UnitMapDTO unitmap) {
+    public SquadronMapDTO removeUnitMap(UnitMapDTO unitmap) {
         this.unitMaps.remove(unitmap);
-        return this.unitMaps;
+        return this;
     }
 }

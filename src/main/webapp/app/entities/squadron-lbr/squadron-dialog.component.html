@@ -9,10 +9,13 @@
     <div class="p-col-12" *ngIf="unitMap != null && unitMap.unit != null && unitMap.unit.unitName != null">
         Vous allez placer l'unit&eacute; : {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} dans l'escouade suivante :
     </div>
-    <div class="p-col-12 p-grid" *ngIf="squadrons | async as availableSquadrons">
-        <div *ngFor="let squadron of availableSquadrons.body">
-            <span class="p-col-11" >{{squadron.name}}<input class="p-col-1" type="radio" [(ngModel)]="selectedSquad" [value]="squadron" /></span>
-        </div>
+    <div class="p-col-12" *ngIf="squadrons | async as availableSquadrons">
+        <ul>
+            <li *ngFor="let squadron of availableSquadrons.body" class="p-grid">
+                <input class="p-col-1" type="radio" [(ngModel)]="selectedSquad" [value]="squadron" />
+                <span class="p-col-11" >{{squadron.name}}</span>
+            </li>
+        </ul>
     </div>
 </div>
 

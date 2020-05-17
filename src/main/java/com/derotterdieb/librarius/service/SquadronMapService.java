@@ -19,4 +19,10 @@ public interface SquadronMapService {
     void delete(String id);
 
     List<SquadronMapDTO> findByUserIdAndListId(String userId, String listId);
+
+    void deleteCascade(String id);
+
+    SquadronMapDTO removeUnitFromSquad(String unitId, String squadronMapId);
+
+    void createOrAddToSquadronMap(String unitMapId, String squadId, String userId, String listId);
 }

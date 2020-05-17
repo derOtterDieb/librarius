@@ -39,4 +39,12 @@ export class SquadronMapLbrService {
   delete(id: string): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
+
+  deleteSquad(squadId: string): Observable<HttpResponse<{}>> {
+    return this.http.delete(`${this.resourceUrl}/cascade/${squadId}`, { observe: 'response' });
+  }
+
+  deleteUnitFromSquad(unitId: string, squadId: string): Observable<ISquadronMapLbr> {
+    return this.http.put<ISquadronMapLbr>(`${this.resourceUrl}/remove/${unitId}/from/${squadId}`, { observe: 'response' });
+  }
 }

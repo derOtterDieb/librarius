@@ -137,11 +137,4 @@ public class UnitMapResource {
         unitMapService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, true, ENTITY_NAME, id)).build();
     }
-
-    @PutMapping("/unit-maps/unitMapId/{unitMapId}/affiliate/{squadId}/userId/{userId}/listId/{listId}")
-    public ResponseEntity<Void> createOrAddToSquadronMap(@PathVariable String unitMapId, @PathVariable String squadId, @PathVariable String userId, @PathVariable String listId) {
-        log.debug("REST request to associate unit to squadron");
-        unitMapService.createOrAddToSquadronMap(unitMapId, squadId, userId, listId);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, "association")).build();
-    }
 }
