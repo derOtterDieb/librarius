@@ -41,4 +41,8 @@ export class UnitMapLbrService {
     const options = createRequestOption(req);
     return this.http.get<IUnitMapLbr[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
   }
+
+  findUnitMapWithoutSquadronByListId(listId: string): Observable<EntityArrayResponseType> {
+    return this.http.get<IUnitMapLbr[]>(`${this.resourceUrl}/list/${listId}/no-squad`, { observe: 'response' });
+  }
 }

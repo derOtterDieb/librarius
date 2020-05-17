@@ -1,0 +1,68 @@
+<div>
+    <h2 id="page-heading">
+        <span>Unit Maps</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-gear-lbr" [routerLink]="['/unit-map/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span class="hidden-sm-down">
+            Create a unit map
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="unitMaps?.length === 0">
+        <span jhiTranslate="librariusApp.gear.home.notFound">No unit map found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="unitMaps?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                <th scope="col"><span>Unit</span></th>
+                <th scope="col"><span>numberOfUnit</span></th>
+                <th scope="col"><span>gears</span></th>
+                <th scope="col"><span>squadronId</span></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let unitMap of unitMaps ;trackBy: trackId">
+                <td>{{ unitMap?.unit?.unitName }}</td>
+                <td>{{ unitMap?.numberOfUnit }}</td>
+                <td><span *ngFor="let gear of unitMap.gears">{{ gear?.gearName + ' - '}}</span></td>
+                <td>{{ unitMap?.squadronId }}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/unit-map-lbr', unitMap.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+
+                        <button type="submit" (click)="delete(unitMap)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon icon="times"></fa-icon>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="unitMaps?.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

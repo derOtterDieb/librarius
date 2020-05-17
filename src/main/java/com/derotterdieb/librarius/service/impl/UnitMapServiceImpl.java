@@ -1,6 +1,9 @@
 package com.derotterdieb.librarius.service.impl;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,16 +26,12 @@ public class UnitMapServiceImpl implements UnitMapService {
 
 	private final UnitMapMapper unitMapMapper;
 
-//	private final UnitMapSearchRepository unitMapSearchRepository;
-
 	public UnitMapServiceImpl(
 		UnitMapRepository unitMapRepository,
 		UnitMapMapper unitMapMapper
-//		UnitMapSearchRepository unitMapSearchRepository
 	) {
 		this.unitMapRepository = unitMapRepository;
 		this.unitMapMapper = unitMapMapper;
-//		this.unitMapSearchRepository = unitMapSearchRepository;
 	}
 
 	@Override
@@ -41,7 +40,6 @@ public class UnitMapServiceImpl implements UnitMapService {
         UnitMap unitMap = unitMapMapper.toEntity(UnitMapDTO);
         unitMap = unitMapRepository.save(unitMap);
         UnitMapDTO result = unitMapMapper.toDto(unitMap);
-//        unitMapSearchRepository.save(unitMap);
         return result;
 	}
 
@@ -68,14 +66,18 @@ public class UnitMapServiceImpl implements UnitMapService {
 	public void delete(String id) {
 		log.debug("Request to delete UnitMap : {}", id);
         unitMapRepository.deleteById(id);
-//        unitMapSearchRepository.deleteById(id);
 	}
 
-/*	@Override
-	public Page<UnitMapDTO> search(String query, Pageable pageable) {
-		log.debug("Request to search for a page of Unitmapss for query {}", query);
-        return unitMapSearchRepository.search(queryStringQuery(query), pageable)
-            .map(unitMapMapper::toDto);
-	}*/
+    @Override
+    public List<UnitMapDTO> getUnitMapWithoutSquadronByListId(String listId) {
+        List<UnitMapDTO> allUnitMaps = this.unitMapRepository.findAll().stream().map(o -> unitMapMapper.toDto(o)).collect(Collectors.toList());
+        List<UnitMapDTO> result = new ArrayList<>();
+        for (UnitMapDTO unitMap : allUnitMaps) {
+            if (unitMap.getSquadronId() == null) {
+                result.add(unitMap);
+            }
+        }
 
+        return result;
+    }
 }

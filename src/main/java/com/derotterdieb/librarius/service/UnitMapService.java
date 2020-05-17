@@ -1,5 +1,6 @@
 package com.derotterdieb.librarius.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -45,6 +46,8 @@ public interface UnitMapService {
      * @param id the id of the entity.
      */
     void delete(String id);
+
+    List<UnitMapDTO> getUnitMapWithoutSquadronByListId(String listId);
 
     /**
      * Search for the UnitMap corresponding to the query.

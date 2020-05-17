@@ -3,29 +3,14 @@ import { ActivatedRoute } from '@angular/router';
 import { IUnitLbr, UnitLbr } from 'app/shared/model/unit-lbr.model';
 import { IArmyListLbr } from 'app/shared/model/army-list-lbr.model';
 import { UnitLbrService } from 'app/entities/unit-lbr/unit-lbr.service';
-import { GearLbrService } from 'app/entities/gear-lbr/gear-lbr.service';
 import { ArmyListLbrService } from 'app/entities/army-list-lbr/army-list-lbr.service';
 import { Observable } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ArmyListLbrAssociateUnitDialogComponent } from 'app/entities/army-list-lbr/army-list-lbr-associate-unit-dialog.component';
-import { IUnitMapLbr, UnitMapLBr } from 'app/shared/model/unit-map-lbr.model';
+import { IUnitMapLbr } from 'app/shared/model/unit-map-lbr.model';
 import { IGearLbr } from 'app/shared/model/gear-lbr.model';
-import { UnitMapLbrService } from 'app/entities/unit-map-lbr/unit-map-lbr.service';
-import { SquadronLbrService } from 'app/entities/squadron-lbr/squadron-lbr.service';
-import { SquadronLbr } from 'app/shared/model/squadron-lbr.model';
 import { AccountService } from 'app/core/auth/account.service';
-import { SquadronDialogComponent } from 'app/entities/army-list-lbr/squadron-dialog.component';
-import { computeGearPoint } from 'app/shared/util/compute-points-util';
-
-export interface ISquadronMap {
-  squadronId: string;
-  unitMaps: IUnitMapLbr[];
-  name: string;
-}
-
-export class SquadronMap implements ISquadronMap {
-  constructor(public squadronId: string, public unitMaps: IUnitMapLbr[], public name: string) {}
-}
+import { ISquadronMapLbr, SquadronMapLbr } from 'app/shared/model/squadron-map-lbr.model';
 
 @Component({
   selector: 'jhi-army-list-lbr-detail',
@@ -40,22 +25,15 @@ export class ArmyListLbrDetailComponent implements OnInit {
   public gearList: IGearLbr[];
   public unitSearch: string;
   public squadronView: boolean;
-  public unitWithSquadron: IUnitMapLbr[];
-  public unitWithoutSquadron: IUnitMapLbr[];
-  public squadrons: ISquadronMap[];
-  public newSquadronName: string;
-  public isCreatingSquadron = false;
+  public squadrons: ISquadronMapLbr[];
   public userId: any;
   public armyListId: string;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
     protected unitService: UnitLbrService,
-    protected gearService: GearLbrService,
     protected armyListService: ArmyListLbrService,
-    protected unitMapLbrService: UnitMapLbrService,
     protected modalService: NgbModal,
-    protected squadronLbrService: SquadronLbrService,
     private accountService: AccountService
   ) {
     this.newUnit = new UnitLbr();
@@ -64,10 +42,7 @@ export class ArmyListLbrDetailComponent implements OnInit {
     this.gearList = new Array<IGearLbr>();
     this.unitSearch = '';
     this.squadronView = false;
-    this.unitWithSquadron = new Array<IUnitMapLbr>();
-    this.unitWithoutSquadron = new Array<IUnitMapLbr>();
-    this.squadrons = new Array<SquadronMap>();
-    this.newSquadronName = '';
+    this.squadrons = new Array<SquadronMapLbr>();
     this.userId = '';
     this.armyListId = '';
   }
@@ -90,16 +65,6 @@ export class ArmyListLbrDetailComponent implements OnInit {
         () => {
           if (this.armyList && this.armyList.unitMaps && this.armyList.id) {
             this.sortArmyListUnitMaps();
-            for (const unitMap of this.armyList.unitMaps) {
-              if (unitMap.squadronId !== null) {
-                this.unitWithSquadron.push(unitMap);
-              } else {
-                this.unitWithoutSquadron.push(unitMap);
-              }
-            }
-            if (this.unitWithSquadron.length > 0) {
-              this.computeSquadrons();
-            }
           }
         }
       );
@@ -108,40 +73,6 @@ export class ArmyListLbrDetailComponent implements OnInit {
 
   private getAllAvailableUnits(): void {
     this.availableUnit = this.unitService.query();
-  }
-
-  private computeSquadrons(): void {
-    const sortedBySquadron = this.unitWithSquadron.sort((a: IUnitMapLbr, b: IUnitMapLbr) => {
-      if (a.squadronId && b.squadronId) {
-        return a.squadronId > b.squadronId ? 1 : -1;
-      } else {
-        return -1;
-      }
-    });
-    for (const [index, unitMap] of sortedBySquadron.entries()) {
-      if (unitMap.squadronId != null) {
-        if (index === 0) {
-          const unitMapArray = new Array<UnitMapLBr>();
-          unitMapArray.push(unitMap);
-          const squadronMap = new SquadronMap(unitMap.squadronId, unitMapArray, '');
-          this.squadrons.push(squadronMap);
-        } else {
-          for (const squadronMap of this.squadrons) {
-            if (squadronMap.squadronId === unitMap.squadronId) {
-              squadronMap.unitMaps.push(unitMap);
-            } else {
-              const newUnitMapArray = new Array<UnitMapLBr>();
-              newUnitMapArray.push(unitMap);
-              const newSquadronMap = new SquadronMap(unitMap.squadronId, newUnitMapArray, '');
-              this.squadrons.push(newSquadronMap);
-            }
-          }
-        }
-      }
-    }
-    this.squadrons.forEach(squad => {
-      this.squadronLbrService.find(squad.squadronId).subscribe(res => (squad.name = res.body ? (res.body.name ? res.body.name : '') : ''));
-    });
   }
 
   public associate(unit: IUnitLbr): void {
@@ -157,35 +88,6 @@ export class ArmyListLbrDetailComponent implements OnInit {
     } else {
       this.availableUnit = this.unitService.query();
     }
-  }
-
-  public computeGearPoint(unitMap: IUnitMapLbr): number {
-    return computeGearPoint(unitMap);
-  }
-
-  public createSquadron(): void {
-    const squadron = new SquadronLbr();
-    squadron.userId = this.userId;
-    squadron.listId = this.armyListId;
-    squadron.name = this.newSquadronName;
-    this.squadronLbrService.create(squadron).subscribe(
-      () => {},
-      () => {},
-      () => {
-        this.newSquadronName = '';
-        this.isCreatingSquadron = false;
-        this.getAllUnits();
-      }
-    );
-  }
-
-  public addUnitMapToSquadron(unitMap: IUnitMapLbr): void {
-    const modalRef = this.modalService.open(SquadronDialogComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.unitMap = unitMap;
-    modalRef.componentInstance.userId = this.userId;
-    modalRef.componentInstance.listId = this.armyList?.id;
-
-    modalRef.result.then(() => this.getAllUnits());
   }
 
   public shouldReloadUnitList(): void {

@@ -19,6 +19,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'extended-user-lbr',
         loadChildren: () => import('./extended-user-lbr/extended-user-lbr.module').then(m => m.LibrariusExtendedUserLbrModule)
+      },
+      {
+        path: 'unit-map-lbr',
+        loadChildren: () => import('./unit-map-lbr/unit-map-lbr.module').then(m => m.LibrariusUnitMapLbrModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

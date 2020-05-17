@@ -94,7 +94,7 @@ public class UnitMap implements Serializable {
 	        if (this == o) {
 	            return true;
 	        }
-	        if (!(o instanceof ArmyList)) {
+	        if (!(o instanceof UnitMap)) {
 	            return false;
 	        }
 	        return id != null && id.equals(((UnitMap) o).id);

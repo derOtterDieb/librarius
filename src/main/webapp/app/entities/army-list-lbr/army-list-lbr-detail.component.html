@@ -1,9 +1,24 @@
 <div class="justify-content-center">
 	<div class="p-grid" *ngIf="armyList">
-		<h2 class="p-col-12">
-			<span jhiTranslate="librariusApp.armyList.detail.title">Army
-				List</span> {{ armyList.listName }}
-		</h2>
+        <div class="p-col-12 p-grid">
+            <span class="p-col-3">
+                <button type="submit" (click)="previousState()" class="btn btn-info">
+                    <fa-icon icon="arrow-left"></fa-icon>
+                    &nbsp;<span jhiTranslate="entity.action.back">Back</span>
+                </button>
+            </span>
+            <span class="p-col-9">
+                <h2>
+                    <span>{{ armyList.listName }}</span>
+                    <button type="button"
+                        [routerLink]="['/army-list-lbr', armyList.id, 'edit']"
+                        class="btn btn-primary">
+                        <fa-icon icon="pencil-alt"></fa-icon>
+                        &nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+                    </button>
+                </h2>
+            </span>
+        </div>
 
 		<hr>
 
@@ -66,65 +81,8 @@
 		</dl>
         <dl class="p-col-12 jh-entity-details" *ngIf="squadronView">
             <dt>
-                <div class="p-grid">
-                    <div class="p-col-12 important-text">&Eacute;scouade(s) : {{squadrons.length}}</div>
-                    <div class="p-col-12" *ngIf="!isCreatingSquadron">
-                        <button class="btn btn-sm btn-primary" type="button" (click)="isCreatingSquadron = !isCreatingSquadron">
-                            Cr&eacute;er une escouade
-                        </button>
-                    </div>
-                    <div class="p-col-12" *ngIf="squadrons.length > 0">
-                        <ul *ngFor="let squads of squadrons">
-                            <span class="important-text">{{squads.name}}</span>
-                            <li *ngFor="let unitMap of squads.unitMaps">
-                                {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="p-col-12 p-grid" *ngIf="isCreatingSquadron">
-                        <div class="p-col-12 from-group">
-                            <label class="form-control-label" for="field_squadronName">Nom de l'escouade :</label>
-                            <input type="text" class="form-control" name="squadronName" id="field_squadronName" [(ngModel)]="newSquadronName" />
-                        </div>
-                        <div class="p-col-6">
-                            <button type="button" (click)="newSquadronName = ''; isCreatingSquadron = false;" class="btn btn-sm btn-secondary">Annuler</button>
-                        </div>
-                        <div class="p-col-6">
-                            <button type="button" (click)="createSquadron()" class="btn btn-sm btn-primary">Enregistrer</button>
-                        </div>
-                    </div>
-                </div>
-            </dt>
-            <br>
-            <dt *ngIf="!isCreatingSquadron">
-               <div class="p-grid">
-                   <div class="important-text p-col-12">Unit&eacute;e(s) sans escouade :</div>
-                   <ul class="p-col-12">
-                       <li *ngFor="let unitMap of unitWithoutSquadron" class="p-grid">
-                           <span class="p-col-8">
-                               {{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}} ({{ unitMap.numberOfUnit * (unitMap.unit.totalPoint + computeGearPoint(unitMap))}} points)
-                           </span>
-                           <span class="p-col-4">
-                               <button type="button" class="btn btn-sm btn-info" (click)="addUnitMapToSquadron(unitMap)">Affilier</button>
-                           </span>
-                       </li>
-                   </ul>
-               </div>
+                <jhi-squadron-lbr [userId]="userId" [armyListId]="armyList.id"></jhi-squadron-lbr>
             </dt>
         </dl>
-
-		<div class="p-col-12">
-			<button type="submit" (click)="previousState()" class="btn btn-info">
-				<fa-icon icon="arrow-left"></fa-icon>
-				&nbsp;<span jhiTranslate="entity.action.back">Back</span>
-			</button>
-
-			<button type="button"
-				[routerLink]="['/army-list-lbr', armyList.id, 'edit']"
-				class="btn btn-primary">
-				<fa-icon icon="pencil-alt"></fa-icon>
-				&nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
-			</button>
-		</div>
 	</div>
 </div>

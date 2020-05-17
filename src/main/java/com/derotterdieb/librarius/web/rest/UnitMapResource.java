@@ -116,6 +116,15 @@ public class UnitMapResource {
         return ResponseUtil.wrapOrNotFound(unitMapDTO);
     }
 
+    @GetMapping("/unit-maps/list/{listId}/no-squad")
+    public ResponseEntity<List<UnitMapDTO>> getUnitMapWithoutSquadronByListId(@PathVariable String listId) {
+        log.debug("REST request to get UnitMaps");
+        List<UnitMapDTO> result = this.unitMapService.getUnitMapWithoutSquadronByListId(listId);
+        return ResponseEntity.ok()
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, true, ENTITY_NAME, "no squad"))
+            .body(result);
+    }
+
     /**
      * {@code DELETE  /units/:id} : delete the "id" unit.
      *
