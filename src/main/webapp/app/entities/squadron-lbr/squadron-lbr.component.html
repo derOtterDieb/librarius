@@ -1,23 +1,9 @@
 <div class="p-grid" *ngIf="squadrons | async as resultSquads">
-    <div class="p-col-12 important-text">&Eacute;scouade(s) : {{resultSquads.length}}</div>
-    <div class="p-col-12" *ngIf="!isCreatingSquadron">
+    <div class="p-col-7 important-text">&Eacute;scouade(s) : {{resultSquads.length}}</div>
+    <div class="p-col-5" *ngIf="!isCreatingSquadron">
         <button class="btn btn-sm btn-primary" type="button" (click)="isCreatingSquadron = !isCreatingSquadron">
-            Cr&eacute;er une escouade
+            Créer
         </button>
-    </div>
-    <div class="p-col-12" *ngIf="resultSquads.length > 0">
-        <ul *ngFor="let squad of resultSquads" class="p-grid">
-            <h4 class="p-col-8">{{squad.squadron.name}}</h4>
-            <span class="p-col-4">
-                <button type="button" class="btn btn-sm btn-danger" (click)="deleteSquad(squad)">Supprimer l'escouade</button>
-            </span>
-            <li *ngFor="let unitMap of squad.unitMaps" class="p-col-8 p-grid">
-                <a [routerLink]="['/unit-map-lbr/view', unitMap.id]" *ngIf="unitMap.unit" class="p-col-8">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}</a>
-                <span class="p-col-4">
-                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteUnitFromSquad(unitMap, squad)">Dissocier</button>
-                </span>
-            </li>
-        </ul>
     </div>
     <div class="p-col-12 p-grid" *ngIf="isCreatingSquadron">
         <div class="p-col-12 from-group">
@@ -30,6 +16,20 @@
         <div class="p-col-6">
             <button type="button" (click)="createSquadron()" class="btn btn-sm btn-primary">Enregistrer</button>
         </div>
+    </div>
+    <div class="p-col-12" *ngIf="resultSquads.length > 0">
+        <ul *ngFor="let squad of resultSquads" class="p-grid">
+            <h4 class="p-col-8">{{squad.squadron.name}}</h4>
+            <span class="p-col-4">
+                <button type="button" class="btn btn-sm btn-danger" (click)="deleteSquad(squad)">Supprimer</button>
+            </span>
+            <li *ngFor="let unitMap of squad.unitMaps" class="p-col-8 p-grid">
+                <a [routerLink]="['/unit-map-lbr/view', unitMap.id]" *ngIf="unitMap.unit" class="p-col-8">{{unitMap.numberOfUnit}} x {{unitMap.unit.unitName}}</a>
+                <span class="p-col-4">
+                    <button type="button" class="btn btn-sm btn-danger" (click)="deleteUnitFromSquad(unitMap, squad)">Dissocier</button>
+                </span>
+            </li>
+        </ul>
     </div>
 </div>
 <div class="p-grid" *ngIf="!isCreatingSquadron">
