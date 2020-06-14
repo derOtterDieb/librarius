@@ -6,8 +6,7 @@ import { IArmyListLbr, ArmyListLbr } from 'app/shared/model/army-list-lbr.model'
 
 @Component({
   selector: 'jhi-list-armies',
-  templateUrl: './list-armies.component.html',
-  styleUrls: ['./list-armies.component.scss']
+  templateUrl: './list-armies.component.html'
 })
 export class ListArmiesComponent implements OnInit {
   @Input() account: any;

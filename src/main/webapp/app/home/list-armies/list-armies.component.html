@@ -1,6 +1,6 @@
-<div>
-	<span>Liste(s) cr&eacute;&eacute;e(s) :&nbsp;{{armyList.length}}</span>
-	<button *ngIf="!showForm" type="button" class="btn btn-sm btn-primary float-right" (click)="startCreatingNewList()">Ajouter une liste</button>
+<div class="inline-flex">
+	<span>Vous avez&nbsp;{{armyList.length}} liste(s)</span>
+	<button *ngIf="!showForm" type="button" class="btn btn-sm btn-primary" (click)="startCreatingNewList()">Ajouter une liste</button>
 </div>
 <br>
 <div *ngIf="showForm" class="new-list-form">
@@ -17,14 +17,14 @@
         </div>
    </div>
 </div>
-<ul *ngIf="!showForm">
-	<li *ngFor="let army of armyList">
-		<span *ngIf="army != null" class="p-grid">
-			<span class="important-text p-col-8"><a [routerLink]="['/army-list-lbr', army.id, 'view']">{{army.listName}}</a></span>
-            <span class="p-col-4">
-                <button type="button" class="btn btn-sm btn-danger" (click)="deleteListAndUpdateUser(army.id);">Supprimer</button>
-            </span>
-            <span class="p-col-8">({{army.totalPoint}} points)</span>
-		</span>
-	</li>
-</ul>
+<div class="p-grid army-row" *ngFor="let army of armyList">
+    <div class="p-col-5 important-text">
+        <a [routerLink]="['/army-list-lbr', army.id, 'view']">{{army.listName}}</a>
+    </div>
+    <div class="p-col-3">
+        ({{army.totalPoint}} points)
+    </div>
+    <div class="p-col-4">
+        <button type="button" class="btn btn-sm btn-danger" (click)="deleteListAndUpdateUser(army.id);">Supprimer</button>
+    </div>
+</div>

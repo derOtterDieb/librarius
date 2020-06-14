@@ -3,11 +3,6 @@
         <jhi-list-armies [account]="account"></jhi-list-armies>
     </div>
     <div *ngSwitchCase="false">
-        <!--<span jhiTranslate="global.messages.info.register.noaccount">You don't have an account yet?</span>&nbsp;
-        <a class="alert-link" routerLink="account/register" jhiTranslate="global.messages.info.register.link">Register a new account</a>
-        <br>
-        <span jhiTranslate="global.messages.info.register.orlogin"></span>&nbsp;
-        <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a>-->
         <div class="inline-flex">
             <div class="btn btn-md btn-primary">
                 <a class="alert-link" (click)="login()" jhiTranslate="global.messages.info.authenticated.link">sign in</a>
