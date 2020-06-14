@@ -7,9 +7,9 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entités",
-        "gearLbr": "Gear",
-        "unitLbr": "Unit",
-        "armyListLbr": "Army List",
+        "gearLbr": "Équipement",
+        "unitLbr": "Unité",
+        "armyListLbr": "Liste",
         "extendedUserLbr": "Extended User",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
@@ -18,7 +18,7 @@
         "settings": "Profil",
         "password": "Mot de passe",
         "sessions": "Sessions",
-        "login": "S'authentifier",
+        "login": "Connexion",
         "logout": "Déconnexion",
         "register": "Créer un compte"
       },
@@ -53,7 +53,7 @@
       "info": {
         "authenticated": {
           "prefix": "Si vous voulez vous ",
-          "link": "connectez-vous",
+          "link": "Connexion",
           "suffix": ", vous pouvez utiliser les comptes par défaut : <br/> - Administrateur (nom d'utilisateur=\"admin\" et mot de passe =\"admin\") <br/> - Utilisateur (nom d'utilisateur=\"user\" et mot de passe =\"user\")."
         },
         "register": {

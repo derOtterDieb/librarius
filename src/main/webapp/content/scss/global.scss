@@ -8,14 +8,14 @@ Bootstrap tweaks
 ===============================================================*/
 body,
 table {
-  background-color: #1d1916 !important;
-  color: #f4f2f0 !important;
+  background-color: $background;
+  font-size: calc(18px + 0.1rem);
 }
 
 .card,
 .modal-content {
-  background-color: #1d1916;
-  color: #f4f2f0;
+  background-color: $background;
+  color: $text;
 }
 
 .bg-dark {
@@ -32,12 +32,20 @@ h4 {
 
 /* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
 a {
-  color: #3c7377;
+  color: $info;
   font-weight: bold;
 }
 
 a:hover {
-  color: #4d9499;
+  color: $info-hover;
+}
+
+a.alert-link {
+  color: $text !important;
+}
+
+a.alert-link:hover {
+  color: $text-hover !important;
 }
 
 /* override hover color for dropdown-item forced by bootstrap to all a:not([href]):not([tabindex]) elements in _reboot.scss */
@@ -64,8 +72,8 @@ Browser Upgrade Prompt
 ========================================================================== */
 .browserupgrade {
   margin: 0.2em 0;
-  background-color: #1d1916;
-  color: #f4f2f0;
+  background-color: $background;
+  color: $text;
   padding: 0.2em 0;
 }
 
@@ -76,11 +84,11 @@ Generic styles
 /* Error highlight on input fields */
 .ng-valid[required],
 .ng-valid.required {
-  border-left: 5px solid #3c7377;
+  border-left: 5px solid $info;
 }
 
 .ng-invalid:not(form) {
-  border-left: 5px solid #c12a2c;
+  border-left: 5px solid $danger;
 }
 
 /* other generic styles */
@@ -93,7 +101,7 @@ Generic styles
 
 .error {
   color: white;
-  background-color: #c12a2c;
+  background-color: $danger;
 }
 
 .pad {
@@ -114,13 +122,15 @@ Generic styles
 }
 
 .readonly {
-  background-color: #1d1916;
-  color: #f4f2f0;
+  background-color: $background;
+  color: $text;
   opacity: 1;
 }
 
 .footer {
   border-top: 1px solid rgba(0, 0, 0, 0.125);
+  background-color: $background;
+  color: $text;
 }
 
 .hand,
@@ -226,13 +236,14 @@ ui bootstrap tweaks
 
 .important-text {
   font-weight: 600;
-  color: #3c7377;
+  color: $info;
   font-size: 1.3rem;
 }
 
 .inline-flex {
   display: flex;
   flex-flow: row;
+  place-content: space-evenly;
 }
 
 .column-flex {
@@ -259,8 +270,20 @@ ui bootstrap tweaks
   top: 5px;
 }
 
+.no-border {
+  border: none !important;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+.no-margin {
+  margin: 0px !important;
+}
+
 .btn-icon {
-  color: #fff !important;
+  color: $text !important;
   font-size: 30px !important;
   border-radius: 30px;
   height: 30px;
@@ -275,20 +298,44 @@ ui bootstrap tweaks
   }
 }
 
+.btn-icon:hover {
+  color: $text-hover !important;
+}
+
 .btn-icon-primary {
-  background-color: #294f52 !important;
+  background-color: $primary !important;
+}
+
+.btn-icon-primary:hover {
+  background-color: $primary-hover !important;
 }
 
 .btn-icon-danger {
-  background-color: #c12a2c !important;
+  background-color: $danger !important;
+}
+
+.btn-icon-danger:hover {
+  background-color: $danger-hover !important;
 }
 
 .btn-icon-secondary {
-  background-color: var(--secondary) !important;
+  background-color: $secondary !important;
+}
+
+.btn-icon-secondary:hover {
+  background-color: $secondary-hover !important;
 }
 
 .btn-icon-info {
-  background-color: #877364 !important;
+  background-color: $info !important;
+}
+
+.btn-icon-info:hover {
+  background-color: $info-hover !important;
+}
+
+.regular-text {
+  color: $text;
 }
 
 .primary {
@@ -307,6 +354,110 @@ ui bootstrap tweaks
   color: $info;
 }
 
+.background-primary {
+  background-color: $primary;
+}
+
+.background-secondary {
+  background-color: $secondary;
+}
+
+.background-danger {
+  background-color: $danger;
+}
+
+.background-info {
+  background-color: $info;
+}
+
 ul {
   padding-left: 1.5em !important;
+}
+
+.btn .btn-sm {
+  min-width: 120px;
+  min-height: 30px;
+  border-radius: 5px;
+}
+
+.btn .btn-md {
+  min-width: 160px;
+  min-height: 30px;
+  border-radius: 5px;
+}
+
+.btn .btn-lg {
+  min-width: 200px;
+  min-height: 30px;
+  border-radius: 5px;
+}
+
+.btn-primary {
+  background-color: $primary;
+  color: $text;
+}
+
+.btn-primary:hover {
+  background-color: $primary-hover !important;
+  color: $text-hover !important;
+}
+
+.btn-secondary {
+  background-color: $secondary;
+  color: $text;
+}
+
+.btn-secondary:hover {
+  background-color: $secondary-hover !important;
+  color: $text-hover !important;
+}
+
+.btn-success {
+  background-color: $success;
+  color: $text;
+}
+
+.btn-success:hover {
+  background-color: $success-hover !important;
+  color: $text-hover !important;
+}
+
+.btn-info {
+  background-color: $info;
+  color: $text;
+}
+
+.btn-info {
+  background-color: $info-hover !important;
+  color: $text-hover !important;
+}
+
+.btn-danger {
+  background-color: $danger;
+  color: $text;
+}
+
+.btn-danger:hover {
+  background-color: $danger-hover !important;
+  color: $text-hover !important;
+}
+
+.close {
+  float: right;
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: $text;
+  text-shadow: 0 1px 0 #fff;
+  opacity: 0.5;
+}
+
+.close:hover {
+  color: $text-hover;
+  text-decoration: none;
+}
+
+.close:not(:disabled):not(.disabled):hover,
+.close:not(:disabled):not(.disabled):focus {
+  opacity: 0.75;
 }
