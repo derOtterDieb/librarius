@@ -1,88 +1,79 @@
-<div class="justify-content-center">
-	<div class="p-grid" *ngIf="armyList">
-        <div class="p-col-12 p-grid">
-            <span class="p-col-3">
-                <button type="submit" (click)="previousState()" class="btn btn-info">
-                    <fa-icon icon="arrow-left"></fa-icon>
-                    &nbsp;<span jhiTranslate="entity.action.back">Back</span>
-                </button>
-            </span>
-            <span class="p-col-9">
-                <h2>
-                    <span>{{ armyList.listName }}</span>
-                    <button type="button"
-                        [routerLink]="['/army-list-lbr', armyList.id, 'edit']"
-                        class="btn btn-primary">
-                        <fa-icon icon="pencil-alt"></fa-icon>
-                        &nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+<div class="p-grid" *ngIf="armyList">
+    <div class="p-col-12 p-grid">
+        <span class="p-col-3">
+            <button type="submit" (click)="previousState()" class="btn btn-sm btn-secondary">
+                &nbsp;<span jhiTranslate="entity.action.back">Back</span>
+            </button>
+        </span>
+        <span class="p-col-6">
+            <div class="align-center">
+                <span>{{ armyList.listName }}</span>
+                <br>
+                <span>({{ armyList.totalPoint }})</span>
+            </div>
+        </span>
+        <span class="p-col-3">
+             <button type="button"
+                 [routerLink]="['/army-list-lbr', armyList.id, 'edit']"
+                 class="btn btn-sm btn-primary">
+                &nbsp;<span jhiTranslate="entity.action.edit">Edit</span>
+            </button>
+        </span>
+    </div>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="p-col-12 jh-entity-details">
+        <b>Afficher les escouades</b>
+        <label class="switch">
+            <input type="checkbox" id="squadron-view" name="squadron-view" [(ngModel)]="squadronView">
+            <span class="slider round"></span>
+        </label>
+    </dl>
+
+    <dl class="p-col-12" *ngIf="!squadronView">
+        <button type="button" (click)="addNewUnit = true;" class="btn btn-sm btn-primary" *ngIf="!addNewUnit">
+            Ajouter une unit&eacute;
+        </button>
+        <dt *ngIf="addNewUnit">
+            <div class="p-grid">
+                <div class="p-col-12">
+                    <button class="btn btn-sm btn-primary" type="button"
+                            [routerLink]="['/unit-lbr/new']">
+                        Cr&eacute;er une nouvelle unit&eacute;
                     </button>
-                </h2>
-            </span>
-        </div>
-
-		<hr>
-
-		<jhi-alert-error></jhi-alert-error>
-
-		<dl class="p-col-12 jh-entity-details">
-			<dt>
-				<span jhiTranslate="librariusApp.armyList.totalPoint">Total
-					Point</span>
-			</dt>
-			<dd>
-				<span>{{ armyList.totalPoint }}</span>
-			</dd>
-		</dl>
-
-        <dl class="p-col-12 jh-entity-details">
-            <label for="squadron-view"><b>Afficher les escouades</b></label>
-            <input id="squadron-view" name="squadron-view" type="checkbox" [(ngModel)]="squadronView" />
-        </dl>
-
-		<dl class="jh-entity-details p-col-12" *ngIf="armyList.unitMaps != null && !squadronView">
-			<h4>Unit&eacute;</h4>
-			<jhi-unit-map-lbr [unitMaps]="armyList.unitMaps" [armyListId]="armyList.id" (emit)="shouldReloadUnitList()"></jhi-unit-map-lbr>
-		</dl>
-
-		<dl class="p-col-12 jh-entity-details" *ngIf="!squadronView">
-			<button type="button" (click)="addNewUnit = true;" class="btn btn-primary" *ngIf="!addNewUnit">
-				Ajouter une unit&eacute;
-			</button>
-			<dt *ngIf="addNewUnit">
-				<div class="p-grid">
-                    <div class="p-col-12">
-                        <button class="btn btn-info" type="button"
-                                [routerLink]="['/unit-lbr/new']">
-                            Cr&eacute;er une nouvelle unit&eacute;
-                        </button>
+                    <button class="btn btn-sm btn-secondary" type="button" (click)="addNewUnit = false;">Annuler</button>
+                </div>
+                <div class="p-col-12">
+                    <span>Choisir une unit&eacute; existante :</span>
+                    <div class="p-col-8">
+                        <input placeholder="Nom de l'unité" [(ngModel)]="unitSearch" type="text"/>
                     </div>
-                    <div class="p-col-12">
-                        <span>Choisir une unit&eacute; existante :</span>
-                        <div class="p-col-8">
-                            <input placeholder="Nom de l'unité" [(ngModel)]="unitSearch" type="text"/>
-                        </div>
-                        <div class="p-col-4">
-                            <button type="button" class="btn btn-sm btn-secondary" (click)="searchUnit()">Chercher</button>
-                        </div>
+                    <div class="p-col-4">
+                        <button type="button" class="btn btn-sm btn-secondary" (click)="searchUnit()">Chercher</button>
                     </div>
-					<div class="p-col-12" *ngIf="availableUnit | async as availableUnits">
-                        <span>R&eacute;sultat(s) : {{availableUnits.body.length}}</span>
-						<ul>
-							<li *ngFor="let unit of availableUnits.body">
-								<button class="btn btn-sm btn-primary btn-li"
-									type="button" (click)="associate(unit)">
-									{{unit.unitName}}
-								</button>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</dt>
-		</dl>
-        <dl class="p-col-12 jh-entity-details" *ngIf="squadronView">
-            <dt>
-                <jhi-squadron-lbr [userId]="userId" [armyListId]="armyList.id" (emit)="shouldReloadUnitList()"></jhi-squadron-lbr>
-            </dt>
-        </dl>
-	</div>
+                </div>
+                <div class="p-col-12" *ngIf="availableUnit | async as availableUnits">
+                    <span>R&eacute;sultat(s) : {{availableUnits.body.length}}</span>
+                    <ul>
+                        <li *ngFor="let unit of availableUnits.body">
+                            <button class="btn btn-sm btn-primary btn-li"
+                                type="button" (click)="associate(unit)">
+                                {{unit.unitName}}
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </dt>
+    </dl>
+
+    <dl class="p-col-12" *ngIf="armyList.unitMaps != null && !squadronView">
+        <h4>Unit&eacute;(s)</h4>
+        <jhi-unit-map-lbr [unitMaps]="armyList.unitMaps" [armyListId]="armyList.id" (emit)="shouldReloadUnitList()"></jhi-unit-map-lbr>
+    </dl>
+
+    <dl class="p-col-12" *ngIf="squadronView">
+        <dt>
+            <jhi-squadron-lbr [userId]="userId" [armyListId]="armyList.id" (emit)="shouldReloadUnitList()"></jhi-squadron-lbr>
+        </dt>
+    </dl>
 </div>
