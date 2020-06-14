@@ -285,7 +285,8 @@ ui bootstrap tweaks
 .btn-icon {
   color: $text !important;
   font-size: 30px !important;
-  border-radius: 30px;
+  border-radius: 30px !important;
+  border: none !important;
   height: 30px;
   width: 30px;
   line-height: 0;
@@ -368,6 +369,10 @@ ui bootstrap tweaks
 
 .background-info {
   background-color: $info;
+}
+
+.alternate-background {
+  background-color: $alternate-background;
 }
 
 ul {
@@ -490,6 +495,9 @@ ul {
 .p-col-11,
 .p-col-12 {
   place-content: center !important;
+  a {
+    font-size: 1rem !important;
+  }
 }
 
 /* The switch - the box around the slider */

@@ -67,7 +67,7 @@
     </dl>
 
     <dl class="p-col-12" *ngIf="armyList.unitMaps != null && !squadronView">
-        <h4>Unit&eacute;(s)</h4>
+        <h4>Unit&eacute;(s) : {{armyList.unitMaps.length}}</h4>
         <jhi-unit-map-lbr [unitMaps]="armyList.unitMaps" [armyListId]="armyList.id" (emit)="shouldReloadUnitList()"></jhi-unit-map-lbr>
     </dl>
 
