@@ -10,6 +10,11 @@ body,
 table {
   background-color: $background;
   font-size: calc(18px + 0.1rem);
+  color: $text;
+}
+
+.table {
+  color: $text;
 }
 
 .card,
@@ -28,6 +33,7 @@ h2,
 h3,
 h4 {
   font-weight: 300;
+  color: $text;
 }
 
 /* Increase contrast of links to get 100% on Lighthouse Accessability Audit. Override this color if you want to change the link color, or use a Bootswatch theme */
@@ -97,6 +103,7 @@ Generic styles
   padding: 1.5%;
   margin-top: 20px;
   border: none;
+  color: $text;
 }
 
 .error {
@@ -210,6 +217,7 @@ ui bootstrap tweaks
 .carousel,
 .panel-title a {
   cursor: pointer;
+  color: $text;
 }
 
 .thread-dump-modal-lock {
